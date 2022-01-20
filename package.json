@@ -1,5 +1,5 @@
 {
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -30,6 +30,13 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
+  "bin": {
+    "compe": "./bin/compe.js"
+  },
+  "keywords": [
+    "cli",
+    "compe"
+  ],
   "name": "compe",
   "author": "Phat Tran",
   "module": "dist/compe.esm.js",
