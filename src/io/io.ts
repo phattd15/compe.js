@@ -1,19 +1,19 @@
 /**
  * @description Parse the string into integer
- * @param input 
+ * @param input
  * @returns integer
  */
 const toInt = (input: string) => {
   return parseInt(input);
-}
+};
 /**
  * @description Parse the string into array of strings
- * @param input 
+ * @param input
  * @returns [string]
  */
 const stringArray = (input: string) => {
   return input.split(' ');
-}
+};
 /**
  * @description Parse the string into array of integers
  * @param input
@@ -21,7 +21,7 @@ const stringArray = (input: string) => {
  */
 const intArray = (input: string) => {
   return input.split(' ').map(x => toInt(x));
-}
+};
 /**
  * IO object for read and write
  */
@@ -53,4 +53,4 @@ class Reader {
   }
 }
 
-export {toInt, stringArray, intArray, Reader};
+export { toInt, stringArray, intArray, Reader };
