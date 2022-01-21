@@ -4,3 +4,5 @@ node_modules
 dist
 play.js
 bruh.txt
+test.js
+test.min.js
