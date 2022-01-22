@@ -1,5 +1,5 @@
 {
-  "version": "0.1.9",
+  "version": "0.1.10",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -18,7 +18,8 @@
     "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "preinstall": "npm i -g minify"
+    "preinstall": "npm i -g minify",
+    "extract": "node ./bin/extractor.js"
   },
   "husky": {
     "hooks": {
