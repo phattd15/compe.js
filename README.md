@@ -19,16 +19,15 @@ make a txt file in the same directory with the one you want to run for stdin.
 
 Sample code for printing sum of an array at `demo.js`:
 ```
-const {proc, Reader} = require("compe");
+const {
+  proc, Reader, // IO & processor
+  toInt, stringArray, intArray // Int & String typecast
+} = require("compe");
+// DO NOT EDIT ABOVE THIS LINE - compe.js //
 
-function main(rl) {
+function main(rl, wr) {
   var rd = new Reader(rl);
-  var arr = rd.readArray();
-  var sum = 0;
-  for (const elem of arr) {
-    sum += elem;
-  }
-  write(sum);
+  // write your code here
 }
 
 proc(main, "input.txt");
