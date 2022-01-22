@@ -11,7 +11,7 @@ for (var i = 0; i < lines.length; i ++) {
 }
 data = lines.slice(4, firstExportIndex).join('\n');
 try {
-  fs.writeFileSync(__dirname + "/wholelib.txt", data);
+  fs.writeFileSync(__dirname + "/lib.txt", data);
 } catch (err) {
   console.log(err);
 }

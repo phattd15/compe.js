@@ -36,5 +36,9 @@ proc(main, "input.txt");
 # Compe commands
 To be updated
 ```
-compe
+$ compe help: Help
+$ compe run <file-name>: Run the file
+$ compe init <file-name>: Init a template file at file-name
+$ compe build <file-name>: Build the file to submit
+$ compe bc <file-name>: Build the file and compress to reduce size for submission
 ```
