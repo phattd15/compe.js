@@ -1,3 +1,5 @@
+// from Greb Irovich: https://dev.to/glebirovich/typescript-data-structures-stack-and-queue-hld
+
 interface IQueue<T> {
   push(item: T): void;
   pop(): T | undefined;
