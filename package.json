@@ -1,5 +1,5 @@
 {
-  "version": "0.2.3",
+  "version": "0.2.4",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -18,7 +18,6 @@
     "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "preinstall": "npm i -g minify",
     "extract": "node ./src/extractor.js"
   },
   "husky": {
@@ -71,5 +70,8 @@
   "bugs": {
     "url": "https://github.com/polarity-cf/compe.js/issues"
   },
-  "homepage": "https://github.com/polarity-cf/compe.js#readme"
+  "homepage": "https://github.com/polarity-cf/compe.js#readme",
+  "dependencies": {
+    "minify": "^8.0.3"
+  }
 }
