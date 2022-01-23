@@ -39,7 +39,7 @@ else if (args.length >= 3 && args[2] === "init") {
     console.log("> compe init <file-name>: Init a template file at file-name");
   } else {
     console.log(`Creating a new template at ${args[3]}`);
-    fs.writeFileSync(dirName, fs.readFileSync(__dirname + "/template.txt", {encoding: "utf-8"}));
+    fs.writeFileSync(dirName, fs.readFileSync(__dirname + "/../src/template.txt", {encoding: "utf-8"}));
   }
 } 
 
@@ -50,7 +50,7 @@ else if (args.length == 4 && args[2] == "build") {
   } else {
     try {
       let buildFileName = fileName.slice(0, fileName.length - 3) + "_build.js";
-      let templateData = fs.readFileSync(__dirname + "/lib.txt", {encoding: 'utf-8'});
+      let templateData = fs.readFileSync(__dirname + "/../src/lib.txt", {encoding: 'utf-8'});
       let fileData = fs.readFileSync(fileName, {encoding: 'utf-8'});
       let lines = fileData.split("\n");
       let unlease = false;
@@ -79,7 +79,7 @@ else if (args.length == 4 && args[2] == "bc") {
     try {
       let buildFileName = fileName.slice(0, fileName.length - 3) + "_build.js";
       let buildCompressFileName = fileName.slice(0, fileName.length - 3) + "_buildcomp.js";
-      let templateData = fs.readFileSync(__dirname + "/lib.txt", {encoding: 'utf-8'});
+      let templateData = fs.readFileSync(__dirname + "/../src/lib.txt", {encoding: 'utf-8'});
       let fileData = fs.readFileSync(fileName, {encoding: 'utf-8'});
       let lines = fileData.split("\n");
       let unlease = false;
