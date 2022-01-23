@@ -49,7 +49,7 @@ else if (args.length == 4 && args[2] == "build") {
     console.log("Please make sure you are building the right file");
   } else {
     try {
-      let buildFileName = fileName.slice(0, fileName.length - 3) + "_compebuild.js";
+      let buildFileName = fileName.slice(0, fileName.length - 3) + "_build.js";
       let templateData = fs.readFileSync(__dirname + "/lib.txt", {encoding: 'utf-8'});
       let fileData = fs.readFileSync(fileName, {encoding: 'utf-8'});
       let lines = fileData.split("\n");
