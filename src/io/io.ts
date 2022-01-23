@@ -4,7 +4,7 @@
  * @returns integer
  */
 const toInt = (input: string) => {
-  return parseInt(input);
+  return parseInt(input.trim());
 };
 /**
  * @description Parse the string into array of strings
@@ -12,7 +12,7 @@ const toInt = (input: string) => {
  * @returns [string]
  */
 const stringArray = (input: string) => {
-  return input.split(' ');
+  return input.trim().split(/\s+/);
 };
 /**
  * @description Parse the string into array of integers
@@ -20,7 +20,7 @@ const stringArray = (input: string) => {
  * @returns [integers]
  */
 const intArray = (input: string) => {
-  return input.split(' ').map(x => toInt(x));
+  return input.trim().split(/\s+/).map(x => toInt(x));
 };
 /**
  * IO object for read and write
