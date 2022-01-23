@@ -28,18 +28,27 @@ if (args.length <= 2) {
 else if (args.length == 3 && args[2] == "help") {
   console.log("$ compe help: Help");
   console.log("$ compe run <file-name>: Run the file");
-  console.log("$ compe init <file-name>: Init a template file at file-name");
+  console.log("$ compe init <file-name> <input-name>: Init a template file at file-name with input at <input-name> (default is input.txt if ignored)");
   console.log("$ compe build <file-name>: Build the file to submit");
   console.log("$ compe bc <file-name>: Build the file and compress to reduce size for submission");
 }
 
-else if (args.length >= 3 && args[2] === "init") {
+else if (args.length >= 3 && args.length <= 5 && args[2] === "init") {
   const dirName = args[3];
   if (args.length === 3) {
     console.log("> compe init <file-name>: Init a template file at file-name");
-  } else {
-    console.log(`Creating a new template at ${args[3]}`);
-    fs.writeFileSync(dirName, fs.readFileSync(__dirname + "/../src/template.txt", {encoding: "utf-8"}));
+  } else if (args.length >= 4) {
+    const inputName = args.length == 5 ? args[4] : "input.txt";
+    if (!args[3].endsWith(".js")) {
+      console.log("File should be in .js extension");
+    } else if (!inputName.endsWith(".txt")) {
+      console.log("Input file should be in .txt extension");
+    } else {
+      console.log(`Creating a new template at ${args[3]} with input at ${inputName}`);
+      const templateData = fs.readFileSync(__dirname + "/../src/template.txt", {encoding: "utf-8"});
+      fs.writeFileSync(dirName, templateData.replace("input.txt", inputName));
+      fs.writeFileSync(inputName, "");
+    }
   }
 } 
 
