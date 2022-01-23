@@ -1,12 +1,4 @@
-// from Greb Irovich: https://dev.to/glebirovich/typescript-data-structures-stack-and-queue-hld
-
-interface IQueue<T> {
-  push(item: T): void;
-  pop(): T | undefined;
-  size(): number;
-}
-
-class Queue<T> implements IQueue<T> {
+export class Queue<T> {
   private storage: T[] = [];
 
   constructor(private capacity: number = Infinity) {}
@@ -18,11 +10,18 @@ class Queue<T> implements IQueue<T> {
     this.storage.push(item);
   }
   pop(): T | undefined {
+    if (this.size() <= 0) {
+      throw Error("Queue is empty, cannot pop the front element");
+    }
     return this.storage.shift();
+  }
+  front(): T | undefined {
+    if (this.size() <= 0) {
+      throw Error("Queue is empty, cannot retrieve the front element");
+    }
+    return this.storage[0];
   }
   size(): number {
     return this.storage.length;
   }
 }
-
-export default Queue

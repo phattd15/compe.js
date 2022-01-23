@@ -1,6 +1,6 @@
 const {
   proc, Reader, // IO & processor
-  toInt, stringArray, intArray // Int & String typecast
+  toInt, stringArray, intArray, // Int & String typecast
   Stack, Queue, Deque // common data structure
 } = require("compe");
 // DO NOT EDIT ABOVE THIS LINE - compe.js //

@@ -1,4 +1,4 @@
-export default class Deque<T> {
+export class Deque<T> {
   private head = 0
   private tail = 0
   private mask = 1
@@ -55,7 +55,7 @@ export default class Deque<T> {
     return this
   }
 
-  peek(index: number) {
+  at(index: number) {
     const { head, size, tail, list } = this
 
     if ((index | 0) !== index || index >= size || index < -size) {
@@ -64,6 +64,14 @@ export default class Deque<T> {
 
     const pos = ((index >= 0 ? head : tail) + index) & this.mask
     return list[pos] as T
+  }
+
+  front(){
+    return this.at(0)
+  }
+
+  back(){
+    return this.at(this.size - 1)
   }
 
   indexOf(needle: T, start = 0) {
