@@ -9,7 +9,7 @@ const {
   lower_bound, upper_bound, binary_search,                            // Binary search
   sort, stable_sort, shuffle,                                         // Sorting
   min, max, min_element, max_element, count, copy, gcd, lcm, randint  // Utilities
-} = require("./dist");
+} = require("compe");
 // DO NOT EDIT THIS LINE //
 
 function main(rl, wr) {
