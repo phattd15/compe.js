@@ -4,7 +4,11 @@
  * @returns integer
  */
 const toInt = (input: string) => {
-  return parseInt(input.trim());
+  var res = parseInt(input.trim());
+  if (isNaN(res)) {
+    throw new Error(`Cannot parse ${input} to int`);
+  }
+  return res;
 };
 /**
  * @description Parse the string into array of strings
