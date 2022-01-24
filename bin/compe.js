@@ -65,7 +65,7 @@ else if (args.length == 4 && args[2] == "build") {
       let unlease = false;
       for (var x of lines) {
         if (unlease) {
-          templateData += x.replaceAll("let ", "var ");
+          templateData += x.replaceAll(/let /g, "var ");
           templateData += "\n";
         }
         if (x.startsWith(warningString)) {
@@ -94,7 +94,7 @@ else if (args.length == 4 && args[2] == "bc") {
       let unlease = false;
       for (var x of lines) {
         if (unlease) {
-          templateData += x.replaceAll("let ", "var ");
+          templateData += x.replaceAll(/let /g, "var ");
           templateData += "\n";
         }
         if (x.startsWith(warningString)) {
