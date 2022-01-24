@@ -36,7 +36,14 @@
   },
   "keywords": [
     "cli",
-    "compe"
+    "compe",
+    "codeforces",
+    "leetcode",
+    "atcoder",
+    "competitive-programming",
+    "kickstart",
+    "google-kickstart",
+    "typescript"
   ],
   "name": "compe",
   "author": "Phat Tran",
