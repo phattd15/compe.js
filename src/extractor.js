@@ -5,14 +5,14 @@ let data = fs.readFileSync(__dirname + "/../dist/compe.cjs.development.js", {enc
 var lines = data.split('\n');
 let firstExportIndex = lines.length - 3;
 const setString = "})(exports.TreeSet || (exports.TreeSet = {}));";
-for (var i = lines.length - 3; i >= 0; i --) {
+for (let i = lines.length - 3; i >= 0; i --) {
   if (lines[i].startsWith('exports')) {
     firstExportIndex = i;
   } else {
     break;
   }
 }
-for (var i = firstExportIndex - 1; i >= 0; i --) {
+for (let i = firstExportIndex - 1; i >= 0; i --) {
   if (lines[i].startsWith(setString)) {
     lines[i] = "})(TreeSet || (TreeSet = {}));"
     break;

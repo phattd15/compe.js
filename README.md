@@ -20,16 +20,9 @@ The `main` function takes in `rd` and `wr` as a function to read and write.
 Sample code for printing sum of an array at `demo.js`:
 ```
 const {
-  // Basic IO & Interaction
-  proc, Reader,                                                       // IO & processor
-  toInt, stringArray, intArray,                                       // Int & String typecast
-  // STL (Source: tstl - https://samchon.github.io/tstl/api/modules/std.html)
-  std,                                                                // The whole std
-  Deque, Queue, List, Stack, Vector, VectorBoolean, Pair,             // Basic data structures
-  TreeMap, TreeMultiMap, TreeSet, TreeMultiSet, PriorityQueue,        // Tree data structures
-  lower_bound, upper_bound, binary_search,                            // Binary search
-  sort, stable_sort, shuffle,                                         // Sorting
-  min, max, min_element, max_element, count, copy, gcd, lcm, randint  // Utilities
+  proc, Reader,                                 // IO & processor
+  toInt, stringArray, intArray,                 // Int & String typecast
+  TreeSet, Deque,                               // For common data structures
 } = require("compe");
 // DO NOT EDIT THIS LINE //
 
@@ -48,7 +41,7 @@ function main(rl, wr) {
 proc(main, "input.txt");
 ```
 # Documentation
-- This project uses TSTL where their documentation is [here](https://samchon.github.io/tstl/api/modules/std.html).
+- This project uses TSTL's TreeSet where their documentation is [here](https://samchon.github.io/tstl/api/classes/std.treeset.html).
 - To Be Updated...
 # Compe commands
 Add `npx` prefix incase you don't have CLIs installed.
@@ -70,3 +63,5 @@ $ compe bc <file-name>: Build the file and compress to reduce size for submissio
 - [cp-algorithms](https://cp-algorithms.com/)
 - [codeforces archive](https://codeforces.com/catalog)
 - This project is inspired by [AtCoder Library](https://codeforces.com/blog/entry/82400).
+# Note
+- Codeforces machine doesn't support `let` keywords so please avoid using it as much as possible even in naming.
