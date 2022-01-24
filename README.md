@@ -4,7 +4,7 @@
 - Node v12.x or higher
 - Set node modules to path variable to use cli
 # Installation
-For the package
+For the package:
 ```
 npm i compe
 ```
@@ -12,7 +12,8 @@ For the cli, you can:
 ```
 npm i -g compe minify
 ```
-You can add the prefix `npx` after every command as an alternative where you want to avoid installing global package
+You can add the prefix `npx` after every command as an alternative where you want to avoid installing global package.
+Enable intellisense to get the best experience.
 # Build
 ```
 npm run build
@@ -54,3 +55,7 @@ $ compe init <file-name>: Init a template file at file-name
 $ compe build <file-name>: Build the file to submit
 $ compe bc <file-name>: Build the file and compress to reduce size for submission
 ```
+# Platforms supported:
+- Leetcode
+- Codeforces
+- TBA: Atcoder, Hackerrank, ...
