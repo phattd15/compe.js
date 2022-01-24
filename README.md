@@ -1,5 +1,5 @@
 # Compe.js
-
+A CLIxLibrary for Competitive Programming with JavaScript/Node.js
 # Requirements
 - Node v12.x or higher
 - Set node modules to path variable to use cli
@@ -14,15 +14,9 @@ npm i -g compe minify
 ```
 You can add the prefix `npx` after every command as an alternative where you want to avoid installing global package.
 Enable intellisense to get the best experience.
-# Build
-```
-npm run build
-```
 # Getting your first AC
 Make a txt (by default from template, it is "input.txt") file in the same directory with the one you want to run for stdin.
-
 The `main` function takes in `rd` and `wr` as a function to read and write.
-
 Sample code for printing sum of an array at `demo.js`:
 ```
 const {
@@ -53,21 +47,26 @@ function main(rl, wr) {
 
 proc(main, "input.txt");
 ```
-
+# Documentation
+- This project uses TSTL where their documentation is [here](https://samchon.github.io/tstl/api/modules/std.html).
+- To Be Updated...
 # Compe commands
 Add `npx` prefix incase you don't have CLIs installed.
 ```
 $ compe help: Help
 $ compe run <file-name>: Run the file
-$ compe init <file-name>: Init a template file at file-name
+$ compe init <file-name> <input-name>: Init a template file at file-name with input at <input-name> (default is input.txt if ignored)
 $ compe build <file-name>: Build the file to submit
 $ compe bc <file-name>: Build the file and compress to reduce size for submission
 ```
-# Platforms supported:
+# Platforms supported
 - Leetcode
 - Codeforces
 - TBA: Atcoder, Hackerrank, ...
-
-# Resources:
+# Built with
 - [TSTL library](https://github.com/samchon/tstl)
 - TSDX
+# Resources
+- [cp-algorithms](https://cp-algorithms.com/)
+- [codeforces archive](https://codeforces.com/catalog)
+- This project is inspired by [AtCoder Library](https://codeforces.com/blog/entry/82400).
