@@ -59,3 +59,7 @@ $ compe bc <file-name>: Build the file and compress to reduce size for submissio
 - Leetcode
 - Codeforces
 - TBA: Atcoder, Hackerrank, ...
+
+# Resources:
+- [TSTL library](https://github.com/samchon/tstl)
+- TSDX

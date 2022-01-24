@@ -19,7 +19,7 @@ function executor(script, cb, cbargs) {
 }
 
 const args = process.argv;
-const warningString = "// DO NOT EDIT ABOVE THIS LINE - compe.js //\r";
+const warningString = "// DO NOT EDIT";
 
 if (args.length <= 2) {
   console.log("This is compe <3 Type 'compe help' for help");
@@ -68,7 +68,7 @@ else if (args.length == 4 && args[2] == "build") {
           templateData += x.replaceAll("let ", "var ");
           templateData += "\n";
         }
-        if (x == warningString) {
+        if (x.startsWith(warningString)) {
           unlease = true;
         }
       }
@@ -97,7 +97,7 @@ else if (args.length == 4 && args[2] == "bc") {
           templateData += x.replaceAll("let ", "var ");
           templateData += "\n";
         }
-        if (x == warningString) {
+        if (x.startsWith(warningString)) {
           unlease = true;
         }
       }
