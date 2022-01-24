@@ -1,7 +1,7 @@
 # Compe.js
 A CLIxLibrary for Competitive Programming with JavaScript/Node.js
 # Requirements
-- Node v12.x or higher
+- Node v12.x or higher (preferably v16.x+)
 - Set node modules to path variable to use cli
 # Installation
 For the package:

@@ -46,7 +46,7 @@ else if (args.length >= 3 && args.length <= 5 && args[2] === "init") {
     } else {
       console.log(`Creating a new template at ${args[3]} with input at ${inputName}`);
       const templateData = fs.readFileSync(__dirname + "/../src/template.txt", {encoding: "utf-8"});
-      fs.writeFileSync(dirName, templateData.replace("input.txt", inputName));
+      fs.writeFileSync(dirName, templateData.replace(/input.txt/g, inputName));
       fs.writeFileSync(inputName, "");
     }
   }
@@ -65,7 +65,7 @@ else if (args.length == 4 && args[2] == "build") {
       let unlease = false;
       for (var x of lines) {
         if (unlease) {
-          templateData += x.replaceAll(/let /g, "var ");
+          templateData += x.replace(/let /g, "var ");
           templateData += "\n";
         }
         if (x.startsWith(warningString)) {
@@ -94,7 +94,7 @@ else if (args.length == 4 && args[2] == "bc") {
       let unlease = false;
       for (var x of lines) {
         if (unlease) {
-          templateData += x.replaceAll(/let /g, "var ");
+          templateData += x.replace(/let /g, "var ");
           templateData += "\n";
         }
         if (x.startsWith(warningString)) {
