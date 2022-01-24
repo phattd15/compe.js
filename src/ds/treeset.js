@@ -1,122 +1,6 @@
-/**
- * @description Parse the string into integer
- * @param input
- * @returns integer
- */
-var toInt = function toInt(input) {
-  var res = parseInt(input.trim());
+'use strict';
 
-  if (isNaN(res)) {
-    throw new Error("Cannot parse " + input + " to int");
-  }
-
-  return res;
-};
-/**
- * @description Parse the string into array of strings
- * @param input
- * @returns [string]
- */
-
-
-var stringArray = function stringArray(input) {
-  return input.trim().split(/\s+/);
-};
-/**
- * @description Parse the string into array of integers
- * @param input
- * @returns [integers]
- */
-
-
-var intArray = function intArray(input) {
-  return input.trim().split(/\s+/).map(function (x) {
-    return toInt(x);
-  });
-};
-/**
- * IO object for read and write
- */
-
-
-var Reader = /*#__PURE__*/function () {
-  function Reader(readline) {
-    this.rl = readline;
-  }
-  /**
-   * @description Read the integer on this line
-   * @returns integer
-   */
-
-
-  var _proto = Reader.prototype;
-
-  _proto.readInt = function readInt() {
-    return toInt(this.rl());
-  }
-  /**
-   * @description Read the whole line as the string
-   * @returns Read the whole line as a string
-   */
-  ;
-
-  _proto.readLine = function readLine() {
-    return this.rl();
-  }
-  /**
-   * @description Read the whole line as an array
-   * @returns The number array
-   */
-  ;
-
-  _proto.readArray = function readArray() {
-    return intArray(this.rl());
-  };
-
-  return Reader;
-}();
-
-/**
- * This will process your file into OJ's format
- * @param {any} main - The main function
- * @param {string} inputDir - The directory of input
- */
-function proc(main, inputDir) {
-  if (typeof process !== 'undefined') {
-    var fs = require('fs');
-
-    fs.readFile(inputDir, 'utf8', function (err, data) {
-      var lineIndex = 0;
-
-      if (err) {
-        return console.log(err);
-      }
-
-      data = data.split('\n');
-
-      global.readline = function () {
-        return data[lineIndex++];
-      };
-
-      global.print = function (data) {
-        process.stdout.write(String(data));
-        process.stdout.write("\n");
-      };
-
-      global.write = function (data) {
-        process.stdout.write(String(data));
-      };
-
-      main(readline, write);
-    });
-  } else {
-    main(readline, write);
-  }
-}
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
+Object.defineProperty(exports, '__esModule', { value: true });
 
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -248,9 +132,7 @@ function _unsupportedIterableToArray(o, minLen) {
 function _arrayLikeToArray(arr, len) {
   if (len == null || len > arr.length) len = arr.length;
 
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 
   return arr2;
 }
@@ -275,13 +157,12 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) {
 
   throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
+
 /**
  * Adaptor for `for ... of` iteration.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
-
-
 var ForOfAdaptor = /*#__PURE__*/function (_Symbol$iterator) {
   /**
    * Initializer Constructor.
@@ -324,6 +205,7 @@ var ForOfAdaptor = /*#__PURE__*/function (_Symbol$iterator) {
 
   return ForOfAdaptor;
 }(Symbol.iterator);
+
 /**
  * Basic container.
  *
@@ -336,15 +218,14 @@ var ForOfAdaptor = /*#__PURE__*/function (_Symbol$iterator) {
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var Container = /*#__PURE__*/function (_Symbol$iterator) {
   function Container() {}
 
   var _proto = Container.prototype;
+
   /**
    * @inheritDoc
    */
-
   _proto.empty = function empty() {
     return this.size() === 0;
   }
@@ -409,11 +290,10 @@ var NativeArrayIterator = /*#__PURE__*/function () {
   _proto.index = function index() {
     return this.index_;
   };
+
   /* ---------------------------------------------------------
       MOVERS
   --------------------------------------------------------- */
-
-
   _proto.prev = function prev() {
     --this.index_;
     return this;
@@ -455,6 +335,7 @@ var NativeArrayIterator = /*#__PURE__*/function () {
 
   return NativeArrayIterator;
 }();
+
 /**
  * Basic set container.
  *
@@ -467,9 +348,9 @@ var NativeArrayIterator = /*#__PURE__*/function () {
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var SetContainer = /*#__PURE__*/function (_Container) {
   _inheritsLoose(SetContainer, _Container);
+
   /* ---------------------------------------------------------
       CONSTURCTORS
   --------------------------------------------------------- */
@@ -477,8 +358,6 @@ var SetContainer = /*#__PURE__*/function (_Container) {
   /**
    * Default Constructor.
    */
-
-
   function SetContainer(factory) {
     var _this;
 
@@ -593,9 +472,9 @@ var SetContainer = /*#__PURE__*/function (_Container) {
   _proto._Erase_by_range = function _Erase_by_range(first, last) {
     if (last === void 0) {
       last = first.next();
-    } // ERASE
+    }
 
-
+    // ERASE
     var it = this.data_.erase(first, last); // POST-PROCESS
 
     this._Handle_erase(first, last);
@@ -604,7 +483,9 @@ var SetContainer = /*#__PURE__*/function (_Container) {
   };
 
   return SetContainer;
-}(Container); //================================================================ 
+}(Container);
+
+//================================================================ 
 
 /**
  * @packageDocumentation
@@ -617,10 +498,9 @@ var SetContainer = /*#__PURE__*/function (_Container) {
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
-
-
 var Exception = /*#__PURE__*/function (_Error) {
   _inheritsLoose(Exception, _Error);
+
   /* ---------------------------------------------------------
       CONSTRUCTOR
   --------------------------------------------------------- */
@@ -630,8 +510,6 @@ var Exception = /*#__PURE__*/function (_Error) {
    *
    * @param message The error messgae.
    */
-
-
   function Exception(message) {
     var _this;
 
@@ -651,12 +529,12 @@ var Exception = /*#__PURE__*/function (_Error) {
 
 
   var _proto = Exception.prototype;
+
   /**
    * Get error message.
    *
    * @return The error message.
    */
-
   _proto.what = function what() {
     return this.message;
   }
@@ -686,74 +564,71 @@ var Exception = /*#__PURE__*/function (_Error) {
 
   return Exception;
 }( /*#__PURE__*/_wrapNativeSuper(Error));
+
 /**
  * Logic Error.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var LogicError = /*#__PURE__*/function (_Exception) {
   _inheritsLoose(LogicError, _Exception);
+
   /**
    * Initializer Constructor.
    *
    * @param message The error messgae.
    */
-
-
   function LogicError(message) {
     return _Exception.call(this, message) || this;
   }
 
   return LogicError;
 }(Exception);
+
 /**
  * Invalid Argument Exception.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var InvalidArgument = /*#__PURE__*/function (_LogicError) {
   _inheritsLoose(InvalidArgument, _LogicError);
+
   /**
    * Initializer Constructor.
    *
    * @param message The error messgae.
    */
-
-
   function InvalidArgument(message) {
     return _LogicError.call(this, message) || this;
   }
 
   return InvalidArgument;
 }(LogicError);
+
 /**
  * Out-of-range Exception.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var OutOfRange = /*#__PURE__*/function (_LogicError) {
   _inheritsLoose(OutOfRange, _LogicError);
+
   /**
    * Initializer Constructor.
    *
    * @param message The error messgae.
    */
-
-
   function OutOfRange(message) {
     return _LogicError.call(this, message) || this;
   }
 
   return OutOfRange;
-}(LogicError); //================================================================ 
+}(LogicError);
 
-
+//================================================================ 
 var ErrorGenerator;
 
 (function (ErrorGenerator) {
@@ -825,6 +700,7 @@ var ErrorGenerator;
 
   ErrorGenerator.key_nout_found = key_nout_found;
 })(ErrorGenerator || (ErrorGenerator = {}));
+
 /**
  * Basic set container blocking duplicated key.
  *
@@ -836,7 +712,6 @@ var ErrorGenerator;
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var UniqueSet = /*#__PURE__*/function (_SetContainer) {
   _inheritsLoose(UniqueSet, _SetContainer);
 
@@ -845,6 +720,7 @@ var UniqueSet = /*#__PURE__*/function (_SetContainer) {
   }
 
   var _proto = UniqueSet.prototype;
+
   /* ---------------------------------------------------------
       ACCESSOR
   --------------------------------------------------------- */
@@ -852,7 +728,6 @@ var UniqueSet = /*#__PURE__*/function (_SetContainer) {
   /**
    * @inheritDoc
    */
-
   _proto.count = function count(key) {
     return this.find(key).equals(this.end()) ? 0 : 1;
   };
@@ -967,15 +842,15 @@ var IAssociativeContainer;
   }
 
   IAssociativeContainer.construct = construct;
-})(IAssociativeContainer || (IAssociativeContainer = {})); //================================================================ 
+})(IAssociativeContainer || (IAssociativeContainer = {}));
+
+//================================================================ 
 
 /**
  * @packageDocumentation
  * @module std
  */
 //================================================================
-
-
 var is_node_ = null;
 /**
  * Test whether the code is running on NodeJS.
@@ -986,12 +861,12 @@ var is_node_ = null;
 function is_node() {
   if (is_node_ === null) is_node_ = typeof global === "object" && typeof global.process === "object" && typeof global.process.versions === "object" && typeof global.process.versions.node !== "undefined";
   return is_node_;
-} //================================================================ 
+}
 
+//================================================================ 
 /**
  * @internal
  */
-
 
 function _Get_root() {
   if (__s_pRoot === null) {
@@ -1005,9 +880,9 @@ function _Get_root() {
  * @internal
  */
 
+var __s_pRoot = null;
 
-var __s_pRoot = null; //================================================================ 
-
+//================================================================ 
 /**
  * Get unique identifier.
  *
@@ -1032,6 +907,7 @@ function get_uid(obj) {
   } else if (obj === undefined) return -1;else // is null
     return 0;
 }
+
 /**
  * Test whether two arguments are equal.
  *
@@ -1039,7 +915,6 @@ function get_uid(obj) {
  * @param y The second argument to compare.
  * @return Whether two arguments are equal or not.
  */
-
 
 function equal_to(x, y) {
   // CONVERT TO PRIMITIVE TYPE
@@ -1056,7 +931,6 @@ function equal_to(x, y) {
  * @return Whether *x* is less than *y*.
  */
 
-
 function less(x, y) {
   // CONVERT TO PRIMITIVE TYPE
   x = x.valueOf();
@@ -1066,9 +940,9 @@ function less(x, y) {
     if (x.less instanceof Function) // has less()
       return x.less(y);else return get_uid(x) < get_uid(y);
   } else return x < y;
-} //================================================================ 
+}
 
-
+//================================================================ 
 var ITreeContainer;
 
 (function (ITreeContainer) {
@@ -1126,13 +1000,13 @@ var ITreeContainer;
 
   ITreeContainer.emplacable = emplacable;
 })(ITreeContainer || (ITreeContainer = {}));
+
 /**
  * Hash function.
  *
  * @param itemList The items to be hashed.
  * @return The hash code.
  */
-
 
 function hash() {
   var ret = INIT_VALUE;
@@ -1202,6 +1076,7 @@ function _Hash_string(str, ret) {
 
 var INIT_VALUE = 2166136261;
 var MULTIPLIER = 16777619;
+
 /**
  * Pair of two elements.
  *
@@ -1256,6 +1131,7 @@ var Pair = /*#__PURE__*/function () {
 
   return Pair;
 }();
+
 /**
  * Basic tree set blocking duplicated key.
  *
@@ -1267,7 +1143,6 @@ var Pair = /*#__PURE__*/function () {
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var UniqueTreeSet = /*#__PURE__*/function (_UniqueSet) {
   _inheritsLoose(UniqueTreeSet, _UniqueSet);
 
@@ -1276,6 +1151,7 @@ var UniqueTreeSet = /*#__PURE__*/function (_UniqueSet) {
   }
 
   var _proto = UniqueTreeSet.prototype;
+
   /* ---------------------------------------------------------
       ACCESSORS
   --------------------------------------------------------- */
@@ -1283,7 +1159,6 @@ var UniqueTreeSet = /*#__PURE__*/function (_UniqueSet) {
   /**
    * @inheritDoc
    */
-
   _proto.find = function find(key) {
     var it = this.lower_bound(key);
     if (!it.equals(this.end()) && this._Key_eq(key, it.value)) return it;else return this.end();
@@ -1340,12 +1215,12 @@ var UniqueTreeSet = /*#__PURE__*/function (_UniqueSet) {
 
   return UniqueTreeSet;
 }(UniqueSet);
+
 /**
  * Basic List Iterator.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
-
 
 var ListIterator = /*#__PURE__*/function () {
   /* ---------------------------------------------------------------
@@ -1441,11 +1316,10 @@ var Repeater = /*#__PURE__*/function () {
   _proto.index = function index() {
     return this.index_;
   };
+
   /* ---------------------------------------------------------
       MOVERS & COMPARE
   --------------------------------------------------------- */
-
-
   _proto.next = function next() {
     ++this.index_;
     return this;
@@ -1487,15 +1361,16 @@ function advance(it, n) {
 
   return it;
 }
+
 /**
  * Basic List Container.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var ListContainer = /*#__PURE__*/function (_Container) {
   _inheritsLoose(ListContainer, _Container);
+
   /* ---------------------------------------------------------
       CONSTRUCTORS
   --------------------------------------------------------- */
@@ -1503,8 +1378,6 @@ var ListContainer = /*#__PURE__*/function (_Container) {
   /**
    * Default Constructor.
    */
-
-
   function ListContainer() {
     var _this;
 
@@ -1735,13 +1608,12 @@ var ListContainer = /*#__PURE__*/function (_Container) {
 
   return ListContainer;
 }(Container);
+
 /**
  * Basic reverse iterator.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
-
-
 var ReverseIterator = /*#__PURE__*/function () {
   /* ---------------------------------------------------------
       CONSTRUCTORS
@@ -1783,6 +1655,7 @@ var ReverseIterator = /*#__PURE__*/function () {
    * @inheritDoc
    */
   ;
+
   /* ---------------------------------------------------------
       MOVERS
   --------------------------------------------------------- */
@@ -1790,8 +1663,6 @@ var ReverseIterator = /*#__PURE__*/function () {
   /**
    * @inheritDoc
    */
-
-
   _proto.prev = function prev() {
     // this.base().next()
     return this._Create_neighbor(this.base().next());
@@ -1827,6 +1698,7 @@ var ReverseIterator = /*#__PURE__*/function () {
 
   return ReverseIterator;
 }();
+
 /**
  * Doubly Linked List storing set elements.
  *
@@ -1837,14 +1709,12 @@ var ReverseIterator = /*#__PURE__*/function () {
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var SetElementList = /*#__PURE__*/function (_ListContainer) {
   _inheritsLoose(SetElementList, _ListContainer);
+
   /* ---------------------------------------------------------
       CONSTRUCTORS
   --------------------------------------------------------- */
-
-
   function SetElementList(associative) {
     var _this;
 
@@ -1883,7 +1753,6 @@ var SetElementList = /*#__PURE__*/function (_ListContainer) {
  *
  */
 
-
 (function (SetElementList) {
   /**
    * Iterator of set container storing elements in a list.
@@ -1896,11 +1765,10 @@ var SetElementList = /*#__PURE__*/function (_ListContainer) {
    */
   var Iterator = /*#__PURE__*/function (_ListIterator) {
     _inheritsLoose(Iterator, _ListIterator);
+
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
-
-
     function Iterator(list, prev, next, val) {
       var _this2;
 
@@ -1971,13 +1839,12 @@ var SetElementList = /*#__PURE__*/function (_ListContainer) {
 
   SetElementList.ReverseIterator = ReverseIterator$1;
 })(SetElementList || (SetElementList = {}));
+
 /**
  * Node of {@link XTree}
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
-
-
 var XTreeNode = /*#__PURE__*/function () {
   /* ---------------------------------------------------------
       CONSTRUCTORS
@@ -2008,8 +1875,9 @@ var XTreeNode = /*#__PURE__*/function () {
   }]);
 
   return XTreeNode;
-}(); //================================================================ 
+}();
 
+//================================================================ 
 /**
  * Red-Black Tree
  *
@@ -2017,7 +1885,6 @@ var XTreeNode = /*#__PURE__*/function () {
  * @inventor Rudolf Bayer
  * @author Jeongho Nam - https://github.com/samchon
  */
-
 
 var XTree = /*#__PURE__*/function () {
   /* ---------------------------------------------------------
@@ -2357,11 +2224,10 @@ var XTree = /*#__PURE__*/function () {
 
 var SetTree = /*#__PURE__*/function (_XTree) {
   _inheritsLoose(SetTree, _XTree);
+
   /* ---------------------------------------------------------
       CONSTRUCTOR
   --------------------------------------------------------- */
-
-
   function SetTree(set, comp, it_comp) {
     var _this;
 
@@ -2432,11 +2298,10 @@ var SetTree = /*#__PURE__*/function (_XTree) {
 
 var UniqueSetTree = /*#__PURE__*/function (_SetTree) {
   _inheritsLoose(UniqueSetTree, _SetTree);
+
   /* ---------------------------------------------------------
       CONSTRUCTOR
   --------------------------------------------------------- */
-
-
   function UniqueSetTree(source, comp) {
     return _SetTree.call(this, source, comp, function (x, y) {
       return comp(x.value, y.value);
@@ -2487,14 +2352,14 @@ var UniqueSetTree = /*#__PURE__*/function (_SetTree) {
 
   return UniqueSetTree;
 }(SetTree);
+
 /**
  * Unique-key Set based on Tree.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
-const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
+exports.TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
   _inheritsLoose(TreeSet, _UniqueTreeSet);
 
   function TreeSet() {
@@ -2596,9 +2461,10 @@ const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
  *
  */
 
-
 (function (TreeSet) {
   // BODY
   TreeSet.Iterator = SetElementList.Iterator;
   TreeSet.ReverseIterator = SetElementList.ReverseIterator;
-})(TreeSet || (TreeSet = {}));
+})(exports.TreeSet || (exports.TreeSet = {}));
+
+//# sourceMappingURL=compe.cjs.development.js.map

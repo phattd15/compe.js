@@ -1,5 +1,4 @@
 export * from './io/io';
 export * from './io/templator.js';
-export * from './tstl/index';
-const std = require("./tstl");
-export {std};
+export * from './ds/treeset';
+export * from './ds/deque'; 

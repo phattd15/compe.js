@@ -1,122 +1,6 @@
-/**
- * @description Parse the string into integer
- * @param input
- * @returns integer
- */
-var toInt = function toInt(input) {
-  var res = parseInt(input.trim());
+'use strict';
 
-  if (isNaN(res)) {
-    throw new Error("Cannot parse " + input + " to int");
-  }
-
-  return res;
-};
-/**
- * @description Parse the string into array of strings
- * @param input
- * @returns [string]
- */
-
-
-var stringArray = function stringArray(input) {
-  return input.trim().split(/\s+/);
-};
-/**
- * @description Parse the string into array of integers
- * @param input
- * @returns [integers]
- */
-
-
-var intArray = function intArray(input) {
-  return input.trim().split(/\s+/).map(function (x) {
-    return toInt(x);
-  });
-};
-/**
- * IO object for read and write
- */
-
-
-var Reader = /*#__PURE__*/function () {
-  function Reader(readline) {
-    this.rl = readline;
-  }
-  /**
-   * @description Read the integer on this line
-   * @returns integer
-   */
-
-
-  var _proto = Reader.prototype;
-
-  _proto.readInt = function readInt() {
-    return toInt(this.rl());
-  }
-  /**
-   * @description Read the whole line as the string
-   * @returns Read the whole line as a string
-   */
-  ;
-
-  _proto.readLine = function readLine() {
-    return this.rl();
-  }
-  /**
-   * @description Read the whole line as an array
-   * @returns The number array
-   */
-  ;
-
-  _proto.readArray = function readArray() {
-    return intArray(this.rl());
-  };
-
-  return Reader;
-}();
-
-/**
- * This will process your file into OJ's format
- * @param {any} main - The main function
- * @param {string} inputDir - The directory of input
- */
-function proc(main, inputDir) {
-  if (typeof process !== 'undefined') {
-    var fs = require('fs');
-
-    fs.readFile(inputDir, 'utf8', function (err, data) {
-      var lineIndex = 0;
-
-      if (err) {
-        return console.log(err);
-      }
-
-      data = data.split('\n');
-
-      global.readline = function () {
-        return data[lineIndex++];
-      };
-
-      global.print = function (data) {
-        process.stdout.write(String(data));
-        process.stdout.write("\n");
-      };
-
-      global.write = function (data) {
-        process.stdout.write(String(data));
-      };
-
-      main(readline, write);
-    });
-  } else {
-    main(readline, write);
-  }
-}
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
+Object.defineProperty(exports, '__esModule', { value: true });
 
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -248,9 +132,7 @@ function _unsupportedIterableToArray(o, minLen) {
 function _arrayLikeToArray(arr, len) {
   if (len == null || len > arr.length) len = arr.length;
 
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 
   return arr2;
 }
@@ -275,13 +157,12 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) {
 
   throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
+
 /**
  * Adaptor for `for ... of` iteration.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
-
-
 var ForOfAdaptor = /*#__PURE__*/function (_Symbol$iterator) {
   /**
    * Initializer Constructor.
@@ -324,6 +205,7 @@ var ForOfAdaptor = /*#__PURE__*/function (_Symbol$iterator) {
 
   return ForOfAdaptor;
 }(Symbol.iterator);
+
 /**
  * Basic container.
  *
@@ -336,15 +218,14 @@ var ForOfAdaptor = /*#__PURE__*/function (_Symbol$iterator) {
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var Container = /*#__PURE__*/function (_Symbol$iterator) {
   function Container() {}
 
   var _proto = Container.prototype;
+
   /**
    * @inheritDoc
    */
-
   _proto.empty = function empty() {
     return this.size() === 0;
   }
@@ -409,11 +290,10 @@ var NativeArrayIterator = /*#__PURE__*/function () {
   _proto.index = function index() {
     return this.index_;
   };
+
   /* ---------------------------------------------------------
       MOVERS
   --------------------------------------------------------- */
-
-
   _proto.prev = function prev() {
     --this.index_;
     return this;
@@ -455,21 +335,23 @@ var NativeArrayIterator = /*#__PURE__*/function () {
 
   return NativeArrayIterator;
 }();
+
 /**
- * Basic set container.
+ * Basic map container.
  *
  * @template Key Key type
+ * @template T Mapped type
  * @template Unique Whether duplicated key is blocked or not
- * @template Source Derived type extending this {@link SetContainer}
+ * @template Source Derived type extending this {@link MapContainer}
  * @template IteratorT Iterator type
  * @template ReverseT Reverse iterator type
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
+var MapContainer = /*#__PURE__*/function (_Container) {
+  _inheritsLoose(MapContainer, _Container);
 
-var SetContainer = /*#__PURE__*/function (_Container) {
-  _inheritsLoose(SetContainer, _Container);
   /* ---------------------------------------------------------
       CONSTURCTORS
   --------------------------------------------------------- */
@@ -477,9 +359,7 @@ var SetContainer = /*#__PURE__*/function (_Container) {
   /**
    * Default Constructor.
    */
-
-
-  function SetContainer(factory) {
+  function MapContainer(factory) {
     var _this;
 
     _this = _Container.call(this) || this;
@@ -491,7 +371,7 @@ var SetContainer = /*#__PURE__*/function (_Container) {
    */
 
 
-  var _proto = SetContainer.prototype;
+  var _proto = MapContainer.prototype;
 
   _proto.assign = function assign(first, last) {
     // INSERT
@@ -563,13 +443,10 @@ var SetContainer = /*#__PURE__*/function (_Container) {
       items[_key] = arguments[_key];
     }
 
-    if (items.length === 0) return this.size(); // INSERT BY RANGE
-
+    // INSERT BY RANGE
     var first = new NativeArrayIterator(items, 0);
     var last = new NativeArrayIterator(items, items.length);
-
-    this._Insert_by_range(first, last); // RETURN SIZE
-
+    this.insert(first, last); // RETURN SIZE
 
     return this.size();
   };
@@ -579,7 +456,7 @@ var SetContainer = /*#__PURE__*/function (_Container) {
       args[_key2] = arguments[_key2];
     }
 
-    if (args.length === 1) return this._Insert_by_key(args[0]);else if (args[0].next instanceof Function && args[1].next instanceof Function) return this._Insert_by_range(args[0], args[1]);else return this._Insert_by_hint(args[0], args[1]);
+    if (args.length === 1) return this.emplace(args[0].first, args[0].second);else if (args[0].next instanceof Function && args[1].next instanceof Function) return this._Insert_by_range(args[0], args[1]);else return this.emplace_hint(args[0], args[1].first, args[1].second);
   };
 
   _proto.erase = function erase() {
@@ -587,15 +464,15 @@ var SetContainer = /*#__PURE__*/function (_Container) {
       args[_key3] = arguments[_key3];
     }
 
-    if (args.length === 1 && !(args[0] instanceof this.end().constructor && args[0].source() === this)) return this._Erase_by_val(args[0]);else if (args.length === 1) return this._Erase_by_range(args[0]);else return this._Erase_by_range(args[0], args[1]);
+    if (args.length === 1 && (args[0] instanceof this.end().constructor === false || args[0].source() !== this)) return this._Erase_by_key(args[0]);else if (args.length === 1) return this._Erase_by_range(args[0]);else return this._Erase_by_range(args[0], args[1]);
   };
 
   _proto._Erase_by_range = function _Erase_by_range(first, last) {
     if (last === void 0) {
       last = first.next();
-    } // ERASE
+    }
 
-
+    // ERASE
     var it = this.data_.erase(first, last); // POST-PROCESS
 
     this._Handle_erase(first, last);
@@ -603,8 +480,10 @@ var SetContainer = /*#__PURE__*/function (_Container) {
     return it;
   };
 
-  return SetContainer;
-}(Container); //================================================================ 
+  return MapContainer;
+}(Container);
+
+//================================================================ 
 
 /**
  * @packageDocumentation
@@ -617,10 +496,9 @@ var SetContainer = /*#__PURE__*/function (_Container) {
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
-
-
 var Exception = /*#__PURE__*/function (_Error) {
   _inheritsLoose(Exception, _Error);
+
   /* ---------------------------------------------------------
       CONSTRUCTOR
   --------------------------------------------------------- */
@@ -630,8 +508,6 @@ var Exception = /*#__PURE__*/function (_Error) {
    *
    * @param message The error messgae.
    */
-
-
   function Exception(message) {
     var _this;
 
@@ -651,12 +527,12 @@ var Exception = /*#__PURE__*/function (_Error) {
 
 
   var _proto = Exception.prototype;
+
   /**
    * Get error message.
    *
    * @return The error message.
    */
-
   _proto.what = function what() {
     return this.message;
   }
@@ -686,74 +562,71 @@ var Exception = /*#__PURE__*/function (_Error) {
 
   return Exception;
 }( /*#__PURE__*/_wrapNativeSuper(Error));
+
 /**
  * Logic Error.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var LogicError = /*#__PURE__*/function (_Exception) {
   _inheritsLoose(LogicError, _Exception);
+
   /**
    * Initializer Constructor.
    *
    * @param message The error messgae.
    */
-
-
   function LogicError(message) {
     return _Exception.call(this, message) || this;
   }
 
   return LogicError;
 }(Exception);
+
 /**
  * Invalid Argument Exception.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var InvalidArgument = /*#__PURE__*/function (_LogicError) {
   _inheritsLoose(InvalidArgument, _LogicError);
+
   /**
    * Initializer Constructor.
    *
    * @param message The error messgae.
    */
-
-
   function InvalidArgument(message) {
     return _LogicError.call(this, message) || this;
   }
 
   return InvalidArgument;
 }(LogicError);
+
 /**
  * Out-of-range Exception.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var OutOfRange = /*#__PURE__*/function (_LogicError) {
   _inheritsLoose(OutOfRange, _LogicError);
+
   /**
    * Initializer Constructor.
    *
    * @param message The error messgae.
    */
-
-
   function OutOfRange(message) {
     return _LogicError.call(this, message) || this;
   }
 
   return OutOfRange;
-}(LogicError); //================================================================ 
+}(LogicError);
 
-
+//================================================================ 
 var ErrorGenerator;
 
 (function (ErrorGenerator) {
@@ -825,76 +698,123 @@ var ErrorGenerator;
 
   ErrorGenerator.key_nout_found = key_nout_found;
 })(ErrorGenerator || (ErrorGenerator = {}));
+
 /**
- * Basic set container blocking duplicated key.
+ * Basic map container blocking duplicated key.
  *
  * @template Key Key type
- * @template Source Derived type extending this {@link UniqueSet}
+ * @template T Mapped type
+ * @template Source Derived type extending this {@link UniqueMap}
  * @template IteratorT Iterator type
  * @template ReverseT Reverse iterator type
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
+var UniqueMap = /*#__PURE__*/function (_MapContainer) {
+  _inheritsLoose(UniqueMap, _MapContainer);
 
-var UniqueSet = /*#__PURE__*/function (_SetContainer) {
-  _inheritsLoose(UniqueSet, _SetContainer);
-
-  function UniqueSet() {
-    return _SetContainer.apply(this, arguments) || this;
+  function UniqueMap() {
+    return _MapContainer.apply(this, arguments) || this;
   }
 
-  var _proto = UniqueSet.prototype;
+  var _proto = UniqueMap.prototype;
+
   /* ---------------------------------------------------------
-      ACCESSOR
+      ACCESSORS
   --------------------------------------------------------- */
 
   /**
    * @inheritDoc
    */
-
   _proto.count = function count(key) {
     return this.find(key).equals(this.end()) ? 0 : 1;
+  }
+  /**
+   * Get a value.
+   *
+   * @param key Key to search for.
+   * @return The value mapped by the key.
+   */
+  ;
+
+  _proto.get = function get(key) {
+    var it = this.find(key);
+    if (it.equals(this.end()) === true) throw ErrorGenerator.key_nout_found(this, "get", key);
+    return it.second;
+  }
+  /**
+   * Set a value with key.
+   *
+   * @param key Key to be mapped or search for.
+   * @param val Value to insert or assign.
+   */
+  ;
+
+  _proto.set = function set(key, val) {
+    this.insert_or_assign(key, val);
   };
 
   _proto.insert = function insert() {
-    var _SetContainer$prototy;
+    var _MapContainer$prototy;
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return (_SetContainer$prototy = _SetContainer.prototype.insert).call.apply(_SetContainer$prototy, [this].concat(args));
+    return (_MapContainer$prototy = _MapContainer.prototype.insert).call.apply(_MapContainer$prototy, [this].concat(args));
   };
 
   _proto._Insert_by_range = function _Insert_by_range(first, last) {
-    for (; !first.equals(last); first = first.next()) {
-      this._Insert_by_key(first.value);
+    for (var it = first; !it.equals(last); it = it.next()) {
+      this.emplace(it.value.first, it.value.second);
     }
   };
 
-  _proto.extract = function extract(param) {
-    if (param instanceof this.end().constructor) return this._Extract_by_iterator(param);else return this._Extract_by_val(param);
+  _proto.insert_or_assign = function insert_or_assign() {
+    if (arguments.length === 2) {
+      return this._Insert_or_assign_with_key_value(arguments.length <= 0 ? undefined : arguments[0], arguments.length <= 1 ? undefined : arguments[1]);
+    } else if (arguments.length === 3) {
+      // INSERT OR ASSIGN AN ELEMENT
+      return this._Insert_or_assign_with_hint(arguments.length <= 0 ? undefined : arguments[0], arguments.length <= 1 ? undefined : arguments[1], arguments.length <= 2 ? undefined : arguments[2]);
+    }
   };
 
-  _proto._Extract_by_val = function _Extract_by_val(key) {
+  _proto._Insert_or_assign_with_key_value = function _Insert_or_assign_with_key_value(key, value) {
+    var ret = this.emplace(key, value);
+    if (ret.second === false) ret.first.second = value;
+    return ret;
+  };
+
+  _proto._Insert_or_assign_with_hint = function _Insert_or_assign_with_hint(hint, key, value) {
+    var ret = this.emplace_hint(hint, key, value);
+    if (ret.second !== value) ret.second = value;
+    return ret;
+  };
+
+  _proto.extract = function extract(param) {
+    if (param instanceof this.end().constructor) return this._Extract_by_iterator(param);else return this._Extract_by_key(param);
+  };
+
+  _proto._Extract_by_key = function _Extract_by_key(key) {
     var it = this.find(key);
     if (it.equals(this.end()) === true) throw ErrorGenerator.key_nout_found(this, "extract", key);
+    var ret = it.value;
 
     this._Erase_by_range(it);
 
-    return key;
+    return ret;
   };
 
   _proto._Extract_by_iterator = function _Extract_by_iterator(it) {
-    if (it.equals(this.end()) === true || this.has(it.value) === false) return this.end();
+    if (it.equals(this.end()) === true) return this.end();
 
     this._Erase_by_range(it);
 
     return it;
   };
 
-  _proto._Erase_by_val = function _Erase_by_val(key) {
+  _proto._Erase_by_key = function _Erase_by_key(key) {
     var it = this.find(key);
     if (it.equals(this.end()) === true) return 0;
 
@@ -913,15 +833,15 @@ var UniqueSet = /*#__PURE__*/function (_SetContainer) {
 
   _proto.merge = function merge(source) {
     for (var it = source.begin(); !it.equals(source.end());) {
-      if (this.has(it.value) === false) {
+      if (this.has(it.first) === false) {
         this.insert(it.value);
         it = source.erase(it);
       } else it = it.next();
     }
   };
 
-  return UniqueSet;
-}(SetContainer);
+  return UniqueMap;
+}(MapContainer);
 
 var IAssociativeContainer;
 
@@ -967,15 +887,15 @@ var IAssociativeContainer;
   }
 
   IAssociativeContainer.construct = construct;
-})(IAssociativeContainer || (IAssociativeContainer = {})); //================================================================ 
+})(IAssociativeContainer || (IAssociativeContainer = {}));
+
+//================================================================ 
 
 /**
  * @packageDocumentation
  * @module std
  */
 //================================================================
-
-
 var is_node_ = null;
 /**
  * Test whether the code is running on NodeJS.
@@ -986,12 +906,12 @@ var is_node_ = null;
 function is_node() {
   if (is_node_ === null) is_node_ = typeof global === "object" && typeof global.process === "object" && typeof global.process.versions === "object" && typeof global.process.versions.node !== "undefined";
   return is_node_;
-} //================================================================ 
+}
 
+//================================================================ 
 /**
  * @internal
  */
-
 
 function _Get_root() {
   if (__s_pRoot === null) {
@@ -1005,9 +925,9 @@ function _Get_root() {
  * @internal
  */
 
+var __s_pRoot = null;
 
-var __s_pRoot = null; //================================================================ 
-
+//================================================================ 
 /**
  * Get unique identifier.
  *
@@ -1032,6 +952,7 @@ function get_uid(obj) {
   } else if (obj === undefined) return -1;else // is null
     return 0;
 }
+
 /**
  * Test whether two arguments are equal.
  *
@@ -1039,7 +960,6 @@ function get_uid(obj) {
  * @param y The second argument to compare.
  * @return Whether two arguments are equal or not.
  */
-
 
 function equal_to(x, y) {
   // CONVERT TO PRIMITIVE TYPE
@@ -1056,7 +976,6 @@ function equal_to(x, y) {
  * @return Whether *x* is less than *y*.
  */
 
-
 function less(x, y) {
   // CONVERT TO PRIMITIVE TYPE
   x = x.valueOf();
@@ -1066,9 +985,9 @@ function less(x, y) {
     if (x.less instanceof Function) // has less()
       return x.less(y);else return get_uid(x) < get_uid(y);
   } else return x < y;
-} //================================================================ 
+}
 
-
+//================================================================ 
 var ITreeContainer;
 
 (function (ITreeContainer) {
@@ -1126,13 +1045,13 @@ var ITreeContainer;
 
   ITreeContainer.emplacable = emplacable;
 })(ITreeContainer || (ITreeContainer = {}));
+
 /**
  * Hash function.
  *
  * @param itemList The items to be hashed.
  * @return The hash code.
  */
-
 
 function hash() {
   var ret = INIT_VALUE;
@@ -1202,6 +1121,54 @@ function _Hash_string(str, ret) {
 
 var INIT_VALUE = 2166136261;
 var MULTIPLIER = 16777619;
+
+/**
+ * Entry for mapping.
+ *
+ * @author Jeongho Nam - https://github.com/samchon
+ */
+
+var Entry = /*#__PURE__*/function () {
+  /**
+   * Intializer Constructor.
+   *
+   * @param first The first, key element.
+   * @param second The second, mapped element.
+   */
+  function Entry(first, second) {
+    this.first = first;
+    this.second = second;
+  }
+  /**
+   * @inheritDoc
+   */
+
+
+  var _proto = Entry.prototype;
+
+  _proto.equals = function equals(obj) {
+    return equal_to(this.first, obj.first);
+  }
+  /**
+   * @inheritDoc
+   */
+  ;
+
+  _proto.less = function less$1(obj) {
+    return less(this.first, obj.first);
+  }
+  /**
+   * @inheritDoc
+   */
+  ;
+
+  _proto.hashCode = function hashCode() {
+    return hash(this.first);
+  };
+
+  return Entry;
+}();
+
 /**
  * Pair of two elements.
  *
@@ -1256,26 +1223,28 @@ var Pair = /*#__PURE__*/function () {
 
   return Pair;
 }();
+
 /**
- * Basic tree set blocking duplicated key.
+ * Basic tree map blocking duplicated key.
  *
  * @template Key Key type
- * @template Source Derived type extending this {@link UniqueTreeSet}
+ * @template T Mapped type
+ * @template Source Derived type extending this {@link UniqueTreeMap}
  * @template IteratorT Iterator type
  * @template ReverseT Reverse iterator type
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
+var UniqueTreeMap = /*#__PURE__*/function (_UniqueMap) {
+  _inheritsLoose(UniqueTreeMap, _UniqueMap);
 
-var UniqueTreeSet = /*#__PURE__*/function (_UniqueSet) {
-  _inheritsLoose(UniqueTreeSet, _UniqueSet);
-
-  function UniqueTreeSet() {
-    return _UniqueSet.apply(this, arguments) || this;
+  function UniqueTreeMap() {
+    return _UniqueMap.apply(this, arguments) || this;
   }
 
-  var _proto = UniqueTreeSet.prototype;
+  var _proto = UniqueTreeMap.prototype;
+
   /* ---------------------------------------------------------
       ACCESSORS
   --------------------------------------------------------- */
@@ -1283,10 +1252,9 @@ var UniqueTreeSet = /*#__PURE__*/function (_UniqueSet) {
   /**
    * @inheritDoc
    */
-
   _proto.find = function find(key) {
     var it = this.lower_bound(key);
-    if (!it.equals(this.end()) && this._Key_eq(key, it.value)) return it;else return this.end();
+    if (!it.equals(this.end()) && this._Key_eq(key, it.first)) return it;else return this.end();
   }
   /**
    * @inheritDoc
@@ -1295,7 +1263,7 @@ var UniqueTreeSet = /*#__PURE__*/function (_UniqueSet) {
 
   _proto.equal_range = function equal_range(key) {
     var it = this.lower_bound(key);
-    return new Pair(it, !it.equals(this.end()) && this._Key_eq(key, it.value) ? it.next() : it);
+    return new Pair(it, !it.equals(this.end()) && this._Key_eq(key, it.first) ? it.next() : it);
   }
   /**
    * @inheritDoc
@@ -1303,7 +1271,11 @@ var UniqueTreeSet = /*#__PURE__*/function (_UniqueSet) {
   ;
 
   _proto.value_comp = function value_comp() {
-    return this.key_comp();
+    var _this = this;
+
+    return function (x, y) {
+      return _this.key_comp()(x.first, y.first);
+    };
   };
 
   _proto._Key_eq = function _Key_eq(x, y) {
@@ -1312,40 +1284,49 @@ var UniqueTreeSet = /*#__PURE__*/function (_UniqueSet) {
   /* ---------------------------------------------------------
       INSERT
   --------------------------------------------------------- */
+
+  /**
+   * @inheritDoc
+   */
   ;
 
-  _proto._Insert_by_key = function _Insert_by_key(key) {
+  _proto.emplace = function emplace(key, val) {
     // FIND POSITION TO INSERT
     var it = this.lower_bound(key);
-    if (!it.equals(this.end()) && this._Key_eq(it.value, key)) return new Pair(it, false); // ITERATOR TO RETURN
+    if (!it.equals(this.end()) && this._Key_eq(it.first, key)) return new Pair(it, false); // ITERATOR TO RETURN
 
-    it = this.data_.insert(it, key);
+    it = this.data_.insert(it, new Entry(key, val));
 
     this._Handle_insert(it, it.next());
 
     return new Pair(it, true);
-  };
+  }
+  /**
+   * @inheritDoc
+   */
+  ;
 
-  _proto._Insert_by_hint = function _Insert_by_hint(hint, key) {
-    var validate = ITreeContainer.emplacable(this, hint, key);
+  _proto.emplace_hint = function emplace_hint(hint, key, val) {
+    var elem = new Entry(key, val);
+    var validate = ITreeContainer.emplacable(this, hint, elem);
 
     if (validate) {
-      var it = this.data_.insert(hint, key);
+      var it = this.data_.insert(hint, elem);
 
       this._Handle_insert(it, it.next());
 
       return it;
-    } else return this._Insert_by_key(key).first;
+    } else return this.emplace(key, val).first;
   };
 
-  return UniqueTreeSet;
-}(UniqueSet);
+  return UniqueTreeMap;
+}(UniqueMap);
+
 /**
  * Basic List Iterator.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
-
 
 var ListIterator = /*#__PURE__*/function () {
   /* ---------------------------------------------------------------
@@ -1441,11 +1422,10 @@ var Repeater = /*#__PURE__*/function () {
   _proto.index = function index() {
     return this.index_;
   };
+
   /* ---------------------------------------------------------
       MOVERS & COMPARE
   --------------------------------------------------------- */
-
-
   _proto.next = function next() {
     ++this.index_;
     return this;
@@ -1487,15 +1467,16 @@ function advance(it, n) {
 
   return it;
 }
+
 /**
  * Basic List Container.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
-
 var ListContainer = /*#__PURE__*/function (_Container) {
   _inheritsLoose(ListContainer, _Container);
+
   /* ---------------------------------------------------------
       CONSTRUCTORS
   --------------------------------------------------------- */
@@ -1503,8 +1484,6 @@ var ListContainer = /*#__PURE__*/function (_Container) {
   /**
    * Default Constructor.
    */
-
-
   function ListContainer() {
     var _this;
 
@@ -1735,13 +1714,12 @@ var ListContainer = /*#__PURE__*/function (_Container) {
 
   return ListContainer;
 }(Container);
+
 /**
  * Basic reverse iterator.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
-
-
 var ReverseIterator = /*#__PURE__*/function () {
   /* ---------------------------------------------------------
       CONSTRUCTORS
@@ -1783,6 +1761,7 @@ var ReverseIterator = /*#__PURE__*/function () {
    * @inheritDoc
    */
   ;
+
   /* ---------------------------------------------------------
       MOVERS
   --------------------------------------------------------- */
@@ -1790,8 +1769,6 @@ var ReverseIterator = /*#__PURE__*/function () {
   /**
    * @inheritDoc
    */
-
-
   _proto.prev = function prev() {
     // this.base().next()
     return this._Create_neighbor(this.base().next());
@@ -1827,25 +1804,25 @@ var ReverseIterator = /*#__PURE__*/function () {
 
   return ReverseIterator;
 }();
+
 /**
- * Doubly Linked List storing set elements.
+ * Doubly Linked List storing map elements.
  *
  * @template Key Key type
+ * @template T Mapped type
  * @template Unique Whether duplicated key is blocked or not
- * @template Source Source container type
+ * @template Source Source type
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
+var MapElementList = /*#__PURE__*/function (_ListContainer) {
+  _inheritsLoose(MapElementList, _ListContainer);
 
-var SetElementList = /*#__PURE__*/function (_ListContainer) {
-  _inheritsLoose(SetElementList, _ListContainer);
   /* ---------------------------------------------------------
       CONSTRUCTORS
   --------------------------------------------------------- */
-
-
-  function SetElementList(associative) {
+  function MapElementList(associative) {
     var _this;
 
     _this = _ListContainer.call(this) || this;
@@ -1853,17 +1830,17 @@ var SetElementList = /*#__PURE__*/function (_ListContainer) {
     return _this;
   }
 
-  var _proto = SetElementList.prototype;
+  var _proto = MapElementList.prototype;
 
   _proto._Create_iterator = function _Create_iterator(prev, next, val) {
-    return SetElementList.Iterator.create(this, prev, next, val);
+    return MapElementList.Iterator.create(this, prev, next, val);
   }
   /**
    * @internal
    */
   ;
 
-  SetElementList._Swap_associative = function _Swap_associative(x, y) {
+  MapElementList._Swap_associative = function _Swap_associative(x, y) {
     var _ref = [y.associative_, x.associative_];
     x.associative_ = _ref[0];
     y.associative_ = _ref[1];
@@ -1877,18 +1854,18 @@ var SetElementList = /*#__PURE__*/function (_ListContainer) {
     return this.associative_;
   };
 
-  return SetElementList;
+  return MapElementList;
 }(ListContainer);
 /**
  *
  */
 
-
-(function (SetElementList) {
+(function (MapElementList) {
   /**
-   * Iterator of set container storing elements in a list.
+   * Iterator of map container storing elements in a list.
    *
    * @template Key Key type
+   * @template T Mapped type
    * @template Unique Whether duplicated key is blocked or not
    * @template Source Source container type
    *
@@ -1896,16 +1873,15 @@ var SetElementList = /*#__PURE__*/function (_ListContainer) {
    */
   var Iterator = /*#__PURE__*/function (_ListIterator) {
     _inheritsLoose(Iterator, _ListIterator);
+
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
-
-
     function Iterator(list, prev, next, val) {
       var _this2;
 
       _this2 = _ListIterator.call(this, prev, next, val) || this;
-      _this2.source_ = list;
+      _this2.list_ = list;
       return _this2;
     }
     /**
@@ -1936,17 +1912,45 @@ var SetElementList = /*#__PURE__*/function (_ListContainer) {
     ;
 
     _proto2.source = function source() {
-      return this.source_.associative();
-    };
+      return this.list_.associative();
+    }
+    /**
+     * @inheritDoc
+     */
+    ;
+
+    _createClass(Iterator, [{
+      key: "first",
+      get: function get() {
+        return this.value.first;
+      }
+      /**
+       * @inheritDoc
+       */
+
+    }, {
+      key: "second",
+      get: function get() {
+        return this.value.second;
+      }
+      /**
+       * @inheritDoc
+       */
+      ,
+      set: function set(val) {
+        this.value.second = val;
+      }
+    }]);
 
     return Iterator;
   }(ListIterator);
 
-  SetElementList.Iterator = Iterator;
+  MapElementList.Iterator = Iterator;
   /**
-   * Reverser iterator of set container storing elements in a list.
+   * Reverse iterator of map container storing elements a list.
    *
    * @template Key Key type
+   * @template T Mapped type
    * @template Unique Whether duplicated key is blocked or not
    * @template Source Source container type
    *
@@ -1962,22 +1966,61 @@ var SetElementList = /*#__PURE__*/function (_ListContainer) {
 
     var _proto3 = ReverseIterator.prototype;
 
+    /* ---------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------- */
     _proto3._Create_neighbor = function _Create_neighbor(base) {
       return new ReverseIterator(base);
-    };
+    }
+    /* ---------------------------------------------------------
+        ACCESSORS
+    --------------------------------------------------------- */
+
+    /**
+     * Get the first, key element.
+     *
+     * @return The first element.
+     */
+    ;
+
+    _createClass(ReverseIterator, [{
+      key: "first",
+      get: function get() {
+        return this.base_.first;
+      }
+      /**
+       * Get the second, stored element.
+       *
+       * @return The second element.
+       */
+
+    }, {
+      key: "second",
+      get: function get() {
+        return this.base_.second;
+      }
+      /**
+       * Set the second, stored element.
+       *
+       * @param val The value to set.
+       */
+      ,
+      set: function set(val) {
+        this.base_.second = val;
+      }
+    }]);
 
     return ReverseIterator;
   }(ReverseIterator);
 
-  SetElementList.ReverseIterator = ReverseIterator$1;
-})(SetElementList || (SetElementList = {}));
+  MapElementList.ReverseIterator = ReverseIterator$1;
+})(MapElementList || (MapElementList = {}));
+
 /**
  * Node of {@link XTree}
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
-
-
 var XTreeNode = /*#__PURE__*/function () {
   /* ---------------------------------------------------------
       CONSTRUCTORS
@@ -2008,8 +2051,9 @@ var XTreeNode = /*#__PURE__*/function () {
   }]);
 
   return XTreeNode;
-}(); //================================================================ 
+}();
 
+//================================================================ 
 /**
  * Red-Black Tree
  *
@@ -2017,7 +2061,6 @@ var XTreeNode = /*#__PURE__*/function () {
  * @inventor Rudolf Bayer
  * @author Jeongho Nam - https://github.com/samchon
  */
-
 
 var XTree = /*#__PURE__*/function () {
   /* ---------------------------------------------------------
@@ -2355,22 +2398,25 @@ var XTree = /*#__PURE__*/function () {
   return XTree;
 }();
 
-var SetTree = /*#__PURE__*/function (_XTree) {
-  _inheritsLoose(SetTree, _XTree);
+var MapTree = /*#__PURE__*/function (_XTree) {
+  _inheritsLoose(MapTree, _XTree);
+
   /* ---------------------------------------------------------
       CONSTRUCTOR
   --------------------------------------------------------- */
-
-
-  function SetTree(set, comp, it_comp) {
+  function MapTree(source, comp, it_comp) {
     var _this;
 
     _this = _XTree.call(this, it_comp) || this;
-    _this.source_ = set;
-    _this.key_comp_ = comp;
+    _this.source_ = source;
+    _this.key_compare_ = comp;
 
     _this.key_eq_ = function (x, y) {
       return !comp(x, y) && !comp(y, x);
+    };
+
+    _this.value_compare_ = function (x, y) {
+      return comp(x.first, y.first);
     };
 
     return _this;
@@ -2380,7 +2426,7 @@ var SetTree = /*#__PURE__*/function (_XTree) {
    */
 
 
-  SetTree._Swap_source = function _Swap_source(x, y) {
+  MapTree._Swap_source = function _Swap_source(x, y) {
     var _ref = [y.source_, x.source_];
     x.source_ = _ref[0];
     y.source_ = _ref[1];
@@ -2390,24 +2436,24 @@ var SetTree = /*#__PURE__*/function (_XTree) {
   --------------------------------------------------------- */
   ;
 
-  var _proto = SetTree.prototype;
+  var _proto = MapTree.prototype;
 
-  _proto.get_by_key = function get_by_key(val) {
-    var ret = this.nearest_by_key(val);
-    if (ret === null || !this.key_eq_(val, ret.value.value)) return null;else return ret;
+  _proto.get_by_key = function get_by_key(key) {
+    var ret = this.nearest_by_key(key);
+    if (ret === null || !this.key_eq_(key, ret.value.first)) return null;else return ret;
   };
 
-  _proto.lower_bound = function lower_bound(val) {
-    var node = this.nearest_by_key(val);
-    if (node === null) return this.source_.end();else if (this.key_comp_(node.value.value, val)) // it < key
+  _proto.lower_bound = function lower_bound(key) {
+    var node = this.nearest_by_key(key);
+    if (node === null) return this.source().end();else if (this.key_comp()(node.value.first, key)) // it < key
       return node.value.next();else return node.value;
   };
 
-  _proto.equal_range = function equal_range(val) {
-    return new Pair(this.lower_bound(val), this.upper_bound(val));
+  _proto.equal_range = function equal_range(key) {
+    return new Pair(this.lower_bound(key), this.upper_bound(key));
   }
   /* ---------------------------------------------------------
-      ACCESSORS
+      ACCECSSORS
   --------------------------------------------------------- */
   ;
 
@@ -2416,7 +2462,7 @@ var SetTree = /*#__PURE__*/function (_XTree) {
   };
 
   _proto.key_comp = function key_comp() {
-    return this.key_comp_;
+    return this.key_compare_;
   };
 
   _proto.key_eq = function key_eq() {
@@ -2424,22 +2470,21 @@ var SetTree = /*#__PURE__*/function (_XTree) {
   };
 
   _proto.value_comp = function value_comp() {
-    return this.key_comp_;
+    return this.value_compare_;
   };
 
-  return SetTree;
+  return MapTree;
 }(XTree);
 
-var UniqueSetTree = /*#__PURE__*/function (_SetTree) {
-  _inheritsLoose(UniqueSetTree, _SetTree);
+var UniqueMapTree = /*#__PURE__*/function (_MapTree) {
+  _inheritsLoose(UniqueMapTree, _MapTree);
+
   /* ---------------------------------------------------------
       CONSTRUCTOR
   --------------------------------------------------------- */
-
-
-  function UniqueSetTree(source, comp) {
-    return _SetTree.call(this, source, comp, function (x, y) {
-      return comp(x.value, y.value);
+  function UniqueMapTree(source, comp) {
+    return _MapTree.call(this, source, comp, function (x, y) {
+      return comp(x.first, y.first);
     }) || this;
   }
   /* ---------------------------------------------------------
@@ -2447,9 +2492,9 @@ var UniqueSetTree = /*#__PURE__*/function (_SetTree) {
   --------------------------------------------------------- */
 
 
-  var _proto = UniqueSetTree.prototype;
+  var _proto = UniqueMapTree.prototype;
 
-  _proto.nearest_by_key = function nearest_by_key(val) {
+  _proto.nearest_by_key = function nearest_by_key(key) {
     // NEED NOT TO ITERATE
     if (this.root_ === null) return null; //----
     // ITERATE
@@ -2462,7 +2507,7 @@ var UniqueSetTree = /*#__PURE__*/function (_SetTree) {
       var it = ret.value;
       var my_node = null; // COMPARE
 
-      if (this.key_comp()(val, it.value)) my_node = ret.left;else if (this.key_comp()(it.value, val)) my_node = ret.right;else return ret; // MATCHED VALUE
+      if (this.key_comp()(key, it.first)) my_node = ret.left;else if (this.key_comp()(it.first, key)) my_node = ret.right;else return ret; // MATCHED VALUE
       // FINAL BRANCH? OR KEEP GOING
 
       if (my_node === null) break;else ret = my_node;
@@ -2471,45 +2516,41 @@ var UniqueSetTree = /*#__PURE__*/function (_SetTree) {
     return ret; // DIFFERENT NODE
   };
 
-  _proto.upper_bound = function upper_bound(val) {
-    //--------
+  _proto.upper_bound = function upper_bound(key) {
     // FIND MATCHED NODE
-    //--------
-    var node = this.nearest_by_key(val);
-    if (node === null) return this.source().end(); //--------
-    // RETURN BRANCH
-    //--------
+    var node = this.nearest_by_key(key);
+    if (node === null) return this.source().end(); // MUST BE it.first > key
 
-    var it = node.value; // MUST BE it.value > key
-
-    if (this.key_comp()(val, it.value)) return it;else return it.next();
+    var it = node.value;
+    if (this.key_comp()(key, it.first)) return it;else return it.next();
   };
 
-  return UniqueSetTree;
-}(SetTree);
+  return UniqueMapTree;
+}(MapTree);
+
 /**
- * Unique-key Set based on Tree.
+ * Unique-key Map based on Tree.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 
+exports.TreeMap = /*#__PURE__*/function (_UniqueTreeMap) {
+  _inheritsLoose(TreeMap, _UniqueTreeMap);
 
-const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
-  _inheritsLoose(TreeSet, _UniqueTreeSet);
-
-  function TreeSet() {
+  function TreeMap() {
     var _this;
 
-    _this = _UniqueTreeSet.call(this, function (thisArg) {
-      return new SetElementList(thisArg);
-    }) || this;
+    // INITIALIZATION
+    _this = _UniqueTreeMap.call(this, function (thisArg) {
+      return new MapElementList(thisArg);
+    }) || this; // OVERLOADINGS
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    ITreeContainer.construct.apply(ITreeContainer, [_assertThisInitialized(_this), TreeSet, function (comp) {
-      _this.tree_ = new UniqueSetTree(_assertThisInitialized(_this), comp);
+    ITreeContainer.construct.apply(ITreeContainer, [_assertThisInitialized(_this), TreeMap, function (comp) {
+      _this.tree_ = new UniqueMapTree(_assertThisInitialized(_this), comp);
     }].concat(args));
     return _this;
   }
@@ -2518,10 +2559,10 @@ const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
    */
 
 
-  var _proto = TreeSet.prototype;
+  var _proto = TreeMap.prototype;
 
   _proto.clear = function clear() {
-    _UniqueTreeSet.prototype.clear.call(this);
+    _UniqueTreeMap.prototype.clear.call(this);
 
     this.tree_.clear();
   }
@@ -2536,10 +2577,10 @@ const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
     this.data_ = _ref[0];
     obj.data_ = _ref[1];
 
-    SetElementList._Swap_associative(this.data_, obj.data_); // SWAP RB-TREE
+    MapElementList._Swap_associative(this.data_, obj.data_); // SWAP RB-TREE
 
 
-    UniqueSetTree._Swap_source(this.tree_, obj.tree_);
+    UniqueMapTree._Swap_source(this.tree_, obj.tree_);
 
     var _ref2 = [obj.tree_, this.tree_];
     this.tree_ = _ref2[0];
@@ -2590,15 +2631,14 @@ const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
     }
   };
 
-  return TreeSet;
-}(UniqueTreeSet);
+  return TreeMap;
+}(UniqueTreeMap);
 /**
  *
  */
 
-
-(function (TreeSet) {
+(function (TreeMap) {
   // BODY
-  TreeSet.Iterator = SetElementList.Iterator;
-  TreeSet.ReverseIterator = SetElementList.ReverseIterator;
-})(TreeSet || (TreeSet = {}));
+  TreeMap.Iterator = MapElementList.Iterator;
+  TreeMap.ReverseIterator = MapElementList.ReverseIterator;
+})(exports.TreeMap || (exports.TreeMap = {}));
