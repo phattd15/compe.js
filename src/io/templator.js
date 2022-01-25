@@ -10,7 +10,7 @@ export function proc(main, inputDir) {
   if (fs.existsSync(configPath) && inputDir != "stdin") {
     if (!fs.existsSync(inputDir)) {
       console.log("Input directory does not exist");
-      process.exit(1);
+      return;
     }
     let data = fs.readFileSync(inputDir, {encoding:"utf-8"});
     var lineIndex = 0;
@@ -38,5 +38,4 @@ export function proc(main, inputDir) {
       main(readline, write);
     });
   }
-  process.exit(1);
 }
