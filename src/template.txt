@@ -1,8 +1,8 @@
 const {
   proc, Reader,                                 // IO & processor
   toInt, stringArray, intArray,                 // Int & String typecast
-  TreeSet, Deque,                               // For common data structures
-} = require("compe");
+  TreeSet, Deque                                // For common data structures
+} = require("./dist");
 // DO NOT EDIT THIS LINE //
 
 function main(rl, wr) {

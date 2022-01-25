@@ -46,11 +46,10 @@ proc(main, "input.txt");
 # Compe commands
 Add `npx` prefix incase you don't have CLIs installed.
 ```
-$ compe help: Help
-$ compe run <file-name>: Run the file
-$ compe init <file-name> <input-name>: Init a template file at file-name with input at <input-name> (default is input.txt if ignored)
-$ compe build <file-name>: Build the file to submit
-$ compe bc <file-name>: Build the file and compress to reduce size for submission
+$ compe i <source-file.js> <input-file.txt>: Initialize the source file at source-file.js and the input file at input-file.txt (if input-file is empty then the default is 'input.txt')
+$ compe s <source-file.js>: Save the source file directory as default
+$ compe i s <source-file.js> <input-file.txt>: Initialize the file and then save to config
+$ compe r <source-file.js>: If the config has default source file, source-file can be ignored. Run the source file and build it at source-file-build.js and fully compressed to submit on Online Judges at source-file-comp.js
 ```
 # Platforms supported
 - Leetcode

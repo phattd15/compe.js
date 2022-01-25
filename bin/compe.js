@@ -1,8 +1,7 @@
 #! /usr/bin/env node
-const { exec } = require("child_process");
 const fs = require('fs');
-
-function executor(script, cb, cbargs) {
+const { exec, spawnSync } = require("child_process");
+async function executor(script, cb) {
   console.log(`> ${script}`);
   exec(script, (error, stdout, stderr) => {
     if (error) {
@@ -14,116 +13,133 @@ function executor(script, cb, cbargs) {
       return;
     }
     console.log(stdout);
-    if (cb) cb(cbargs);
+    if (cb) cb();
   });
 }
 
 const args = process.argv;
 const warningString = "// DO NOT EDIT";
+const configPath = "./compe.config.json";
+const advertisement = "\n// Generated with compe.js - https://github.com/polarity-cf/compe.js";
 
-if (args.length <= 2) {
-  console.log("This is compe <3 Type 'compe help' for help");
-}
-
-else if (args.length == 3 && args[2] == "help") {
-  console.log("$ compe help: Help");
-  console.log("$ compe run <file-name>: Run the file");
-  console.log("$ compe init <file-name> <input-name>: Init a template file at file-name with input at <input-name> (default is input.txt if ignored)");
-  console.log("$ compe build <file-name>: Build the file to submit");
-  console.log("$ compe bc <file-name>: Build the file and compress to reduce size for submission");
-}
-
-else if (args.length >= 3 && args.length <= 5 && args[2] === "init") {
-  const dirName = args[3];
-  if (args.length === 3) {
-    console.log("> compe init <file-name>: Init a template file at file-name");
-  } else if (args.length >= 4) {
-    const inputName = args.length == 5 ? args[4] : "input.txt";
-    if (!args[3].endsWith(".js")) {
-      console.log("File should be in .js extension");
-    } else if (!inputName.endsWith(".txt")) {
-      console.log("Input file should be in .txt extension");
+if (args.length == 2) {
+  console.log("This is Compe.js - a CLI x Library for competitive programming on Node.js environment.");
+  console.log("Available commands:");
+  console.log("$ compe i <source-file.js> <input-file.txt>: Initialize the source file at source-file.js and the input file at input-file.txt (if input-file is empty then the default is 'input.txt')");
+  console.log("$ compe s <source-file.js>: Save the source file directory as default");
+  console.log("$ compe i s <source-file.js> <input-file.txt>: Initialize the file and then save to config");
+  console.log("$ compe r <source-file.js>: If the config has default source file, source-file can be ignored. Run the source file and build it at source-file-build.js and fully compressed to submit on Online Judges at source-file-comp.js");
+} else {
+  // initialize config
+  try {
+    if (!fs.existsSync(configPath)) {
+      console.log("Creating config file at compe.config.json");
+      fs.writeFileSync(configPath, JSON.stringify({
+        username: process.env.USERNAME
+      }));
+    }
+    if (args[2] == "init" || args[2] == "i") {
+      let sourcePath = null;
+      let inputPath = null;
+      for (let i = 3; i < args.length; i ++) {
+        if (args[i].endsWith(".js")) {
+          sourcePath = args[i];
+        } else if (args[i].endsWith(".txt")) {
+          inputPath = args[i];
+        }
+      }
+      if (!sourcePath) {
+        console.log("No source path identified");
+      } else {
+        const templateData = fs.readFileSync(__dirname + "/../src/template.txt", {encoding:"utf-8"});
+        fs.writeFileSync(sourcePath, templateData.replace(/input.txt/g, inputPath ? inputPath : "input.txt"));
+        console.log("Source code initialized at " + sourcePath);    
+        if (inputPath) {
+          fs.writeFileSync(inputPath, "");
+          console.log("Input file initialized at " + inputPath);
+        } else {
+          fs.writeFileSync("input.txt", "");
+          console.log("Input is taken from the default of input.txt");
+        }
+        let saveSource = false;
+        for (let argsc of args) {
+          if (argsc == "s" || argsc == "save") {
+            saveSource = true;
+          }
+        }
+        if (saveSource && sourcePath) {
+          let configData = JSON.parse(fs.readFileSync(configPath).toString());
+          configData.sourcePath = sourcePath;
+          fs.writeFileSync(configPath, JSON.stringify(configData));
+          console.log("Default source code is set to " + sourcePath);
+        }
+      }
+    } else if (args[2] == "save" || args[2] == "s") {
+      // modify config file
+      let configData = JSON.parse(fs.readFileSync(configPath).toString());
+      for (let i = 3; i < args.length; i ++) {
+        if (args[i].endsWith(".js")) {
+          configData.sourcePath = args[i];
+          console.log("Default source code is set to " + args[i]);
+        } else {
+          console.log(args[i] + " is unidentified");
+        }
+      }
+      fs.writeFileSync(configPath, JSON.stringify(configData));
+    } else if (args[2] == "run" || args[2] == "r") {
+      let sourcePath = null;
+      if (args.length == 3) {
+        let configData = JSON.parse(fs.readFileSync(configPath).toString());
+        if ("sourcePath" in configData) {
+          sourcePath = configData.sourcePath;
+        }
+      } else {
+        for (let i = 3; i < args.length; i ++) {
+          if (args[i].endsWith(".js")) {
+            sourcePath = args[i];
+          }
+        }
+      }
+      if (!sourcePath) {
+        console.log("Doesn't have a file to run. Please check if your source code is typed correctly or saved in the config.");
+      } else {
+        const buildDir = sourcePath.slice(0, sourcePath.length - 3) + "-build.js";
+        const compDir = sourcePath.slice(0, sourcePath.length - 3) + "-comp.js";
+        console.log(`Building the file at ${buildDir}`);
+        let libData = fs.readFileSync(__dirname + "/../src/lib.txt");
+        libData += "\n";
+        let sourceData = fs.readFileSync(sourcePath, {encoding:"utf-8"}).split('\n');
+        let unleaseAdd = false;
+        for (var sourceLine of sourceData) {
+          if (unleaseAdd) {
+            libData += sourceLine;
+            libData += "\n";
+          }
+          if (sourceLine.startsWith(warningString)) {
+            unleaseAdd = true;
+          }
+        }
+        libData += advertisement;
+        fs.writeFileSync(buildDir, libData);
+        executor(`minify ${buildDir} > ${compDir}`, () => {
+          fs.appendFileSync(compDir, advertisement, (err) => {
+            if (err) {
+              throw err;
+            }
+          });
+          executor(`node ${sourcePath}`);
+        });
+      }
+    } else if (args[2] == "clean") {
+      console.log("Reseting config file at compe.config.json");
+      fs.writeFileSync(configPath, JSON.stringify({
+        username: process.env.USERNAME
+      }));
     } else {
-      console.log(`Creating a new template at ${args[3]} with input at ${inputName}`);
-      const templateData = fs.readFileSync(__dirname + "/../src/template.txt", {encoding: "utf-8"});
-      fs.writeFileSync(dirName, templateData.replace(/input.txt/g, inputName));
-      fs.writeFileSync(inputName, "");
+      console.log("Unknown command");
     }
+  } catch (err) {
+    console.log("Something went wrong :(");
+    console.log(err);
   }
-} 
-
-else if (args.length == 4 && args[2] == "build") {
-  let fileName = args[3];
-  if (!fileName.endsWith(".js")) {
-    console.log("Please make sure you are building the right file");
-  } else {
-    try {
-      let buildFileName = fileName.slice(0, fileName.length - 3) + "_build.js";
-      let templateData = fs.readFileSync(__dirname + "/../src/lib.txt", {encoding: 'utf-8'});
-      let fileData = fs.readFileSync(fileName, {encoding: 'utf-8'});
-      let lines = fileData.split("\n");
-      let unlease = false;
-      for (var x of lines) {
-        if (unlease) {
-          templateData += x.replace(/let /g, "var ");
-          templateData += "\n";
-        }
-        if (x.startsWith(warningString)) {
-          unlease = true;
-        }
-      }
-      templateData += "// Generated with compe.js - https://github.com/polarity-cf/compe.js";
-      fs.writeFileSync(buildFileName, templateData);
-    } catch(err) {
-      console.log(err);
-    }
-  }
-}
-
-else if (args.length == 4 && args[2] == "bc") {
-  let fileName = args[3];
-  if (!fileName.endsWith(".js")) {
-    console.log("Please make sure you are building the right file");
-  } else {
-    try {
-      let buildFileName = fileName.slice(0, fileName.length - 3) + "_build.js";
-      let buildCompressFileName = fileName.slice(0, fileName.length - 3) + "_buildcomp.js";
-      let templateData = fs.readFileSync(__dirname + "/../src/lib.txt", {encoding: 'utf-8'});
-      let fileData = fs.readFileSync(fileName, {encoding: 'utf-8'});
-      let lines = fileData.split("\n");
-      let unlease = false;
-      for (var x of lines) {
-        if (unlease) {
-          templateData += x.replace(/let /g, "var ");
-          templateData += "\n";
-        }
-        if (x.startsWith(warningString)) {
-          unlease = true;
-        }
-      }
-      templateData += "// Generated with compe.js - https://github.com/polarity-cf/compe.js";
-      fs.writeFileSync(buildFileName, templateData);
-      var appendDataBack = (bcfn) => {
-        var reData = fs.readFileSync(bcfn, {encoding: 'utf-8'});
-        reData += "\n // Generated with compe.js - https://github.com/polarity-cf/compe.js";
-        fs.writeFileSync(bcfn, reData);
-      };
-      executor("minify " + buildFileName + " > " + buildCompressFileName, appendDataBack, buildCompressFileName);
-    } catch(err) {
-      console.log(err);
-    }
-  }
-}
-
-else if (args.length == 4 && args[2] == "run") {
-  let fileName = args[3];
-  if (!fileName.endsWith(".js")) {
-    console.log("Please make sure you are building the right file");
-  } else {
-    executor("node " + fileName);
-  }
-}
-
-else {
-  console.log("Wrong command. Please visit 'compe help'");
 }
