@@ -1,6 +1,7 @@
 #! /usr/bin/env node
+const { exec } = require("child_process");
 const fs = require('fs');
-const { exec, spawnSync } = require("child_process");
+
 async function executor(script, cb) {
   console.log(`> ${script}`);
   exec(script, (error, stdout, stderr) => {
@@ -147,6 +148,5 @@ async function executor(script, cb) {
 //     console.log(err);
 //   }
 // }
-const pt = "\"" + process.execPath + "\"";
+
 executor("node main.js");
-// console.log(res);
