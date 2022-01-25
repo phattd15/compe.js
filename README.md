@@ -62,5 +62,3 @@ $ compe r <source-file.js>: If the config has default source file, source-file c
 - [cp-algorithms](https://cp-algorithms.com/)
 - [codeforces archive](https://codeforces.com/catalog)
 - This project is inspired by [AtCoder Library](https://codeforces.com/blog/entry/82400).
-# Note
-- Codeforces machine doesn't support `let` keywords so please avoid using it as much as possible even in naming.
