@@ -2,7 +2,7 @@ const {
   proc, Reader,                                 // IO & processor
   toInt, stringArray, intArray,                 // Int & String typecast
   TreeSet, Deque                                // For common data structures
-} = require("./dist");
+} = require("compe");
 // DO NOT EDIT THIS LINE //
 
 function main(rl, wr) {
