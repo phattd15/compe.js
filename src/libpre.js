@@ -98,11 +98,12 @@ function proc(main, inputDir) {
     data = data.split('\n');
 
     var readline = function readline() {
-      return data[lineIndex++];
+      return data[lineIndex];
     };
 
     var write = function write(data) {
-      console.log(data);
+      // console.log(data);
+      process.stdout.write(data);
     };
 
     main(readline, write);
@@ -118,7 +119,8 @@ function proc(main, inputDir) {
       };
 
       var write = function write(data) {
-        console.log(data);
+        // console.log(data);
+        process.stdout.write(data);
       };
 
       main(readline, write);

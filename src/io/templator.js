@@ -16,11 +16,11 @@ export function proc(main, inputDir) {
     var lineIndex = 0;
     data = data.split('\n');
     const readline = function() {
-      return data[lineIndex];
+      return data[lineIndex++];
     };
     const write = function(data) {
       // console.log(data);
-      process.stdout.write(data);
+      process.stdout.write(String(data));
     }
     main(readline, write);
   } else {
@@ -35,7 +35,7 @@ export function proc(main, inputDir) {
       };
       const write = function(data) {
         // console.log(data);
-        process.stdout.write(data);
+        process.stdout.write(String(data));
       };
       main(readline, write);
     });
