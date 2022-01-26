@@ -25,19 +25,24 @@ export function proc(main, inputDir) {
     main(readline, write);
   } else {
     let data = [];
+    var rawData = "";
+    let pendingData = "";
     let lineIndex = 0;
     process.stdin.on('data', (c) => {
-      data.push(c);
+      rawData += c;
     });
     process.stdin.on('end', () => {
+      const {EOL} = require('os');
+      data = rawData.split(EOL);
       const readline = function() {
         return data[lineIndex++];
       };
       const write = function(data) {
         // console.log(data);
-        process.stdout.write(String(data));
+        pendingData += String(data);
       };
       main(readline, write);
+      console.log(pendingData);
     });
   }
 }
