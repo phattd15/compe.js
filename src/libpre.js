@@ -109,21 +109,29 @@ function proc(main, inputDir) {
     main(readline, write);
   } else {
     var _data = [];
+    var rawData = "";
+    var pendingData = "";
     var _lineIndex = 0;
     process.stdin.on('data', function (c) {
-      _data.push(c);
+      rawData += c;
     });
     process.stdin.on('end', function () {
+      var _require = require('os'),
+          EOL = _require.EOL;
+
+      _data = rawData.split(EOL);
+
       var readline = function readline() {
         return _data[_lineIndex++];
       };
 
       var write = function write(data) {
         // console.log(data);
-        process.stdout.write(String(data));
+        pendingData += String(data);
       };
 
       main(readline, write);
+      console.log(pendingData);
     });
   }
 }
