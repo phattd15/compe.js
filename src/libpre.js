@@ -3777,3 +3777,35 @@ var Deque = /*#__PURE__*/function (_Symbol$iterator) {
 
   return Deque;
 }(Symbol.iterator);
+
+/**
+ * @param value Cell value
+ * @param args Dimension of the array
+ * @returns The multidimensional array
+ */
+var multiArray = function multiArray(value) {
+  if ((arguments.length <= 1 ? 0 : arguments.length - 1) == 0) {
+    throw new Error('Please insert dimension values');
+  } else if ((arguments.length <= 1 ? 0 : arguments.length - 1) >= 1) {
+    var arr = [value, []];
+    var cur = 0,
+        nxt = 1;
+
+    for (var i = (arguments.length <= 1 ? 0 : arguments.length - 1) - 1; i >= 0; i--) {
+      if (!Number.isInteger(i + 1 < 1 || arguments.length <= i + 1 ? undefined : arguments[i + 1])) {
+        throw new Error('Please pass integer arguments for array size');
+      }
+
+      arr[nxt] = [];
+
+      for (var j = 0; j < (i + 1 < 1 || arguments.length <= i + 1 ? undefined : arguments[i + 1]); j++) {
+        arr[nxt].push(arr[cur]);
+      }
+
+      cur = 1 - cur;
+      nxt = 1 - nxt;
+    }
+
+    return arr[cur];
+  }
+};
