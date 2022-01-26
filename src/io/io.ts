@@ -24,7 +24,10 @@ const stringArray = (input: string) => {
  * @returns [integers]
  */
 const intArray = (input: string) => {
-  return input.trim().split(/\s+/).map(x => toInt(x));
+  return input
+    .trim()
+    .split(/\s+/)
+    .map(x => toInt(x));
 };
 /**
  * IO object for read and write
