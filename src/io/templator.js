@@ -16,7 +16,7 @@ export function proc(main, inputDir) {
     var lineIndex = 0;
     data = data.split('\n');
     const readline = function() {
-      return data[lineIndex];
+      return data[lineIndex++];
     };
     const write = function(data) {
       console.log(data);
