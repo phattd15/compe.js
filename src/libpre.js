@@ -3462,14 +3462,19 @@ var Deque = /*#__PURE__*/function (_Symbol$iterator) {
     return this;
   };
 
-  _proto.extendLeft = function extendLeft(values) {
+  _proto.extendFront = function extendFront(values) {
     for (var _iterator2 = _createForOfIteratorHelperLoose$1(values), _step2; !(_step2 = _iterator2()).done;) {
       var value = _step2.value;
-      this.pushLeft(value);
+      this.pushFront(value);
     }
 
     return this;
-  };
+  }
+  /**
+   *
+   * @returns Element at the front
+   */
+  ;
 
   _proto._resize = function _resize(size, length) {
     var head = this.head,
@@ -3511,7 +3516,7 @@ var Deque = /*#__PURE__*/function (_Symbol$iterator) {
    */
   ;
 
-  _proto.pushLeft = function pushLeft(value) {
+  _proto.pushFront = function pushFront(value) {
     this.head = this.head - 1 & this.mask;
     this.list[this.head] = value;
     if (this.head === this.tail) this._resize(this.list.length, this.list.length << 1);
@@ -3636,7 +3641,7 @@ var Deque = /*#__PURE__*/function (_Symbol$iterator) {
    */
   ;
 
-  _proto.popLeft = function popLeft() {
+  _proto.popFront = function popFront() {
     if (this.head === this.tail) throw new RangeError('pop from an empty deque');
     var value = this.list[this.head];
     this.list[this.head] = undefined;
@@ -3769,6 +3774,21 @@ var Deque = /*#__PURE__*/function (_Symbol$iterator) {
   };
 
   _createClass$1(Deque, [{
+    key: "front",
+    get: function get() {
+      if (this.size) return this.list[this.head];else throw new RangeError('deque index out of range');
+    }
+    /**
+     *
+     * @returns Element at the back
+     */
+
+  }, {
+    key: "back",
+    get: function get() {
+      if (this.size) return this.list[this.tail - 1 & this.mask];else throw new RangeError('deque index out of range');
+    }
+  }, {
     key: "size",
     get: function get() {
       return this.tail - this.head & this.mask;
@@ -3787,25 +3807,133 @@ var multiArray = function multiArray(value) {
   if ((arguments.length <= 1 ? 0 : arguments.length - 1) == 0) {
     throw new Error('Please insert dimension values');
   } else if ((arguments.length <= 1 ? 0 : arguments.length - 1) >= 1) {
+    var _ref;
+
+    if (typeof value == 'object') {
+      throw new Error('The value can not be object');
+    }
+
     var arr = [value, []];
     var cur = 0,
         nxt = 1;
+    arr[0] = new Array((_ref = (arguments.length <= 1 ? 0 : arguments.length - 1) - 1 + 1, _ref < 1 || arguments.length <= _ref ? undefined : arguments[_ref]));
 
-    for (var i = (arguments.length <= 1 ? 0 : arguments.length - 1) - 1; i >= 0; i--) {
-      if (!Number.isInteger(i + 1 < 1 || arguments.length <= i + 1 ? undefined : arguments[i + 1])) {
+    for (var i = 0; i < arr[0].length; i++) {
+      arr[0][i] = value;
+    } // console.log(arr[0]);
+
+
+    for (var _i = (arguments.length <= 1 ? 0 : arguments.length - 1) - 2; _i >= 0; _i--) {
+      if (!Number.isInteger(_i + 1 < 1 || arguments.length <= _i + 1 ? undefined : arguments[_i + 1])) {
         throw new Error('Please pass integer arguments for array size');
       }
 
-      arr[nxt] = [];
+      arr[nxt] = new Array(_i + 1 < 1 || arguments.length <= _i + 1 ? undefined : arguments[_i + 1]);
 
-      for (var j = 0; j < (i + 1 < 1 || arguments.length <= i + 1 ? undefined : arguments[i + 1]); j++) {
-        arr[nxt].push(arr[cur]);
+      for (var j = 0; j < (_i + 1 < 1 || arguments.length <= _i + 1 ? undefined : arguments[_i + 1]); j++) {
+        arr[nxt][j] = arr[cur].slice();
       }
 
-      cur = 1 - cur;
-      nxt = 1 - nxt;
+      var _ref2 = [nxt, cur];
+      cur = _ref2[0];
+      nxt = _ref2[1];
     }
 
     return arr[cur];
+  }
+};
+/**
+ * Return an array of arrays
+ * @param size
+ * @returns
+ */
+
+
+var vectorArray = function vectorArray(size) {
+  var arr = new Array(size);
+
+  for (var i = 0; i < size; i++) {
+    arr[i] = [];
+  }
+
+  return arr;
+};
+
+/**
+ * Graph class, with:
+ *    g as adjacency list
+ *    vis as visited state
+ *    par as parent list
+ */
+
+var Graph = /*#__PURE__*/function () {
+  function Graph(vertices) {
+    this.g = vectorArray(vertices + 1);
+    this.vis = multiArray(false, vertices + 1);
+    this.par = multiArray(false, vertices + 1);
+  }
+  /**
+   * Add one way edge
+   * @param from
+   * @param to
+   * @param prop Object of properties of the edge, such as {weight}
+   */
+
+
+  var _proto = Graph.prototype;
+
+  _proto.addEdge = function addEdge(from, to, prop) {
+    this.g[from].push({
+      to: to,
+      prop: prop
+    });
+  }
+  /**
+   * Add two way edge
+   * @param from
+   * @param to
+   * @param prop Object of properties of the edge, such as {weight}
+   */
+  ;
+
+  _proto.addBiEdge = function addBiEdge(from, to, prop) {
+    this.addEdge(from, to, prop);
+    this.addEdge(to, from, prop);
+  };
+
+  return Graph;
+}();
+
+/**
+ * Process the DFS on the graph
+ * @param graph
+ * @param source Source node
+ * @param preFn The function to process before propagating from the node
+ * @param postFn The function to process after propagating from the node
+ */
+
+var dfs = function dfs(graph, source, preFn, postFn) {
+  var stack = new Deque();
+  stack.push(source);
+
+  while (stack.size) {
+    var u = stack.back;
+
+    if (!graph.vis[u]) {
+      graph.vis[u] = true;
+      preFn(u, graph);
+
+      for (var _iterator = _createForOfIteratorHelperLoose$1(graph.g[u]), _step; !(_step = _iterator()).done;) {
+        var edge = _step.value;
+
+        if (!graph.vis[edge.to]) {
+          graph.par[edge.to] = u;
+          stack.push(edge.to);
+        }
+      }
+    } else {
+      postFn(u, graph);
+      stack.pop();
+    }
   }
 };
