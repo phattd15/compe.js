@@ -14,35 +14,6 @@ npm i -g compe minify
 ```
 You can add the prefix `npx` after every command as an alternative where you want to avoid installing global package.
 Enable intellisense to get the best experience.
-# Getting your first AC
-Make a txt (by default from template, it is "input.txt") file in the same directory with the one you want to run for stdin.
-The `main` function takes in `rd` and `wr` as a function to read and write.
-Sample code for printing sum of an array at `demo.js`:
-```
-const {
-  proc, Reader,                                 // IO & processor
-  toInt, stringArray, intArray,                 // Int & String typecast
-  TreeSet, Deque,                               // For common data structures
-} = require("compe");
-// DO NOT EDIT THIS LINE //
-
-function main(rl, wr) {
-  var rd = new Reader(rl);
-  // write your code here
-
-  var x = rd.readArray();
-  var sum = 0;
-  for (var y of x) {
-    sum += y;
-  }
-  wr(sum);
-}
-
-proc(main, "input.txt");
-```
-# Documentation
-- This project uses TSTL's TreeSet where their documentation is [here](https://samchon.github.io/tstl/api/classes/std.treeset.html).
-- To Be Updated...
 # Compe commands
 Add `npx` prefix incase you don't have CLIs installed.
 ```
@@ -51,6 +22,40 @@ $ compe s <source-file.js>: Save the source file directory as default
 $ compe i s <source-file.js> <input-file.txt>: Initialize the file and then save to config
 $ compe r <source-file.js>: If the config has default source file, source-file can be ignored. Run the source file and build it at source-file-build.js and fully compressed to submit on Online Judges at source-file-comp.js
 ```
+# Getting your first AC
+Make a txt (by default from template, it is "input.txt") file in the same directory with the one you want to run for stdin.
+The `main` function takes in `rd` and `wr` as a function to read and write.
+Sample code for printing sum of an array at `demo.js` after init:
+```
+const {
+  proc, Reader,                       // IO & processor
+  multiArray, vectorArray,            // Fast array generators
+  TreeSet, Deque,                     // For common data structures
+  Graph, dfs                          // Graph algorithms
+} = require("compe");
+// DO NOT EDIT THIS LINE //
+
+function main(rl, wr) {
+  let rd = new Reader(rl);
+  // write your code here
+  
+  var x = rd.readArray();
+  var sum = 0;
+  for (var y of x) {
+    sum += y;
+  }
+  wr(sum);
+}
+
+try {
+  proc(main, "input.txt");
+} catch(err) {
+  console.log(err);
+}
+```
+# Documentation
+- This project uses TSTL's TreeSet where their documentation is [here](https://samchon.github.io/tstl/api/classes/std.treeset.html).
+- To Be Updated...
 # Platforms supported
 - Leetcode
 - Codeforces
