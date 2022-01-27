@@ -19,7 +19,7 @@ class Deque<T> {
   }
 
   /**
-   * 
+   *
    * @returns Element at the front
    */
   get front(): any {
@@ -27,7 +27,7 @@ class Deque<T> {
     else throw new RangeError('deque index out of range');
   }
   /**
-   * 
+   *
    * @returns Element at the back
    */
   get back(): any {

@@ -14,7 +14,7 @@ const multiArray = (value: any, ...args: number[]) => {
     let cur = 0,
       nxt = 1;
     arr[0] = new Array(args[args.length - 1]);
-    for (let i = 0; i < arr[0].length; i ++) arr[0][i] = value;
+    for (let i = 0; i < arr[0].length; i++) arr[0][i] = value;
     // console.log(arr[0]);
     for (let i = args.length - 2; i >= 0; i--) {
       if (!Number.isInteger(args[i])) {
@@ -32,15 +32,15 @@ const multiArray = (value: any, ...args: number[]) => {
 
 /**
  * Return an array of arrays
- * @param size 
- * @returns 
+ * @param size
+ * @returns
  */
 const vectorArray = (size: number) => {
   let arr = new Array(size);
-  for (let i = 0; i < size; i ++) {
-    arr[i] = new Array();
+  for (let i = 0; i < size; i++) {
+    arr[i] = [];
   }
   return arr;
-}
+};
 
 export { multiArray, vectorArray };

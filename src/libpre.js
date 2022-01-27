@@ -3853,11 +3853,18 @@ var vectorArray = function vectorArray(size) {
   var arr = new Array(size);
 
   for (var i = 0; i < size; i++) {
-    arr[i] = new Array();
+    arr[i] = [];
   }
 
   return arr;
 };
+
+/**
+ * Graph class, with:
+ *    g as adjacency list
+ *    vis as visited state
+ *    par as parent list
+ */
 
 var Graph = /*#__PURE__*/function () {
   function Graph(vertices) {
@@ -3865,6 +3872,13 @@ var Graph = /*#__PURE__*/function () {
     this.vis = multiArray(false, vertices + 1);
     this.par = multiArray(false, vertices + 1);
   }
+  /**
+   * Add one way edge
+   * @param from
+   * @param to
+   * @param prop Object of properties of the edge, such as {weight}
+   */
+
 
   var _proto = Graph.prototype;
 
@@ -3873,7 +3887,14 @@ var Graph = /*#__PURE__*/function () {
       to: to,
       prop: prop
     });
-  };
+  }
+  /**
+   * Add two way edge
+   * @param from
+   * @param to
+   * @param prop Object of properties of the edge, such as {weight}
+   */
+  ;
 
   _proto.addBiEdge = function addBiEdge(from, to, prop) {
     this.addEdge(from, to, prop);
@@ -3882,6 +3903,14 @@ var Graph = /*#__PURE__*/function () {
 
   return Graph;
 }();
+
+/**
+ * Process the DFS on the graph
+ * @param graph
+ * @param source Source node
+ * @param preFn The function to process before propagating from the node
+ * @param postFn The function to process after propagating from the node
+ */
 
 var dfs = function dfs(graph, source, preFn, postFn) {
   var stack = new Deque();

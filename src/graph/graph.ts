@@ -1,4 +1,4 @@
-import { multiArray, vectorArray } from "../util/array";
+import { multiArray, vectorArray } from '../util/array';
 
 /**
  * Graph class, with:
@@ -17,8 +17,8 @@ class Graph {
   }
   /**
    * Add one way edge
-   * @param from 
-   * @param to 
+   * @param from
+   * @param to
    * @param prop Object of properties of the edge, such as {weight}
    */
   addEdge(from: number, to: number, prop?: any) {
@@ -26,8 +26,8 @@ class Graph {
   }
   /**
    * Add two way edge
-   * @param from 
-   * @param to 
+   * @param from
+   * @param to
    * @param prop Object of properties of the edge, such as {weight}
    */
   addBiEdge(from: number, to: number, prop?: any) {
