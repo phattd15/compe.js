@@ -13,9 +13,26 @@ class Deque<T> {
     return this;
   }
 
-  extendLeft(values: Iterable<T>) {
-    for (const value of values) this.pushLeft(value);
+  extendFront(values: Iterable<T>) {
+    for (const value of values) this.pushFront(value);
     return this;
+  }
+
+  /**
+   * 
+   * @returns Element at the front
+   */
+  get front(): any {
+    if (this.size) return this.list[this.head] as T;
+    else throw new RangeError('deque index out of range');
+  }
+  /**
+   * 
+   * @returns Element at the back
+   */
+  get back(): any {
+    if (this.size) return this.list[(this.tail - 1) & this.mask] as T;
+    else throw new RangeError('deque index out of range');
   }
 
   private _resize(size: number, length: number) {
@@ -52,7 +69,7 @@ class Deque<T> {
    * @param value
    * @returns
    */
-  pushLeft(value: T): this {
+  pushFront(value: T): this {
     this.head = (this.head - 1) & this.mask;
     this.list[this.head] = value;
     if (this.head === this.tail)
@@ -70,7 +87,7 @@ class Deque<T> {
    * @param index
    * @returns The value at index
    */
-  at(index: number) {
+  at(index: number): any {
     const { head, size, tail, list } = this;
 
     if ((index | 0) !== index || index >= size || index < -size) {
@@ -86,7 +103,7 @@ class Deque<T> {
    * @param start The index to start searching
    * @returns Index of the value to search
    */
-  indexOf(needle: T, start = 0) {
+  indexOf(needle: T, start = 0): number {
     const { head, list, size, mask } = this;
     const offset = start >= 0 ? start : start < -size ? 0 : size + start;
 
@@ -101,7 +118,7 @@ class Deque<T> {
    * @param needle
    * @returns Check if the deque has the value
    */
-  has(needle: T) {
+  has(needle: T): boolean {
     const { head, list, size, mask } = this;
 
     for (let i = 0; i < size; i++) {
@@ -145,7 +162,7 @@ class Deque<T> {
    * Pop back / right
    * @returns The rightmost element
    */
-  pop() {
+  pop(): any {
     if (this.head === this.tail)
       throw new RangeError('pop from an empty deque');
 
@@ -160,7 +177,7 @@ class Deque<T> {
    * Pop front / left
    * @returns The leftmost element
    */
-  popLeft() {
+  popFront(): any {
     if (this.head === this.tail)
       throw new RangeError('pop from an empty deque');
 
