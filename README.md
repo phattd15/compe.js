@@ -31,7 +31,7 @@ const {
   proc, Reader,                       // IO & processor
   multiArray, vectorArray,            // Fast array generators
   TreeSet, Deque, DisjointSetUnion,   // For common data structures
-  Graph, dfs, bfs,                    
+  Graph, dfs, bfs, 
 	minimumSpanningTree									// Graph algorithms
 } = require("compe");
 // DO NOT EDIT THIS LINE //
