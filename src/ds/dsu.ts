@@ -6,8 +6,8 @@ class DisjointSetUnion {
     this.p = multiArray(-1, size + 1);
   }
   /**
-   * 
-   * @param current 
+   *
+   * @param current
    * @returns The index of the leader of that current node's group
    */
   group(current: number): number {
@@ -19,9 +19,9 @@ class DisjointSetUnion {
     }
   }
   /**
-   * 
-   * @param a 
-   * @param b 
+   *
+   * @param a
+   * @param b
    * @returns If node a and b successfully joined into the same group
    */
   join(a: number, b: number): boolean {
@@ -38,8 +38,8 @@ class DisjointSetUnion {
     return true;
   }
   /**
-   * 
-   * @param current 
+   *
+   * @param current
    * @returns The size of the current node's group
    */
   size(current: number): number {
@@ -48,4 +48,4 @@ class DisjointSetUnion {
   }
 }
 
-export {DisjointSetUnion};
+export { DisjointSetUnion };

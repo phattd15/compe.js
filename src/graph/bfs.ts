@@ -9,11 +9,7 @@ type preVisit = (current: number, graph: Graph) => void;
  * @param any Source node / array of source nodes
  * @param preFn The function to process before propagating from the node
  */
-const bfs = (
-  graph: Graph,
-  source: any,
-  preFn: preVisit,
-): void => {
+const bfs = (graph: Graph, source: any, preFn: preVisit): void => {
   let stack = new Deque();
   stack.push(source);
   if (Array.isArray(source)) {
