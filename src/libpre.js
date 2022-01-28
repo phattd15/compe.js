@@ -3911,6 +3911,96 @@ var DisjointSetUnion = /*#__PURE__*/function () {
   return DisjointSetUnion;
 }();
 
+var PriorityQueue = /*#__PURE__*/function () {
+  function PriorityQueue(comparator) {
+    if (comparator) {
+      this.comparator = comparator;
+    } else {
+      this.comparator = function (a, b) {
+        return a < b;
+      };
+    }
+
+    this.elem = [];
+  }
+
+  var _proto = PriorityQueue.prototype;
+
+  _proto.swap = function swap(indexLeft, indexRight) {
+    var _ref = [this.elem[indexRight], this.elem[indexLeft]];
+    this.elem[indexLeft] = _ref[0];
+    this.elem[indexRight] = _ref[1];
+  };
+
+  _proto.push = function push(newElem) {
+    var current = this.elem.push(newElem) - 1;
+    var parent = 0;
+
+    while (current > 0) {
+      parent = current >> 1;
+
+      if (this.comparator(this.elem[current], this.elem[parent])) {
+        break;
+      }
+
+      this.swap(current, parent);
+      current = parent;
+    }
+
+    return;
+  };
+
+  _proto.pop = function pop() {
+    var first = this.top;
+    var last = this.elem.pop();
+    var size = this.size;
+    if (size == 0) return first;
+    this.elem[0] = last;
+    var current = 0;
+    var largest = 0,
+        left = 0,
+        right = 0;
+
+    while (current < size) {
+      largest = current;
+      left = (current << 1) + 1;
+      right = (current << 1) + 2;
+
+      if (left < size && !this.comparator(this.elem[left], this.elem[largest])) {
+        largest = left;
+      }
+
+      if (right < size && !this.comparator(this.elem[right], this.elem[largest])) {
+        largest = right;
+      }
+
+      if (largest == current) break;
+      this.swap(largest, current);
+      current = largest;
+    }
+
+    return first;
+  };
+
+  _createClass$1(PriorityQueue, [{
+    key: "size",
+    get: function get() {
+      return this.elem.length;
+    }
+  }, {
+    key: "top",
+    get: function get() {
+      if (this.elem.length == 0) {
+        throw new Error('PriorityQueue is empty');
+      } else {
+        return this.elem[0];
+      }
+    }
+  }]);
+
+  return PriorityQueue;
+}();
+
 /**
  * Graph class, with:
  *    g as adjacency list
