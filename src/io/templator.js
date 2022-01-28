@@ -18,9 +18,10 @@ export function proc(main, inputDir) {
     const readline = function() {
       return data[lineIndex++];
     };
-    const write = function(data) {
+    const write = function(...args) {
       // console.log(data);
-      process.stdout.write(String(data));
+      for (let data of args)
+        process.stdout.write(String(data));
     }
     main(readline, write);
   } else {
@@ -37,9 +38,11 @@ export function proc(main, inputDir) {
       const readline = function() {
         return data[lineIndex++];
       };
-      const write = function(data) {
+      const write = function(...args) {
         // console.log(data);
-        pendingData += String(data);
+        for (let data of args) {
+          pendingData += String(data);
+        }
       };
       main(readline, write);
       console.log(pendingData);

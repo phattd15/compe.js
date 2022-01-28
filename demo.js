@@ -4,6 +4,7 @@ const {
   TreeSet, Deque, DisjointSetUnion,       // Data structures
   Graph, dfs, bfs, minimumSpanningTree    // Graph Algorithms
 } = require('./dist');
+// DO NOT EDIT THIS LINE //
 
 function main(rl, wr) {
   let rd = new Reader(rl);

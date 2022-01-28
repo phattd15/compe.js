@@ -9,4 +9,4 @@ export * from './graph/graph';
 export * from './graph/dfs';
 export * from './graph/bfs';
 export * from './graph/mst';
-
+export * from './graph/dijkstra';

@@ -28,12 +28,12 @@ The `main` function takes in `rd` and `wr` as a function to read and write.
 Sample code for printing sum of an array at `demo.js` after init:
 ```
 const {
-  Reader, proc,                           // IO & Processor
-  multiArray, vectorArray,                // Fast array generators
-  TreeSet, Deque, DisjointSetUnion,       // Data structures
-  Graph, dfs, bfs, minimumSpanningTree    // Graph Algorithms
-} = require('./dist');
-
+  Reader, proc,                                     // IO & Processor
+  multiArray, vectorArray,                          // Fast array generators
+  TreeSet, Deque, DisjointSetUnion, PriorityQueue,  // Data structures
+  Graph, dfs, bfs, minimumSpanningTree, dijkstra    // Graph Algorithms
+} = require('compe');
+// DO NOT EDIT THIS LINE //
 function main(rl, wr) {
   let rd = new Reader(rl);
   // write your code from here
@@ -44,7 +44,6 @@ function main(rl, wr) {
   }
   wr(y);
 }
-
 proc(main, 'input.txt');
 ```
 # Documentation

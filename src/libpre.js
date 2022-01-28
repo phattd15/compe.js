@@ -91,14 +91,21 @@ function proc(main, inputDir) {
       return data[lineIndex++];
     };
 
-    var write = function write(data) {
+    var write = function write() {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
       // console.log(data);
-      process.stdout.write(String(data));
+      for (var _i = 0, _args = args; _i < _args.length; _i++) {
+        var _data = _args[_i];
+        process.stdout.write(String(_data));
+      }
     };
 
     main(readline, write);
   } else {
-    var _data = [];
+    var _data2 = [];
     var rawData = "";
     var pendingData = "";
     var _lineIndex = 0;
@@ -109,15 +116,22 @@ function proc(main, inputDir) {
       var _require = require('os'),
           EOL = _require.EOL;
 
-      _data = rawData.split(EOL);
+      _data2 = rawData.split(EOL);
 
       var readline = function readline() {
-        return _data[_lineIndex++];
+        return _data2[_lineIndex++];
       };
 
-      var write = function write(data) {
+      var write = function write() {
+        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
         // console.log(data);
-        pendingData += String(data);
+        for (var _i2 = 0, _args2 = args; _i2 < _args2.length; _i2++) {
+          var _data3 = _args2[_i2];
+          pendingData += String(_data3);
+        }
       };
 
       main(readline, write);
@@ -3912,6 +3926,10 @@ var DisjointSetUnion = /*#__PURE__*/function () {
 }();
 
 var PriorityQueue = /*#__PURE__*/function () {
+  /**
+   *
+   * @param comparator The comparator between 2 elements that return true if the left one will be smaller than the right one. By default it is A < B, resulting in a PQ returning biggest element.
+   */
   function PriorityQueue(comparator) {
     if (comparator) {
       this.comparator = comparator;
@@ -3923,6 +3941,10 @@ var PriorityQueue = /*#__PURE__*/function () {
 
     this.elem = [];
   }
+  /**
+   * @returns Size of the PriorityQueue.
+   */
+
 
   var _proto = PriorityQueue.prototype;
 
@@ -3930,7 +3952,13 @@ var PriorityQueue = /*#__PURE__*/function () {
     var _ref = [this.elem[indexRight], this.elem[indexLeft]];
     this.elem[indexLeft] = _ref[0];
     this.elem[indexRight] = _ref[1];
-  };
+  }
+  /**
+   *
+   * @param newElem
+   * @returns Push the new element to the PriorityQueue
+   */
+  ;
 
   _proto.push = function push(newElem) {
     var current = this.elem.push(newElem) - 1;
@@ -3948,7 +3976,12 @@ var PriorityQueue = /*#__PURE__*/function () {
     }
 
     return;
-  };
+  }
+  /**
+   * Remove the highest element from the data structure.
+   * @returns The highest element
+   */
+  ;
 
   _proto.pop = function pop() {
     var first = this.top;
@@ -3987,6 +4020,10 @@ var PriorityQueue = /*#__PURE__*/function () {
     get: function get() {
       return this.elem.length;
     }
+    /**
+     * Return the biggest element.
+     */
+
   }, {
     key: "top",
     get: function get() {
@@ -4012,7 +4049,7 @@ var Graph = /*#__PURE__*/function () {
   function Graph(vertices) {
     this.g = vectorArray(vertices + 1);
     this.vis = multiArray(false, vertices + 1);
-    this.par = multiArray(false, vertices + 1);
+    this.par = multiArray(-1, vertices + 1);
   }
   /**
    * Add one way edge
@@ -4041,6 +4078,15 @@ var Graph = /*#__PURE__*/function () {
   _proto.addBiEdge = function addBiEdge(from, to, prop) {
     this.addEdge(from, to, prop);
     this.addEdge(to, from, prop);
+  }
+  /**
+   * Reset visit state and parent state of the graph
+   */
+  ;
+
+  _proto.reset = function reset() {
+    this.vis = multiArray(false, this.g.length);
+    this.par = multiArray(-1, this.g.length);
   };
 
   return Graph;
@@ -4154,5 +4200,57 @@ var minimumSpanningTree = function minimumSpanningTree(graph) {
   return {
     mst: mst,
     mstEdges: mstEdges
+  };
+};
+
+var dijkstra = function dijkstra(graph, source) {
+  graph.reset();
+  var pq = new PriorityQueue(function (a, b) {
+    return a.dist > b.dist;
+  });
+  var INF = Number.MAX_SAFE_INTEGER;
+  var d = multiArray(INF, graph.g.length);
+
+  if (Array.isArray(source)) {
+    for (var _iterator = _createForOfIteratorHelperLoose$1(source), _step; !(_step = _iterator()).done;) {
+      var node = _step.value;
+      pq.push({
+        node: node,
+        dist: 0
+      });
+      d[node] = 0;
+    }
+  } else {
+    pq.push({
+      node: source,
+      dist: 0
+    });
+    d[source] = 0;
+  }
+
+  while (pq.size) {
+    var u = pq.pop();
+
+    if (d[u.node] !== u.dist) {
+      continue;
+    }
+
+    for (var _iterator2 = _createForOfIteratorHelperLoose$1(graph.g[u.node]), _step2; !(_step2 = _iterator2()).done;) {
+      var next = _step2.value;
+
+      if (d[next.to] > d[u.node] + next.prop.weight) {
+        d[next.to] = d[u.node] + next.prop.weight;
+        graph.par[next.to] = u.node;
+        pq.push({
+          node: next.to,
+          dist: d[next.to]
+        });
+      }
+    }
+  }
+
+  return {
+    parArray: graph.par,
+    distArray: d
   };
 };
