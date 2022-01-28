@@ -2,7 +2,7 @@ const {
   proc, Reader,                       // IO & processor
   multiArray, vectorArray,            // Fast array generators
   TreeSet, Deque,                     // For common data structures
-  Graph, dfs                          // Graph algorithms
+  Graph, dfs, bfs                     // Graph algorithms
 } = require("compe");
 // DO NOT EDIT THIS LINE //
 
@@ -18,8 +18,4 @@ function main(rl, wr) {
   wr(sum);
 }
 
-try {
-  proc(main, "input.txt");
-} catch(err) {
-  console.log(err);
-}
+proc(main, "input.txt");
