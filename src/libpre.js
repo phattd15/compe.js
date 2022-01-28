@@ -1,7 +1,3 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
 /**
  * @description Parse the string into integer
  * @param input
@@ -2510,7 +2506,7 @@ var UniqueSetTree = /*#__PURE__*/function (_SetTree) {
  */
 
 
-exports.TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
+const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
   _inheritsLoose(TreeSet, _UniqueTreeSet);
 
   function TreeSet() {
@@ -2617,7 +2613,7 @@ exports.TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
   // BODY
   TreeSet.Iterator = SetElementList.Iterator;
   TreeSet.ReverseIterator = SetElementList.ReverseIterator;
-})(exports.TreeSet || (exports.TreeSet = {}));
+})(TreeSet || (TreeSet = {}));
 
 function _defineProperties$1(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -3853,6 +3849,68 @@ var vectorArray = function vectorArray(size) {
   return arr;
 };
 
+var DisjointSetUnion = /*#__PURE__*/function () {
+  function DisjointSetUnion(size) {
+    this.p = multiArray(-1, size + 1);
+  }
+  /**
+   *
+   * @param current
+   * @returns The index of the leader of that current node's group
+   */
+
+
+  var _proto = DisjointSetUnion.prototype;
+
+  _proto.group = function group(current) {
+    if (this.p[current] < 0) {
+      return current;
+    } else {
+      this.p[current] = this.group(this.p[current]);
+      return this.p[current];
+    }
+  }
+  /**
+   *
+   * @param a
+   * @param b
+   * @returns If node a and b successfully joined into the same group
+   */
+  ;
+
+  _proto.join = function join(a, b) {
+    a = this.group(a);
+    b = this.group(b);
+
+    if (a == b) {
+      return false;
+    }
+
+    if (this.p[a] > this.p[b]) {
+      var _ref = [b, a];
+      a = _ref[0];
+      b = _ref[1];
+    }
+
+    this.p[a] += this.p[b];
+    this.p[b] = a;
+    return true;
+  }
+  /**
+   *
+   * @param current
+   * @returns The size of the current node's group
+   */
+  ;
+
+  _proto.size = function size(current) {
+    current = this.group(current);
+    return -this.p[current];
+  };
+
+  return DisjointSetUnion;
+}();
+
 /**
  * Graph class, with:
  *    g as adjacency list
@@ -3970,12 +4028,41 @@ var bfs = function bfs(graph, source, preFn) {
   }
 };
 
-exports.Deque = Deque;
-exports.Graph = Graph;
-exports.Reader = Reader;
-exports.bfs = bfs;
-exports.dfs = dfs;
-exports.multiArray = multiArray;
-exports.proc = proc;
-exports.vectorArray = vectorArray;
-//# sourceMappingURL=compe.cjs.development.js.map
+var minimumSpanningTree = function minimumSpanningTree(graph) {
+  var mst = 0;
+  var edges = [];
+  var mstEdges = [];
+
+  for (var i = 0; i < graph.g.length; i++) {
+    for (var _iterator = _createForOfIteratorHelperLoose$1(graph.g[i]), _step; !(_step = _iterator()).done;) {
+      var edge = _step.value;
+
+      if (i < edge.to) {
+        edges.push({
+          from: i,
+          to: edge.to,
+          weight: edge.prop.weight
+        });
+      }
+    }
+  }
+
+  var dsu = new DisjointSetUnion(graph.g.length);
+  edges.sort(function (edgeA, edgeB) {
+    return edgeA.weight - edgeB.weight;
+  });
+
+  for (var _i = 0, _edges = edges; _i < _edges.length; _i++) {
+    var _edge = _edges[_i];
+
+    if (dsu.join(_edge.from, _edge.to)) {
+      mst += _edge.weight;
+      mstEdges.push(_edge);
+    }
+  }
+
+  return {
+    mst: mst,
+    mstEdges: mstEdges
+  };
+};
