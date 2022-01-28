@@ -13,16 +13,6 @@ var toInt = function toInt(input) {
   return res;
 };
 /**
- * @description Parse the string into array of strings
- * @param input
- * @returns [string]
- */
-
-
-var stringArray = function stringArray(input) {
-  return input.trim().split(/\s+/);
-};
-/**
  * @description Parse the string into array of integers
  * @param input
  * @returns [integers]
@@ -3859,6 +3849,68 @@ var vectorArray = function vectorArray(size) {
   return arr;
 };
 
+var DisjointSetUnion = /*#__PURE__*/function () {
+  function DisjointSetUnion(size) {
+    this.p = multiArray(-1, size + 1);
+  }
+  /**
+   *
+   * @param current
+   * @returns The index of the leader of that current node's group
+   */
+
+
+  var _proto = DisjointSetUnion.prototype;
+
+  _proto.group = function group(current) {
+    if (this.p[current] < 0) {
+      return current;
+    } else {
+      this.p[current] = this.group(this.p[current]);
+      return this.p[current];
+    }
+  }
+  /**
+   *
+   * @param a
+   * @param b
+   * @returns If node a and b successfully joined into the same group
+   */
+  ;
+
+  _proto.join = function join(a, b) {
+    a = this.group(a);
+    b = this.group(b);
+
+    if (a == b) {
+      return false;
+    }
+
+    if (this.p[a] > this.p[b]) {
+      var _ref = [b, a];
+      a = _ref[0];
+      b = _ref[1];
+    }
+
+    this.p[a] += this.p[b];
+    this.p[b] = a;
+    return true;
+  }
+  /**
+   *
+   * @param current
+   * @returns The size of the current node's group
+   */
+  ;
+
+  _proto.size = function size(current) {
+    current = this.group(current);
+    return -this.p[current];
+  };
+
+  return DisjointSetUnion;
+}();
+
 /**
  * Graph class, with:
  *    g as adjacency list
@@ -3936,4 +3988,81 @@ var dfs = function dfs(graph, source, preFn, postFn) {
       stack.pop();
     }
   }
+};
+
+/**
+ * Process the BFS on the graph
+ * @param graph
+ * @param any Source node / array of source nodes
+ * @param preFn The function to process before propagating from the node
+ */
+
+var bfs = function bfs(graph, source, preFn) {
+  var stack = new Deque();
+  stack.push(source);
+
+  if (Array.isArray(source)) {
+    for (var _iterator = _createForOfIteratorHelperLoose$1(source), _step; !(_step = _iterator()).done;) {
+      var node = _step.value;
+      graph.vis[node] = true;
+      stack.push(node);
+    }
+  } else {
+    graph.vis[source] = true;
+    stack.push(source);
+  }
+
+  while (stack.size) {
+    var u = stack.pop();
+    preFn(u, graph);
+
+    for (var _iterator2 = _createForOfIteratorHelperLoose$1(graph.g[u]), _step2; !(_step2 = _iterator2()).done;) {
+      var edge = _step2.value;
+
+      if (!graph.vis[edge.to]) {
+        graph.par[edge.to] = u;
+        stack.push(edge.to);
+        graph.vis[edge.to] = true;
+      }
+    }
+  }
+};
+
+var minimumSpanningTree = function minimumSpanningTree(graph) {
+  var mst = 0;
+  var edges = [];
+  var mstEdges = [];
+
+  for (var i = 0; i < graph.g.length; i++) {
+    for (var _iterator = _createForOfIteratorHelperLoose$1(graph.g[i]), _step; !(_step = _iterator()).done;) {
+      var edge = _step.value;
+
+      if (i < edge.to) {
+        edges.push({
+          from: i,
+          to: edge.to,
+          weight: edge.prop.weight
+        });
+      }
+    }
+  }
+
+  var dsu = new DisjointSetUnion(graph.g.length);
+  edges.sort(function (edgeA, edgeB) {
+    return edgeA.weight - edgeB.weight;
+  });
+
+  for (var _i = 0, _edges = edges; _i < _edges.length; _i++) {
+    var _edge = _edges[_i];
+
+    if (dsu.join(_edge.from, _edge.to)) {
+      mst += _edge.weight;
+      mstEdges.push(_edge);
+    }
+  }
+
+  return {
+    mst: mst,
+    mstEdges: mstEdges
+  };
 };

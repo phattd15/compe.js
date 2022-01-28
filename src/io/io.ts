@@ -11,14 +11,6 @@ const toInt = (input: string) => {
   return res;
 };
 /**
- * @description Parse the string into array of strings
- * @param input
- * @returns [string]
- */
-const stringArray = (input: string) => {
-  return input.trim().split(/\s+/);
-};
-/**
  * @description Parse the string into array of integers
  * @param input
  * @returns [integers]
@@ -60,4 +52,4 @@ class Reader {
   }
 }
 
-export { toInt, stringArray, intArray, Reader };
+export { Reader };
