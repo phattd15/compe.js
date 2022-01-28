@@ -4203,6 +4203,13 @@ var minimumSpanningTree = function minimumSpanningTree(graph) {
   };
 };
 
+/**
+ *
+ * @param graph
+ * @param source The source node / the array of source nodes
+ * @returns The parent array & the shortest path array
+ */
+
 var dijkstra = function dijkstra(graph, source) {
   graph.reset();
   var pq = new PriorityQueue(function (a, b) {
