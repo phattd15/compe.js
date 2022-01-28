@@ -5,3 +5,4 @@ export * from './ds/deque';
 export * from './util/array';
 export * from './graph/graph';
 export * from './graph/dfs';
+export * from './graph/bfs';

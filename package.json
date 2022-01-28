@@ -18,7 +18,8 @@
     "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "extract": "node ./src/extractor.js"
+    "extract": "node ./src/extractor.js",
+    "compile": "npm run build && npm run extract"
   },
   "husky": {
     "hooks": {

@@ -1,3 +1,7 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
 /**
  * @description Parse the string into integer
  * @param input
@@ -11,16 +15,6 @@ var toInt = function toInt(input) {
   }
 
   return res;
-};
-/**
- * @description Parse the string into array of strings
- * @param input
- * @returns [string]
- */
-
-
-var stringArray = function stringArray(input) {
-  return input.trim().split(/\s+/);
 };
 /**
  * @description Parse the string into array of integers
@@ -2516,7 +2510,7 @@ var UniqueSetTree = /*#__PURE__*/function (_SetTree) {
  */
 
 
-const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
+exports.TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
   _inheritsLoose(TreeSet, _UniqueTreeSet);
 
   function TreeSet() {
@@ -2623,7 +2617,7 @@ const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
   // BODY
   TreeSet.Iterator = SetElementList.Iterator;
   TreeSet.ReverseIterator = SetElementList.ReverseIterator;
-})(TreeSet || (TreeSet = {}));
+})(exports.TreeSet || (exports.TreeSet = {}));
 
 function _defineProperties$1(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -3937,3 +3931,51 @@ var dfs = function dfs(graph, source, preFn, postFn) {
     }
   }
 };
+
+/**
+ * Process the BFS on the graph
+ * @param graph
+ * @param any Source node / array of source nodes
+ * @param preFn The function to process before propagating from the node
+ */
+
+var bfs = function bfs(graph, source, preFn) {
+  var stack = new Deque();
+  stack.push(source);
+
+  if (Array.isArray(source)) {
+    for (var _iterator = _createForOfIteratorHelperLoose$1(source), _step; !(_step = _iterator()).done;) {
+      var node = _step.value;
+      graph.vis[node] = true;
+      stack.push(node);
+    }
+  } else {
+    graph.vis[source] = true;
+    stack.push(source);
+  }
+
+  while (stack.size) {
+    var u = stack.pop();
+    preFn(u, graph);
+
+    for (var _iterator2 = _createForOfIteratorHelperLoose$1(graph.g[u]), _step2; !(_step2 = _iterator2()).done;) {
+      var edge = _step2.value;
+
+      if (!graph.vis[edge.to]) {
+        graph.par[edge.to] = u;
+        stack.push(edge.to);
+        graph.vis[edge.to] = true;
+      }
+    }
+  }
+};
+
+exports.Deque = Deque;
+exports.Graph = Graph;
+exports.Reader = Reader;
+exports.bfs = bfs;
+exports.dfs = dfs;
+exports.multiArray = multiArray;
+exports.proc = proc;
+exports.vectorArray = vectorArray;
+//# sourceMappingURL=compe.cjs.development.js.map
