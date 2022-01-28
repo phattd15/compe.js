@@ -13,7 +13,7 @@ class Graph {
   constructor(vertices: number) {
     this.g = vectorArray(vertices + 1);
     this.vis = multiArray(false, vertices + 1);
-    this.par = multiArray(false, vertices + 1);
+    this.par = multiArray(-1, vertices + 1);
   }
   /**
    * Add one way edge
@@ -33,6 +33,13 @@ class Graph {
   addBiEdge(from: number, to: number, prop?: any) {
     this.addEdge(from, to, prop);
     this.addEdge(to, from, prop);
+  }
+  /**
+   * Reset visit state and parent state of the graph
+   */
+  reset(): void {
+    this.vis = multiArray(false, this.g.length);
+    this.par = multiArray(-1, this.g.length);
   }
 }
 
