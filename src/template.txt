@@ -1,8 +1,8 @@
 const {
-  Reader, proc, 													// IO & Processor
-	multiArray, vectorArray, 								// Fast array generators
-	TreeSet, Deque, DisjointSetUnion, 			// Data structures
-  Graph, dfs, bfs, minimumSpanningTree, 	// Graph algorithms
+  Reader, proc,                           // IO & Processor
+  multiArray, vectorArray,                // Fast array generators
+  TreeSet, Deque, DisjointSetUnion,       // Data structures
+  Graph, dfs, bfs, minimumSpanningTree    // Graph Algorithms
 } = require('./dist');
 
 function main(rl, wr) {

@@ -28,10 +28,10 @@ The `main` function takes in `rd` and `wr` as a function to read and write.
 Sample code for printing sum of an array at `demo.js` after init:
 ```
 const {
-  Reader, proc, 													// IO & Processor
-	multiArray, vectorArray, 								// Fast array generators
-	TreeSet, Deque, DisjointSetUnion, 			// Data structures
-  Graph, dfs, bfs, minimumSpanningTree, 	// Graph algorithms
+  Reader, proc,                           // IO & Processor
+  multiArray, vectorArray,                // Fast array generators
+  TreeSet, Deque, DisjointSetUnion,       // Data structures
+  Graph, dfs, bfs, minimumSpanningTree    // Graph Algorithms
 } = require('./dist');
 
 function main(rl, wr) {
