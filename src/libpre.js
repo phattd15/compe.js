@@ -4164,7 +4164,7 @@ var bfs = function bfs(graph, source, preFn) {
   }
 };
 
-var minimumSpanningTree = function minimumSpanningTree(graph) {
+var mst = function mst(graph) {
   var mst = 0;
   var edges = [];
   var mstEdges = [];

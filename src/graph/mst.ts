@@ -1,7 +1,7 @@
 import { Graph } from './graph';
 import { DisjointSetUnion } from '../ds/dsu';
 
-const minimumSpanningTree = (graph: Graph) => {
+const mst = (graph: Graph) => {
   let mst = 0;
   let edges = [];
   let mstEdges = [];
@@ -30,4 +30,4 @@ const minimumSpanningTree = (graph: Graph) => {
   };
 };
 
-export { minimumSpanningTree };
+export { mst };

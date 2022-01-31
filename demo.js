@@ -2,7 +2,7 @@ const {
   Reader, proc,                           // IO & Processor
   multiArray, vectorArray,                // Fast array generators
   TreeSet, Deque, DisjointSetUnion,       // Data structures
-  Graph, dfs, bfs, minimumSpanningTree    // Graph Algorithms
+  Graph, dfs, bfs, mst, dijkstra          // Graph Algorithms
 } = require('./dist');
 // DO NOT EDIT THIS LINE //
 
