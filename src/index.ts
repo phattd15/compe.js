@@ -10,3 +10,5 @@ export * from './graph/dfs';
 export * from './graph/bfs';
 export * from './graph/mst';
 export * from './graph/dijkstra';
+export * from './mint/combinatorics';
+export * from './mint/modularOperator';

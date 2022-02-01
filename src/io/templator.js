@@ -7,6 +7,8 @@ const fs = require('fs');
 const configPath = "./compe.config.json";
 
 export function proc(main, inputDir) {
+  global.MOD_ = 998244353;
+  global.MOD_CUT = 444595123;
   if (fs.existsSync(configPath) && inputDir != "stdin") {
     if (!fs.existsSync(inputDir)) {
       console.log("Input directory does not exist");
