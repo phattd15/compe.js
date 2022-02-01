@@ -3,7 +3,7 @@ const {
   multiArray, vectorArray,                // Fast array generators
   TreeSet, Deque, DisjointSetUnion,       // Data structures
   Graph, dfs, bfs, mst, dijkstra          // Graph Algorithms
-} = require('./dist');
+} = require('compe');
 // DO NOT EDIT THIS LINE //
 
 function main(rl, wr) {
@@ -14,7 +14,7 @@ function main(rl, wr) {
   for (let y of x) {
     sum += y;
   }
-  wr(y);
+  wr(sum);
 }
 
 proc(main, 'input.txt');

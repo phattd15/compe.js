@@ -42,7 +42,7 @@ function main(rl, wr) {
   for (let y of x) {
     sum += y;
   }
-  wr(y);
+  wr(sum);
 }
 proc(main, 'input.txt');
 ```
