@@ -4267,14 +4267,14 @@ var dijkstra = function dijkstra(graph, source) {
 
 /**
  * Set the mod for system to work
- * @param mod 
+ * @param mod
  */
 var setMod = function setMod(mod) {
   global.MOD_ = mod;
   global.MOD_CUT = 1099511627776 % mod;
 };
 /**
- * @param args 
+ * @param args
  * @returns The sum of arguments after taking mod division
  */
 
@@ -4292,8 +4292,8 @@ var add = function add() {
   return args[0];
 };
 /**
- * @param a 
- * @param b 
+ * @param a
+ * @param b
  * @returns (a - b) % mod
  */
 
@@ -4304,7 +4304,7 @@ var sub = function sub(a, b) {
 };
 /**
  * Source: https://atcoder.jp/users/catoon
- * @param args 
+ * @param args
  * @returns Mod product of the arguments
  */
 
@@ -4319,9 +4319,9 @@ var mul = function mul() {
   return res;
 };
 /**
- * 
- * @param base 
- * @param exponent 
+ *
+ * @param base
+ * @param exponent
  * @returns Power in mod division
  */
 
@@ -4338,9 +4338,9 @@ var pow = function pow(base, exponent) {
   return res;
 };
 /**
- * 
- * @param x 
- * @returns The inverse modular of x 
+ *
+ * @param x
+ * @returns The inverse modular of x
  */
 
 
@@ -4356,7 +4356,7 @@ var inv = function inv(x) {
 
 /**
  * Setup the factorial, stored at global.factorial and global.invFactorial.
- * @param maxRange 
+ * @param maxRange
  */
 
 var factSetup = function factSetup(maxRange) {
@@ -4378,9 +4378,9 @@ var factSetup = function factSetup(maxRange) {
   }
 };
 /**
- * 
- * @param {number} n 
- * @param {number} k 
+ *
+ * @param {number} n
+ * @param {number} k
  * @returns nCk % mod
  */
 
@@ -4390,9 +4390,9 @@ var binom = function binom(n, k) {
   return mul(global.factorial[n], global.invFactorial[k], global.invFactorial[n - k]);
 };
 /**
- * 
+ *
  * @param {number} x
- * @returns x! % mod 
+ * @returns x! % mod
  */
 
 

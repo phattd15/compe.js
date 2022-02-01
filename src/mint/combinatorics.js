@@ -1,8 +1,8 @@
-import { mul, inv } from "./modularOperator";
+import { mul, inv } from './modularOperator';
 
 /**
  * Setup the factorial, stored at global.factorial and global.invFactorial.
- * @param maxRange 
+ * @param maxRange
  */
 const factSetup = (maxRange = 200000) => {
   global.factorial = Array(maxRange + 1).fill(1);
@@ -14,26 +14,30 @@ const factSetup = (maxRange = 200000) => {
   for (let i = maxRange - 1; i >= 1; i--) {
     global.invFactorial[i] = mul(global.invFactorial[i + 1], i + 1);
   }
-}
+};
 
 /**
- * 
- * @param {number} n 
- * @param {number} k 
+ *
+ * @param {number} n
+ * @param {number} k
  * @returns nCk % mod
  */
 const binom = (n, k) => {
   if (k > n) return 0;
-  return mul(global.factorial[n], global.invFactorial[k], global.invFactorial[n - k]);
-}
+  return mul(
+    global.factorial[n],
+    global.invFactorial[k],
+    global.invFactorial[n - k]
+  );
+};
 
 /**
- * 
+ *
  * @param {number} x
- * @returns x! % mod 
+ * @returns x! % mod
  */
-const fact = (x) => {
+const fact = x => {
   return global.factorial[x];
-}
+};
 
-export {factSetup, binom, fact};
+export { factSetup, binom, fact };

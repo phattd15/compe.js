@@ -3,3 +3,4 @@ src/libpre.js
 src/tstl
 src/ds/treemap.js
 src/ds/treeset.js
+src/mint/modularOperator.js
