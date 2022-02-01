@@ -75,6 +75,9 @@ var fs = /*#__PURE__*/require('fs');
 
 var configPath = "./compe.config.json";
 function proc(main, inputDir) {
+  global.MOD_ = 998244353;
+  global.MOD_CUT = 444595123;
+
   if (fs.existsSync(configPath) && inputDir != "stdin") {
     if (!fs.existsSync(inputDir)) {
       console.log("Input directory does not exist");
@@ -4260,4 +4263,139 @@ var dijkstra = function dijkstra(graph, source) {
     parArray: graph.par,
     distArray: d
   };
+};
+
+/**
+ * Set the mod for system to work
+ * @param mod 
+ */
+var setMod = function setMod(mod) {
+  global.MOD_ = mod;
+  global.MOD_CUT = 1099511627776 % mod;
+};
+/**
+ * @param args 
+ * @returns The sum of arguments after taking mod division
+ */
+
+
+var add = function add() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  for (var i = args.length - 1; i >= 1; i--) {
+    args[0] += args[i];
+    args[0] = args[0] >= global.MOD_ ? args[0] - global.MOD_ : args[0];
+  }
+
+  return args[0];
+};
+/**
+ * @param a 
+ * @param b 
+ * @returns (a - b) % mod
+ */
+
+
+var sub = function sub(a, b) {
+  a += global.MOD_ - b;
+  return a >= global.MOD_ ? a - global.MOD_ : a;
+};
+/**
+ * Source: https://atcoder.jp/users/catoon
+ * @param args 
+ * @returns Mod product of the arguments
+ */
+
+
+var mul = function mul() {
+  var res = arguments.length <= 0 ? undefined : arguments[0];
+
+  for (var i = 1; i < arguments.length; i++) {
+    res = ((res >> 20) * ((i < 0 || arguments.length <= i ? undefined : arguments[i]) >> 20) * global.MOD_CUT + (res & 4293918720) * ((i < 0 || arguments.length <= i ? undefined : arguments[i]) & 1048575) + (res & 1048575) * (i < 0 || arguments.length <= i ? undefined : arguments[i])) % global.MOD_;
+  }
+
+  return res;
+};
+/**
+ * 
+ * @param base 
+ * @param exponent 
+ * @returns Power in mod division
+ */
+
+
+var pow = function pow(base, exponent) {
+  var res = 1;
+
+  while (exponent) {
+    if (exponent & 1) res = mul(res, base);
+    base = mul(base, base);
+    exponent >>>= 1;
+  }
+
+  return res;
+};
+/**
+ * 
+ * @param x 
+ * @returns The inverse modular of x 
+ */
+
+
+var inv = function inv(x) {
+  for (var a = 1, b = 0, y = global.MOD_, q; y; _ref = [a, b - q * a], b = _ref[0], a = _ref[1], _ref) {
+    var _ref, _ref2;
+
+    q = y / x | 0, (_ref2 = [x, y - q * x], y = _ref2[0], x = _ref2[1], _ref2);
+  }
+
+  return a < 0 ? a + global.MOD_ : a;
+};
+
+/**
+ * Setup the factorial, stored at global.factorial and global.invFactorial.
+ * @param maxRange 
+ */
+
+var factSetup = function factSetup(maxRange) {
+  if (maxRange === void 0) {
+    maxRange = 200000;
+  }
+
+  global.factorial = Array(maxRange + 1).fill(1);
+  global.invFactorial = Array(maxRange + 1).fill(1);
+
+  for (var i = 1; i <= maxRange; i++) {
+    global.factorial[i] = mul(global.factorial[i - 1], i);
+  }
+
+  global.invFactorial[maxRange] = inv(global.factorial[maxRange]);
+
+  for (var _i = maxRange - 1; _i >= 1; _i--) {
+    global.invFactorial[_i] = mul(global.invFactorial[_i + 1], _i + 1);
+  }
+};
+/**
+ * 
+ * @param {number} n 
+ * @param {number} k 
+ * @returns nCk % mod
+ */
+
+
+var binom = function binom(n, k) {
+  if (k > n) return 0;
+  return mul(global.factorial[n], global.invFactorial[k], global.invFactorial[n - k]);
+};
+/**
+ * 
+ * @param {number} x
+ * @returns x! % mod 
+ */
+
+
+var fact = function fact(x) {
+  return global.factorial[x];
 };
