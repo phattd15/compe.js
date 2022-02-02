@@ -4198,7 +4198,8 @@ var binarySearch = function binarySearch(leftBound, rightBound, fn) {
     mid = leftBound + rightBound >>> 1;
 
     if (fn(mid)) {
-      answer = mid, rightBound = mid - 1;
+      answer = mid;
+      rightBound = mid - 1;
     } else {
       leftBound = mid + 1;
     }
