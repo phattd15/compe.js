@@ -66,6 +66,63 @@ var Reader = /*#__PURE__*/function () {
   return Reader;
 }();
 
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  Object.defineProperty(Constructor, "prototype", {
+    writable: false
+  });
+  return Constructor;
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+  return arr2;
+}
+
+function _createForOfIteratorHelperLoose(o, allowArrayLike) {
+  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
+  if (it) return (it = it.call(o)).next.bind(it);
+
+  if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+    if (it) o = it;
+    var i = 0;
+    return function () {
+      if (i >= o.length) return {
+        done: true
+      };
+      return {
+        done: false,
+        value: o[i++]
+      };
+    };
+  }
+
+  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
 /**
  * This will process your file into OJ's format
  * @param {any} main - The main function
@@ -87,59 +144,112 @@ function proc(main, inputDir) {
     var data = fs.readFileSync(inputDir, {
       encoding: "utf-8"
     });
-    var lineIndex = 0;
-    data = data.split('\n');
+    var dataIndex = 0;
+    data = data.split(/ |\n|\r/g);
+    var processedData = [];
 
-    var readline = function readline() {
-      return data[lineIndex++];
+    for (var _iterator = _createForOfIteratorHelperLoose(data), _step; !(_step = _iterator()).done;) {
+      var chunk = _step.value;
+      if (chunk.length > 0) processedData.push(chunk);
+    }
+
+    global.rnum = function (num) {
+      if (num === void 0) {
+        num = 1;
+      }
+
+      return processedData.slice(dataIndex, dataIndex += num).map(function (a) {
+        return +a;
+      });
     };
 
-    var write = function write() {
+    global.rstr = function (num) {
+      if (num === void 0) {
+        num = 1;
+      }
+
+      return processedData.slice(dataIndex, dataIndex += num);
+    };
+
+    global.rbig = function (num) {
+      if (num === void 0) {
+        num = 1;
+      }
+
+      return processedData.slice(dataIndex, dataIndex += num).map(function (a) {
+        return BigInt(a);
+      });
+    };
+
+    global.print = function () {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
 
-      // console.log(data);
       for (var _i = 0, _args = args; _i < _args.length; _i++) {
-        var _data = _args[_i];
-        process.stdout.write(String(_data));
+        var printData = _args[_i];
+        process.stdout.write(String(printData));
       }
     };
 
-    main(readline, write);
+    main();
   } else {
-    var _data2 = [];
-    var rawData = "";
-    var pendingData = "";
-    var _lineIndex = 0;
-    process.stdin.on('data', function (c) {
-      rawData += c;
+    var _data = fs.readFileSync(inputDir, {
+      encoding: "utf-8"
     });
-    process.stdin.on('end', function () {
-      var _require = require('os'),
-          EOL = _require.EOL;
 
-      _data2 = rawData.split(EOL);
+    var _dataIndex = 0;
+    _data = _data.split(/ |\n|\r/g);
+    var _processedData = [];
 
-      var readline = function readline() {
-        return _data2[_lineIndex++];
-      };
+    for (var _iterator2 = _createForOfIteratorHelperLoose(_data), _step2; !(_step2 = _iterator2()).done;) {
+      var _chunk = _step2.value;
+      if (_chunk.length > 0) _processedData.push(_chunk);
+    }
 
-      var write = function write() {
-        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
+    global.rnum = function (num) {
+      if (num === void 0) {
+        num = 1;
+      }
 
-        // console.log(data);
-        for (var _i2 = 0, _args2 = args; _i2 < _args2.length; _i2++) {
-          var _data3 = _args2[_i2];
-          pendingData += String(_data3);
-        }
-      };
+      return _processedData.slice(_dataIndex, _dataIndex += num).map(function (a) {
+        return +a;
+      });
+    };
 
-      main(readline, write);
-      console.log(pendingData);
-    });
+    global.rstr = function (num) {
+      if (num === void 0) {
+        num = 1;
+      }
+
+      return _processedData.slice(_dataIndex, _dataIndex += num);
+    };
+
+    global.rbig = function (num) {
+      if (num === void 0) {
+        num = 1;
+      }
+
+      return _processedData.slice(_dataIndex, _dataIndex += num).map(function (a) {
+        return BigInt(a);
+      });
+    };
+
+    var dataBuffer = "";
+
+    global.print = function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      for (var _i2 = 0, _args2 = args; _i2 < _args2.length; _i2++) {
+        var printData = _args2[_i2];
+        dataBuffer += String(printData);
+      }
+    };
+
+    main();
+    console.log(dataBuffer);
   }
 }
 
@@ -147,7 +257,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-function _defineProperties(target, props) {
+function _defineProperties$1(target, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
@@ -157,9 +267,9 @@ function _defineProperties(target, props) {
   }
 }
 
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
+function _createClass$1(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties$1(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties$1(Constructor, staticProps);
   Object.defineProperty(Constructor, "prototype", {
     writable: false
   });
@@ -265,16 +375,16 @@ function _assertThisInitialized(self) {
   return self;
 }
 
-function _unsupportedIterableToArray(o, minLen) {
+function _unsupportedIterableToArray$1(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  if (typeof o === "string") return _arrayLikeToArray$1(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
   if (n === "Object" && o.constructor) n = o.constructor.name;
   if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen);
 }
 
-function _arrayLikeToArray(arr, len) {
+function _arrayLikeToArray$1(arr, len) {
   if (len == null || len > arr.length) len = arr.length;
 
   for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -284,11 +394,11 @@ function _arrayLikeToArray(arr, len) {
   return arr2;
 }
 
-function _createForOfIteratorHelperLoose(o, allowArrayLike) {
+function _createForOfIteratorHelperLoose$1(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
   if (it) return (it = it.call(o)).next.bind(it);
 
-  if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+  if (Array.isArray(o) || (it = _unsupportedIterableToArray$1(o)) || allowArrayLike && o && typeof o.length === "number") {
     if (it) o = it;
     var i = 0;
     return function () {
@@ -409,7 +519,7 @@ var Container = /*#__PURE__*/function (_Symbol$iterator) {
   _proto.toJSON = function toJSON() {
     var ret = [];
 
-    for (var _iterator = _createForOfIteratorHelperLoose(this), _step; !(_step = _iterator()).done;) {
+    for (var _iterator = _createForOfIteratorHelperLoose$1(this), _step; !(_step = _iterator()).done;) {
       var elem = _step.value;
       ret.push(elem);
     }
@@ -475,7 +585,7 @@ var NativeArrayIterator = /*#__PURE__*/function () {
     obj.index_ = _ref2[1];
   };
 
-  _createClass(NativeArrayIterator, [{
+  _createClass$1(NativeArrayIterator, [{
     key: "value",
     get: function get() {
       return this.data_[this.index_];
@@ -706,7 +816,7 @@ var Exception = /*#__PURE__*/function (_Error) {
     };
   };
 
-  _createClass(Exception, [{
+  _createClass$1(Exception, [{
     key: "name",
     get: function get() {
       return this.constructor.name;
@@ -1440,7 +1550,7 @@ var ListIterator = /*#__PURE__*/function () {
     return this === obj;
   };
 
-  _createClass(ListIterator, [{
+  _createClass$1(ListIterator, [{
     key: "value",
     get: function get() {
       this._Try_value();
@@ -1484,7 +1594,7 @@ var Repeater = /*#__PURE__*/function () {
     return this.index_ === obj.index_;
   };
 
-  _createClass(Repeater, [{
+  _createClass$1(Repeater, [{
     key: "value",
     get: function get() {
       return this.value_;
@@ -1847,7 +1957,7 @@ var ReverseIterator = /*#__PURE__*/function () {
     return this.base_.equals(obj.base_);
   };
 
-  _createClass(ReverseIterator, [{
+  _createClass$1(ReverseIterator, [{
     key: "value",
     get: function get() {
       return this.base_.value;
@@ -2019,7 +2129,7 @@ var XTreeNode = /*#__PURE__*/function () {
     this.right = null;
   }
 
-  _createClass(XTreeNode, [{
+  _createClass$1(XTreeNode, [{
     key: "grand",
     get: function get() {
       return this.parent.parent;
@@ -2631,63 +2741,6 @@ const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
   TreeSet.Iterator = SetElementList.Iterator;
   TreeSet.ReverseIterator = SetElementList.ReverseIterator;
 })(TreeSet || (TreeSet = {}));
-
-function _defineProperties$1(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass$1(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties$1(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties$1(Constructor, staticProps);
-  Object.defineProperty(Constructor, "prototype", {
-    writable: false
-  });
-  return Constructor;
-}
-
-function _unsupportedIterableToArray$1(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray$1(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen);
-}
-
-function _arrayLikeToArray$1(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-  return arr2;
-}
-
-function _createForOfIteratorHelperLoose$1(o, allowArrayLike) {
-  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
-  if (it) return (it = it.call(o)).next.bind(it);
-
-  if (Array.isArray(o) || (it = _unsupportedIterableToArray$1(o)) || allowArrayLike && o && typeof o.length === "number") {
-    if (it) o = it;
-    var i = 0;
-    return function () {
-      if (i >= o.length) return {
-        done: true
-      };
-      return {
-        done: false,
-        value: o[i++]
-      };
-    };
-  }
-
-  throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -3461,7 +3514,7 @@ var Deque = /*#__PURE__*/function (_Symbol$iterator) {
   var _proto = Deque.prototype;
 
   _proto.extend = function extend(values) {
-    for (var _iterator = _createForOfIteratorHelperLoose$1(values), _step; !(_step = _iterator()).done;) {
+    for (var _iterator = _createForOfIteratorHelperLoose(values), _step; !(_step = _iterator()).done;) {
       var value = _step.value;
       this.push(value);
     }
@@ -3470,7 +3523,7 @@ var Deque = /*#__PURE__*/function (_Symbol$iterator) {
   };
 
   _proto.extendFront = function extendFront(values) {
-    for (var _iterator2 = _createForOfIteratorHelperLoose$1(values), _step2; !(_step2 = _iterator2()).done;) {
+    for (var _iterator2 = _createForOfIteratorHelperLoose(values), _step2; !(_step2 = _iterator2()).done;) {
       var value = _step2.value;
       this.pushFront(value);
     }
@@ -3780,7 +3833,7 @@ var Deque = /*#__PURE__*/function (_Symbol$iterator) {
     return this.entries();
   };
 
-  _createClass$1(Deque, [{
+  _createClass(Deque, [{
     key: "front",
     get: function get() {
       if (this.size) return this.list[this.head];else throw new RangeError('deque index out of range');
@@ -4018,7 +4071,7 @@ var PriorityQueue = /*#__PURE__*/function () {
     return first;
   };
 
-  _createClass$1(PriorityQueue, [{
+  _createClass(PriorityQueue, [{
     key: "size",
     get: function get() {
       return this.elem.length;
@@ -4114,7 +4167,7 @@ var dfs = function dfs(graph, source, preFn, postFn) {
       graph.vis[u] = true;
       preFn(u, graph);
 
-      for (var _iterator = _createForOfIteratorHelperLoose$1(graph.g[u]), _step; !(_step = _iterator()).done;) {
+      for (var _iterator = _createForOfIteratorHelperLoose(graph.g[u]), _step; !(_step = _iterator()).done;) {
         var edge = _step.value;
 
         if (!graph.vis[edge.to]) {
@@ -4141,7 +4194,7 @@ var bfs = function bfs(graph, source, preFn) {
   stack.push(source);
 
   if (Array.isArray(source)) {
-    for (var _iterator = _createForOfIteratorHelperLoose$1(source), _step; !(_step = _iterator()).done;) {
+    for (var _iterator = _createForOfIteratorHelperLoose(source), _step; !(_step = _iterator()).done;) {
       var node = _step.value;
       graph.vis[node] = true;
       stack.push(node);
@@ -4155,7 +4208,7 @@ var bfs = function bfs(graph, source, preFn) {
     var u = stack.pop();
     preFn(u, graph);
 
-    for (var _iterator2 = _createForOfIteratorHelperLoose$1(graph.g[u]), _step2; !(_step2 = _iterator2()).done;) {
+    for (var _iterator2 = _createForOfIteratorHelperLoose(graph.g[u]), _step2; !(_step2 = _iterator2()).done;) {
       var edge = _step2.value;
 
       if (!graph.vis[edge.to]) {
@@ -4173,7 +4226,7 @@ var mst = function mst(graph) {
   var mstEdges = [];
 
   for (var i = 0; i < graph.g.length; i++) {
-    for (var _iterator = _createForOfIteratorHelperLoose$1(graph.g[i]), _step; !(_step = _iterator()).done;) {
+    for (var _iterator = _createForOfIteratorHelperLoose(graph.g[i]), _step; !(_step = _iterator()).done;) {
       var edge = _step.value;
 
       if (i < edge.to) {
@@ -4222,7 +4275,7 @@ var dijkstra = function dijkstra(graph, source) {
   var d = multiArray(INF, graph.g.length);
 
   if (Array.isArray(source)) {
-    for (var _iterator = _createForOfIteratorHelperLoose$1(source), _step; !(_step = _iterator()).done;) {
+    for (var _iterator = _createForOfIteratorHelperLoose(source), _step; !(_step = _iterator()).done;) {
       var node = _step.value;
       pq.push({
         node: node,
@@ -4245,7 +4298,7 @@ var dijkstra = function dijkstra(graph, source) {
       continue;
     }
 
-    for (var _iterator2 = _createForOfIteratorHelperLoose$1(graph.g[u.node]), _step2; !(_step2 = _iterator2()).done;) {
+    for (var _iterator2 = _createForOfIteratorHelperLoose(graph.g[u.node]), _step2; !(_step2 = _iterator2()).done;) {
       var next = _step2.value;
 
       if (d[next.to] > d[u.node] + next.prop.weight) {
