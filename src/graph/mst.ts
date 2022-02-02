@@ -1,5 +1,5 @@
 import { Graph } from './graph';
-import { DisjointSetUnion } from '../ds/dsu';
+import { DSU } from '../ds/dsu';
 
 const mst = (graph: Graph) => {
   let mst = 0;
@@ -16,7 +16,7 @@ const mst = (graph: Graph) => {
       }
     }
   }
-  let dsu = new DisjointSetUnion(graph.g.length);
+  let dsu = new DSU(graph.g.length);
   edges.sort((edgeA, edgeB) => edgeA.weight - edgeB.weight);
   for (let edge of edges) {
     if (dsu.join(edge.from, edge.to)) {

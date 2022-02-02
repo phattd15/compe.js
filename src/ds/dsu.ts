@@ -1,6 +1,6 @@
 import { multiArray } from '../util/array';
 
-class DisjointSetUnion {
+class DSU {
   p: number[];
   constructor(size: number) {
     this.p = multiArray(-1, size + 1);
@@ -48,4 +48,4 @@ class DisjointSetUnion {
   }
 }
 
-export { DisjointSetUnion };
+export { DSU };

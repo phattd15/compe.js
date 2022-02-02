@@ -1,11 +1,12 @@
 const {
-  Reader, proc,                           // IO & Processor
-  multiArray, vectorArray,                // Fast array generators
-  TreeSet, Deque, DisjointSetUnion,       // Data structures
-  Graph, dfs, bfs, mst, dijkstra          // Graph Algorithms
+  Reader, proc,                        // IO & Processor
+  multiArray, vectorArray,             // Fast array generators
+  TreeSet, Deque, DSU, PriorityQueue,  // Data structures
+  Graph, dfs, bfs, mst, dijkstra,      // Graph Algorithms
+  setMod, add, sub, pow, inv, mul,     // Modular integer operations
+  factSetup, fact, binom               // Modular combinatorics
 } = require('compe');
 // DO NOT EDIT THIS LINE //
-
 function main(rl, wr) {
   let rd = new Reader(rl);
   // write your code from here
@@ -16,5 +17,4 @@ function main(rl, wr) {
   }
   wr(sum);
 }
-
 proc(main, 'input.txt');
