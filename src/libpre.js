@@ -3866,8 +3866,8 @@ var vectorArray = function vectorArray(size) {
   return arr;
 };
 
-var DisjointSetUnion = /*#__PURE__*/function () {
-  function DisjointSetUnion(size) {
+var DSU = /*#__PURE__*/function () {
+  function DSU(size) {
     this.p = multiArray(-1, size + 1);
   }
   /**
@@ -3877,7 +3877,7 @@ var DisjointSetUnion = /*#__PURE__*/function () {
    */
 
 
-  var _proto = DisjointSetUnion.prototype;
+  var _proto = DSU.prototype;
 
   _proto.group = function group(current) {
     if (this.p[current] < 0) {
@@ -3925,7 +3925,7 @@ var DisjointSetUnion = /*#__PURE__*/function () {
     return -this.p[current];
   };
 
-  return DisjointSetUnion;
+  return DSU;
 }();
 
 var PriorityQueue = /*#__PURE__*/function () {
@@ -4186,7 +4186,7 @@ var mst = function mst(graph) {
     }
   }
 
-  var dsu = new DisjointSetUnion(graph.g.length);
+  var dsu = new DSU(graph.g.length);
   edges.sort(function (edgeA, edgeB) {
     return edgeA.weight - edgeB.weight;
   });
