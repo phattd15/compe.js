@@ -4094,6 +4094,119 @@ var PriorityQueue = /*#__PURE__*/function () {
   return PriorityQueue;
 }();
 
+var defaultComparator = function defaultComparator(a, b) {
+  return a < b;
+};
+/**
+ * Performs lowerBound search on a sorted array range, returns the leftmost position that has the value >= searchValue
+ * @param arr
+ * @param searchValue
+ * @param leftIndex
+ * @param rightIndex
+ * @param comparator Takes in 2 numbers, returns true if the left one is strictly smaller than the right one. For example, the default comparator is (a, b) => a < b.
+ * @returns
+ */
+
+
+var lowerBound = function lowerBound(arr, searchValue, leftIndex, rightIndex, comparator) {
+  if (leftIndex === void 0) {
+    leftIndex = 0;
+  }
+
+  if (rightIndex === void 0) {
+    rightIndex = 0;
+  }
+
+  if (comparator === void 0) {
+    comparator = defaultComparator;
+  }
+
+  if (!rightIndex) {
+    rightIndex = arr.length;
+  }
+
+  var mid;
+
+  while (leftIndex < rightIndex) {
+    mid = leftIndex + (rightIndex - leftIndex >>> 1);
+
+    if (comparator(arr[mid], searchValue)) {
+      leftIndex = mid + 1;
+    } else {
+      rightIndex = mid;
+    }
+  }
+
+  return leftIndex;
+};
+/**
+ * Performs upperBound search on a sorted array range, returns the leftmost position that has the value > searchValue
+ * @param arr
+ * @param searchValue
+ * @param leftIndex
+ * @param rightIndex
+ * @param comparator Takes in 2 numbers, returns true if the left one is strictly smaller than the right one. For example, the default comparator is (a, b) => a < b.
+ * @returns
+ */
+
+
+var upperBound = function upperBound(arr, searchValue, leftIndex, rightIndex, comparator) {
+  if (leftIndex === void 0) {
+    leftIndex = 0;
+  }
+
+  if (rightIndex === void 0) {
+    rightIndex = 0;
+  }
+
+  if (comparator === void 0) {
+    comparator = defaultComparator;
+  }
+
+  if (!rightIndex) {
+    rightIndex = arr.length;
+  }
+
+  var mid;
+
+  while (leftIndex < rightIndex) {
+    mid = leftIndex + (rightIndex - leftIndex >>> 1);
+
+    if (comparator(searchValue, arr[mid])) {
+      rightIndex = mid;
+    } else {
+      leftIndex = mid + 1;
+    }
+  }
+
+  return leftIndex;
+};
+/**
+ * Performs binary search on an index range of a function. Supposed that the function will return false then true based on the increasing index. Returns null if the whole range is false.
+ * @param leftBound
+ * @param rightBound
+ * @param fn The function to be evaluate
+ * @returns The first position where the function returns true
+ */
+
+
+var binarySearch = function binarySearch(leftBound, rightBound, fn) {
+  var mid,
+      answer = null;
+
+  while (leftBound <= rightBound) {
+    mid = leftBound + rightBound >>> 1;
+
+    if (fn(mid)) {
+      answer = mid, rightBound = mid - 1;
+    } else {
+      leftBound = mid + 1;
+    }
+  }
+
+  return answer;
+};
+
 /**
  * Graph class, with:
  *    g as adjacency list
