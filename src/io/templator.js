@@ -15,39 +15,49 @@ export function proc(main, inputDir) {
       return;
     }
     let data = fs.readFileSync(inputDir, {encoding:"utf-8"});
-    var lineIndex = 0;
-    data = data.split('\n');
-    const readline = function() {
-      return data[lineIndex++];
-    };
-    const write = function(...args) {
-      // console.log(data);
-      for (let data of args)
-        process.stdout.write(String(data));
+    let dataIndex = 0;
+    data = data.split(/ |\n|\r/g);
+    let processedData = [];
+    for (let chunk of data) {
+      if (chunk.length > 0) processedData.push(chunk);
     }
-    main(readline, write);
+    global.rnum = function(num=1) {
+      return processedData.slice(dataIndex, dataIndex += num).map(a => +a);
+    };
+    global.rstr = function(num=1) {
+      return processedData.slice(dataIndex, dataIndex += num);
+    };
+    global.rbig = function(num=1) {
+      return processedData.slice(dataIndex, dataIndex += num).map(a => BigInt(a));
+    };
+    global.print = function(...args) {
+      for (let printData of args)
+        process.stdout.write(String(printData));
+    }
+    main();
   } else {
-    let data = [];
-    var rawData = "";
-    let pendingData = "";
-    let lineIndex = 0;
-    process.stdin.on('data', (c) => {
-      rawData += c;
-    });
-    process.stdin.on('end', () => {
-      const {EOL} = require('os');
-      data = rawData.split(EOL);
-      const readline = function() {
-        return data[lineIndex++];
-      };
-      const write = function(...args) {
-        // console.log(data);
-        for (let data of args) {
-          pendingData += String(data);
-        }
-      };
-      main(readline, write);
-      console.log(pendingData);
-    });
+    let data = fs.readFileSync(inputDir, {encoding:"utf-8"});
+    let dataIndex = 0;
+    data = data.split(/ |\n|\r/g);
+    let processedData = [];
+    for (let chunk of data) {
+      if (chunk.length > 0) processedData.push(chunk);
+    }
+    global.rnum = function(num=1) {
+      return processedData.slice(dataIndex, dataIndex += num).map(a => +a);
+    };
+    global.rstr = function(num=1) {
+      return processedData.slice(dataIndex, dataIndex += num);
+    };
+    global.rbig = function(num=1) {
+      return processedData.slice(dataIndex, dataIndex += num).map(a => BigInt(a));
+    };
+    let dataBuffer = "";
+    global.print = function(...args) {
+      for (let printData of args)
+        dataBuffer += String(printData);
+    }
+    main();
+    console.log(dataBuffer);
   }
 }
