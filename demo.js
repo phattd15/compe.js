@@ -5,7 +5,8 @@ const {
   Graph, dfs, bfs, mst, dijkstra,       // Graph Algorithms
   setMod, add, sub, pow, inv, mul,      // Modular integer operations
   factSetup, fact, binom,               // Modular combinatorics
-  lowerBound, upperBound, binarySearch  // Binary search functions
+  lowerBound, upperBound, binarySearch, // Binary search 
+  ternarySearch, integralExtremumSearch // Function extremum search
 } = require('compe');
 // DO NOT EDIT THIS LINE //
 function main() {

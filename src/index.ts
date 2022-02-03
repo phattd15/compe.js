@@ -6,6 +6,7 @@ export * from './ds/dsu';
 export * from './ds/priorityqueue';
 export * from './util/array';
 export * from './util/binarySearch';
+export * from './util/ternarySearch';
 export * from './graph/graph';
 export * from './graph/dfs';
 export * from './graph/bfs';

@@ -158,7 +158,7 @@ function proc(main, inputDir) {
         num = 1;
       }
 
-      return processedData.slice(dataIndex, dataIndex += num).map(function (a) {
+      return num === 1 ? +processedData[dataIndex++] : processedData.slice(dataIndex, dataIndex += num).map(function (a) {
         return +a;
       });
     };
@@ -168,7 +168,7 @@ function proc(main, inputDir) {
         num = 1;
       }
 
-      return processedData.slice(dataIndex, dataIndex += num);
+      return num === 1 ? processedData[dataIndex++] : processedData.slice(dataIndex, dataIndex += num);
     };
 
     global.rbig = function (num) {
@@ -176,7 +176,7 @@ function proc(main, inputDir) {
         num = 1;
       }
 
-      return processedData.slice(dataIndex, dataIndex += num).map(function (a) {
+      return num === 1 ? BigInt(processedData[dataIndex++]) : processedData.slice(dataIndex, dataIndex += num).map(function (a) {
         return BigInt(a);
       });
     };
@@ -212,7 +212,7 @@ function proc(main, inputDir) {
         num = 1;
       }
 
-      return _processedData.slice(_dataIndex, _dataIndex += num).map(function (a) {
+      return num === 1 ? +_processedData[_dataIndex++] : _processedData.slice(_dataIndex, _dataIndex += num).map(function (a) {
         return +a;
       });
     };
@@ -222,7 +222,7 @@ function proc(main, inputDir) {
         num = 1;
       }
 
-      return _processedData.slice(_dataIndex, _dataIndex += num);
+      return num === 1 ? _processedData[_dataIndex++] : _processedData.slice(_dataIndex, _dataIndex += num);
     };
 
     global.rbig = function (num) {
@@ -230,7 +230,7 @@ function proc(main, inputDir) {
         num = 1;
       }
 
-      return _processedData.slice(_dataIndex, _dataIndex += num).map(function (a) {
+      return num === 1 ? BigInt(_processedData[_dataIndex++]) : _processedData.slice(_dataIndex, _dataIndex += num).map(function (a) {
         return BigInt(a);
       });
     };
@@ -4195,7 +4195,7 @@ var binarySearch = function binarySearch(leftBound, rightBound, fn) {
       answer = null;
 
   while (leftBound <= rightBound) {
-    mid = leftBound + rightBound >>> 1;
+    mid = leftBound + rightBound >> 1;
 
     if (fn(mid)) {
       answer = mid;
@@ -4206,6 +4206,108 @@ var binarySearch = function binarySearch(leftBound, rightBound, fn) {
   }
 
   return answer;
+};
+
+/**
+ * Performs ternary search on maxima / minima on a convex function
+ * @param leftBound
+ * @param rightBound
+ * @param fn
+ * @param maxima True if search for maxima, false for minima
+ * @param iter The number of iterations of division
+ * @returns The maximum / minimum value
+ */
+var ternarySearch = function ternarySearch(leftBound, rightBound, fn, maxima, iter) {
+  if (maxima === void 0) {
+    maxima = false;
+  }
+
+  if (iter === void 0) {
+    iter = 200;
+  }
+
+  var ll, rr;
+
+  if (maxima) {
+    while (iter--) {
+      ll = leftBound + (rightBound - leftBound) / 3;
+      rr = rightBound - (rightBound - leftBound) / 3;
+
+      if (fn(ll) < fn(rr)) {
+        leftBound = ll;
+      } else {
+        rightBound = rr;
+      }
+    }
+  } else {
+    while (iter--) {
+      ll = leftBound + (rightBound - leftBound) / 3;
+      rr = rightBound - (rightBound - leftBound) / 3;
+
+      if (fn(rr) < fn(ll)) {
+        leftBound = ll;
+      } else {
+        rightBound = rr;
+      }
+    }
+  }
+
+  return fn(ll);
+};
+/**
+ * Find integral extremum of a function
+ * @param leftBound
+ * @param rightBound
+ * @param fn
+ * @param maxima True if search for maxima, false for minima
+ * @returns The maximum / minimum value
+ */
+
+
+var integralExtremumSearch = function integralExtremumSearch(leftBound, rightBound, fn, maxima) {
+  if (maxima === void 0) {
+    maxima = false;
+  }
+
+  if (maxima) {
+    var answer = fn(leftBound);
+    leftBound++;
+    var mid, fnmid;
+
+    while (leftBound <= rightBound) {
+      mid = leftBound + rightBound >> 1;
+      fnmid = fn(mid);
+
+      if (fn(mid - 1) < fnmid) {
+        answer = fnmid;
+        leftBound = mid + 1;
+      } else {
+        rightBound = mid - 1;
+      }
+    }
+
+    return answer;
+  } else {
+    var _answer = fn(leftBound);
+
+    leftBound++;
+
+    var _mid, _fnmid;
+
+    while (leftBound <= rightBound) {
+      _mid = leftBound + rightBound >> 1;
+      _fnmid = fn(_mid);
+
+      if (fn(_mid - 1) > _fnmid) {
+        _answer = _fnmid;
+        leftBound = _mid + 1;
+      } else {
+        rightBound = _mid - 1;
+      }
+    }
+
+    return _answer;
+  }
 };
 
 /**
