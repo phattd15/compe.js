@@ -21,14 +21,14 @@ export function proc(main, inputDir) {
     for (let chunk of data) {
       if (chunk.length > 0) processedData.push(chunk);
     }
-    global.rnum = function(num=1) {
-      return num === 1 ? +processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num).map(a => +a);
+    global.rnum = function(num) {
+      return num ? +processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num).map(a => +a);
     };
-    global.rstr = function(num=1) {
-      return num === 1 ? processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num);
+    global.rstr = function(num) {
+      return num ? processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num);
     };
-    global.rbig = function(num=1) {
-      return num === 1 ? BigInt(processedData[dataIndex ++]) :  processedData.slice(dataIndex, dataIndex += num).map(a => BigInt(a));
+    global.rbig = function(num) {
+      return num ? BigInt(processedData[dataIndex ++]) :  processedData.slice(dataIndex, dataIndex += num).map(a => BigInt(a));
     };
     global.print = function(...args) {
       for (let printData of args)
@@ -43,14 +43,14 @@ export function proc(main, inputDir) {
     for (let chunk of data) {
       if (chunk.length > 0) processedData.push(chunk);
     }
-    global.rnum = function(num=1) {
-      return num === 1 ? +processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num).map(a => +a);
+    global.rnum = function(num) {
+      return num ? +processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num).map(a => +a);
     };
-    global.rstr = function(num=1) {
-      return num === 1 ? processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num);
+    global.rstr = function(num) {
+      return num ? processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num);
     };
-    global.rbig = function(num=1) {
-      return num === 1 ? BigInt(processedData[dataIndex ++]) :  processedData.slice(dataIndex, dataIndex += num).map(a => BigInt(a));
+    global.rbig = function(num) {
+      return num ? BigInt(processedData[dataIndex ++]) :  processedData.slice(dataIndex, dataIndex += num).map(a => BigInt(a));
     };
     let dataBuffer = "";
     global.print = function(...args) {
