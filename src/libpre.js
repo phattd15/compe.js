@@ -1,71 +1,3 @@
-/**
- * @description Parse the string into integer
- * @param input
- * @returns integer
- */
-var toInt = function toInt(input) {
-  var res = parseInt(input.trim());
-
-  if (isNaN(res)) {
-    throw new Error("Cannot parse " + input + " to int");
-  }
-
-  return res;
-};
-/**
- * @description Parse the string into array of integers
- * @param input
- * @returns [integers]
- */
-
-
-var intArray = function intArray(input) {
-  return input.trim().split(/\s+/).map(function (x) {
-    return toInt(x);
-  });
-};
-/**
- * IO object for read and write
- */
-
-
-var Reader = /*#__PURE__*/function () {
-  function Reader(readline) {
-    this.rl = readline;
-  }
-  /**
-   * @description Read the integer on this line
-   * @returns integer
-   */
-
-
-  var _proto = Reader.prototype;
-
-  _proto.readInt = function readInt() {
-    return toInt(this.rl());
-  }
-  /**
-   * @description Read the whole line as the string
-   * @returns Read the whole line as a string
-   */
-  ;
-
-  _proto.readLine = function readLine() {
-    return this.rl();
-  }
-  /**
-   * @description Read the whole line as an array
-   * @returns The number array
-   */
-  ;
-
-  _proto.readArray = function readArray() {
-    return intArray(this.rl());
-  };
-
-  return Reader;
-}();
-
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
@@ -130,19 +62,19 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) {
  */
 var fs = /*#__PURE__*/require('fs');
 
-var configPath = "./compe.config.json";
+var configPath = './compe.config.json';
 function proc(main, inputDir) {
   global.MOD_ = 998244353;
   global.MOD_CUT = 444595123;
 
-  if (fs.existsSync(configPath) && inputDir != "stdin") {
+  if (fs.existsSync(configPath)) {
     if (!fs.existsSync(inputDir)) {
-      console.log("Input directory does not exist");
+      console.log('Input directory does not exist');
       return;
     }
 
     var data = fs.readFileSync(inputDir, {
-      encoding: "utf-8"
+      encoding: 'utf-8'
     });
     var dataIndex = 0;
     data = data.split(/ |\n|\r/g);
@@ -154,31 +86,19 @@ function proc(main, inputDir) {
     }
 
     global.rnum = function (num) {
-      if (num === void 0) {
-        num = 1;
-      }
-
-      return num === 1 ? +processedData[dataIndex++] : processedData.slice(dataIndex, dataIndex += num).map(function (a) {
+      return num ? processedData.slice(dataIndex, dataIndex += num).map(function (a) {
         return +a;
-      });
+      }) : +processedData[dataIndex++];
     };
 
     global.rstr = function (num) {
-      if (num === void 0) {
-        num = 1;
-      }
-
-      return num === 1 ? processedData[dataIndex++] : processedData.slice(dataIndex, dataIndex += num);
+      return num ? processedData.slice(dataIndex, dataIndex += num) : processedData[dataIndex++];
     };
 
     global.rbig = function (num) {
-      if (num === void 0) {
-        num = 1;
-      }
-
-      return num === 1 ? BigInt(processedData[dataIndex++]) : processedData.slice(dataIndex, dataIndex += num).map(function (a) {
+      return num ? processedData.slice(dataIndex, dataIndex += num).map(function (a) {
         return BigInt(a);
-      });
+      }) : BigInt(processedData[dataIndex++]);
     };
 
     global.print = function () {
@@ -194,62 +114,52 @@ function proc(main, inputDir) {
 
     main();
   } else {
-    var _data = fs.readFileSync(inputDir, {
-      encoding: "utf-8"
+    var _data = '';
+    process.stdin.on('data', function (c) {
+      _data += c;
     });
+    process.stdin.on('end', function () {
+      var dataIndex = 0;
+      _data = _data.split(/ |\n|\r/g);
+      var processedData = [];
 
-    var _dataIndex = 0;
-    _data = _data.split(/ |\n|\r/g);
-    var _processedData = [];
-
-    for (var _iterator2 = _createForOfIteratorHelperLoose(_data), _step2; !(_step2 = _iterator2()).done;) {
-      var _chunk = _step2.value;
-      if (_chunk.length > 0) _processedData.push(_chunk);
-    }
-
-    global.rnum = function (num) {
-      if (num === void 0) {
-        num = 1;
+      for (var _iterator2 = _createForOfIteratorHelperLoose(_data), _step2; !(_step2 = _iterator2()).done;) {
+        var _chunk = _step2.value;
+        if (_chunk.length > 0) processedData.push(_chunk);
       }
 
-      return num === 1 ? +_processedData[_dataIndex++] : _processedData.slice(_dataIndex, _dataIndex += num).map(function (a) {
-        return +a;
-      });
-    };
+      global.rnum = function (num) {
+        return num ? processedData.slice(dataIndex, dataIndex += num).map(function (a) {
+          return +a;
+        }) : +processedData[dataIndex++];
+      };
 
-    global.rstr = function (num) {
-      if (num === void 0) {
-        num = 1;
-      }
+      global.rstr = function (num) {
+        return num ? processedData.slice(dataIndex, dataIndex += num) : processedData[dataIndex++];
+      };
 
-      return num === 1 ? _processedData[_dataIndex++] : _processedData.slice(_dataIndex, _dataIndex += num);
-    };
+      global.rbig = function (num) {
+        return num ? processedData.slice(dataIndex, dataIndex += num).map(function (a) {
+          return BigInt(a);
+        }) : BigInt(processedData[dataIndex++]);
+      };
 
-    global.rbig = function (num) {
-      if (num === void 0) {
-        num = 1;
-      }
+      var dataBuffer = '';
 
-      return num === 1 ? BigInt(_processedData[_dataIndex++]) : _processedData.slice(_dataIndex, _dataIndex += num).map(function (a) {
-        return BigInt(a);
-      });
-    };
+      global.print = function () {
+        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
 
-    var dataBuffer = "";
+        for (var _i2 = 0, _args2 = args; _i2 < _args2.length; _i2++) {
+          var printData = _args2[_i2];
+          dataBuffer += String(printData);
+        }
+      };
 
-    global.print = function () {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      for (var _i2 = 0, _args2 = args; _i2 < _args2.length; _i2++) {
-        var printData = _args2[_i2];
-        dataBuffer += String(printData);
-      }
-    };
-
-    main();
-    console.log(dataBuffer);
+      main();
+      console.log(dataBuffer);
+    });
   }
 }
 
@@ -4472,6 +4382,60 @@ var mst = function mst(graph) {
   return {
     mst: mst,
     mstEdges: mstEdges
+  };
+};
+
+/**
+ *
+ * @param graph
+ * @param source The source node / the array of source nodes
+ * @returns The parent array & the shortest path array
+ */
+
+var spfa = function spfa(graph, source) {
+  graph.reset();
+  var INF = Number.MAX_SAFE_INTEGER;
+  var d = multiArray(INF, graph.g.length);
+  var inq = multiArray(false, graph.g.length);
+  var q = new Deque();
+
+  if (Array.isArray(source)) {
+    for (var _iterator = _createForOfIteratorHelperLoose(source), _step; !(_step = _iterator()).done;) {
+      var node = _step.value;
+      q.push(node);
+      inq[node] = true;
+      d[node] = 0;
+    }
+  } else {
+    q.push(source);
+    inq[source] = true;
+    d[source] = 0;
+  }
+
+  var u;
+
+  while (q.size) {
+    u = q.pop();
+    inq[u] = false;
+
+    for (var _iterator2 = _createForOfIteratorHelperLoose(graph.g[u]), _step2; !(_step2 = _iterator2()).done;) {
+      var next = _step2.value;
+
+      if (d[next.to] > d[u] + next.prop.weight) {
+        d[next.to] = d[u] + next.prop.weight;
+        graph.par[next.to] = u;
+
+        if (!inq[next.to]) {
+          inq[next.to] = true;
+          q.push(next.to);
+        }
+      }
+    }
+  }
+
+  return {
+    parArray: graph.par,
+    distArray: d
   };
 };
 

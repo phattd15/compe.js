@@ -2,7 +2,7 @@ const {
   proc,                                 // IO & Processor
   multiArray, vectorArray,              // Fast array generators
   Deque, DSU, PriorityQueue,            // Data structures
-  Graph, dfs, bfs, mst, dijkstra,       // Graph Algorithms
+  Graph, dfs, bfs, mst, dijkstra, spfa, // Graph Algorithms
   setMod, add, sub, pow, inv, mul,      // Modular integer operations
   factSetup, fact, binom,               // Modular combinatorics
   lowerBound, upperBound, binarySearch, // Binary search 
