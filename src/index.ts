@@ -4,6 +4,8 @@ export * from './ds/treeset';
 export * from './ds/deque';
 export * from './ds/dsu';
 export * from './ds/priorityqueue';
+export * from './ds/sparseTable';
+export * from './ds/bit';
 export * from './util/array';
 export * from './util/binarySearch';
 export * from './util/ternarySearch';

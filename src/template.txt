@@ -2,6 +2,7 @@ const {
   proc,                                 // IO & Processor
   multiArray, vectorArray,              // Fast array generators
   Deque, DSU, PriorityQueue,            // Data structures
+  SparseTable, FenwickTree,             // Range query data structures
   Graph, dfs, bfs, mst, dijkstra, spfa, // Graph Algorithms
   setMod, add, sub, pow, inv, mul,      // Modular integer operations
   factSetup, fact, binom,               // Modular combinatorics
