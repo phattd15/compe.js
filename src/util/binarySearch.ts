@@ -73,7 +73,7 @@ const binarySearch = (leftBound: number, rightBound: number, fn: any): any => {
   let mid,
     answer = null;
   while (leftBound <= rightBound) {
-    mid = (leftBound + rightBound) >>> 1;
+    mid = (leftBound + rightBound) >> 1;
     if (fn(mid)) {
       answer = mid;
       rightBound = mid - 1;

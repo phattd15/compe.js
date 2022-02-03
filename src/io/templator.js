@@ -22,13 +22,13 @@ export function proc(main, inputDir) {
       if (chunk.length > 0) processedData.push(chunk);
     }
     global.rnum = function(num=1) {
-      return processedData.slice(dataIndex, dataIndex += num).map(a => +a);
+      return num === 1 ? +processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num).map(a => +a);
     };
     global.rstr = function(num=1) {
-      return processedData.slice(dataIndex, dataIndex += num);
+      return num === 1 ? processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num);
     };
     global.rbig = function(num=1) {
-      return processedData.slice(dataIndex, dataIndex += num).map(a => BigInt(a));
+      return num === 1 ? BigInt(processedData[dataIndex ++]) :  processedData.slice(dataIndex, dataIndex += num).map(a => BigInt(a));
     };
     global.print = function(...args) {
       for (let printData of args)
@@ -44,13 +44,13 @@ export function proc(main, inputDir) {
       if (chunk.length > 0) processedData.push(chunk);
     }
     global.rnum = function(num=1) {
-      return processedData.slice(dataIndex, dataIndex += num).map(a => +a);
+      return num === 1 ? +processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num).map(a => +a);
     };
     global.rstr = function(num=1) {
-      return processedData.slice(dataIndex, dataIndex += num);
+      return num === 1 ? processedData[dataIndex ++] :  processedData.slice(dataIndex, dataIndex += num);
     };
     global.rbig = function(num=1) {
-      return processedData.slice(dataIndex, dataIndex += num).map(a => BigInt(a));
+      return num === 1 ? BigInt(processedData[dataIndex ++]) :  processedData.slice(dataIndex, dataIndex += num).map(a => BigInt(a));
     };
     let dataBuffer = "";
     global.print = function(...args) {
