@@ -4004,6 +4004,100 @@ var PriorityQueue = /*#__PURE__*/function () {
   return PriorityQueue;
 }();
 
+var SparseTable = /*#__PURE__*/function () {
+  /**
+   *
+   * @param initValue The array of init value at positions (0-indexed)
+   * @param merger The combinator function, must be idempotent, by default it is min function
+   */
+  function SparseTable(initValue, merger) {
+    var _this = this;
+
+    if (merger === void 0) {
+      merger = function merger(a, b) {
+        return a < b ? a : b;
+      };
+    }
+
+    this.maxGap = 0;
+    var elemCount = initValue.length;
+    this.logFactor = this.floorLog2(elemCount);
+    this.elemCount = elemCount;
+    this.merger = merger;
+    this.cont = Array(elemCount).fill(0).map(function () {
+      return Array(_this.logFactor + 1);
+    });
+
+    for (var i = 0; i < elemCount; i++) {
+      this.cont[i][0] = initValue[i];
+    }
+
+    for (var j = 1; j <= this.logFactor; j++) {
+      for (var _i = 0; _i + (1 << j) - 1 < elemCount; _i++) {
+        this.cont[_i][j] = merger(this.cont[_i][j - 1], this.cont[_i + (1 << j - 1)][j - 1]);
+      }
+    }
+  }
+
+  var _proto = SparseTable.prototype;
+
+  _proto.floorLog2 = function floorLog2(x) {
+    return 31 - Math.clz32(x);
+  };
+
+  _proto.query = function query(leftBound, rightBound) {
+    this.maxGap = this.floorLog2(rightBound - leftBound + 1);
+    return this.merger(this.cont[leftBound][this.maxGap], this.cont[rightBound - (1 << this.maxGap) + 1][this.maxGap]);
+  };
+
+  return SparseTable;
+}();
+
+var FenwickTree = /*#__PURE__*/function () {
+  /**
+   *
+   * @param elemCount The number of elements that the tree supports
+   * @param identityValue The null value regarding the operation
+   * @param updateMethod The combination function of node
+   */
+  function FenwickTree(elemCount, identityValue, updateMethod) {
+    if (identityValue === void 0) {
+      identityValue = 0;
+    }
+
+    if (updateMethod === void 0) {
+      updateMethod = function updateMethod(a, b) {
+        return a + b;
+      };
+    }
+
+    this.identityValue = identityValue;
+    this.updateMethod = updateMethod;
+    this.elemCount = elemCount;
+    this.cont = Array(elemCount + 1).fill(identityValue);
+  }
+
+  var _proto = FenwickTree.prototype;
+
+  _proto.query = function query(index) {
+    var res = this.identityValue;
+
+    for (; index >= 0; index = (index & index + 1) - 1) {
+      res = this.updateMethod(res, this.cont[index]);
+    }
+
+    return res;
+  };
+
+  _proto.update = function update(index, delta) {
+    for (; index <= this.elemCount; index |= index + 1) {
+      this.cont[index] = this.updateMethod(this.cont[index], delta);
+    }
+  };
+
+  return FenwickTree;
+}();
+
 var defaultComparator = function defaultComparator(a, b) {
   return a < b;
 };
