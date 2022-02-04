@@ -53,7 +53,7 @@ const mul = (...args) => {
  * @returns Power in mod division
  */
 const pow = (base, exponent) => {
-  var res = 1;
+  let res = 1;
   while (exponent) {
     if (exponent & 1) res = mul(res, base);
     base = mul(base, base);
@@ -68,7 +68,7 @@ const pow = (base, exponent) => {
  * @returns The inverse modular of x
  */
 const inv = x => {
-  for (var a = 1, b = 0, y = global.MOD_, q; y; [b, a] = [a, b - q * a]) {
+  for (let a = 1, b = 0, y = global.MOD_, q; y; [b, a] = [a, b - q * a]) {
     (q = (y / x) | 0), ([y, x] = [x, y - q * x]);
   }
   return a < 0 ? a + global.MOD_ : a;
