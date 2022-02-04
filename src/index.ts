@@ -7,6 +7,7 @@ export * from './ds/priorityqueue';
 export * from './ds/sparseTable';
 export * from './ds/bit';
 export * from './ds/segmentTree';
+export * from './ds/lazySegmentTree';
 export * from './util/array';
 export * from './util/binarySearch';
 export * from './util/ternarySearch';
