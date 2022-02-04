@@ -17,6 +17,22 @@ function _createClass(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+
+  _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
 function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;
   if (typeof o === "string") return _arrayLikeToArray(o, minLen);
@@ -186,11 +202,11 @@ function _createClass$1(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
-function _inheritsLoose(subClass, superClass) {
+function _inheritsLoose$1(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
   subClass.prototype.constructor = subClass;
 
-  _setPrototypeOf(subClass, superClass);
+  _setPrototypeOf$1(subClass, superClass);
 }
 
 function _getPrototypeOf(o) {
@@ -200,13 +216,13 @@ function _getPrototypeOf(o) {
   return _getPrototypeOf(o);
 }
 
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+function _setPrototypeOf$1(o, p) {
+  _setPrototypeOf$1 = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
     o.__proto__ = p;
     return o;
   };
 
-  return _setPrototypeOf(o, p);
+  return _setPrototypeOf$1(o, p);
 }
 
 function _isNativeReflectConstruct() {
@@ -231,7 +247,7 @@ function _construct(Parent, args, Class) {
       a.push.apply(a, args);
       var Constructor = Function.bind.apply(Parent, a);
       var instance = new Constructor();
-      if (Class) _setPrototypeOf(instance, Class.prototype);
+      if (Class) _setPrototypeOf$1(instance, Class.prototype);
       return instance;
     };
   }
@@ -271,7 +287,7 @@ function _wrapNativeSuper(Class) {
         configurable: true
       }
     });
-    return _setPrototypeOf(Wrapper, Class);
+    return _setPrototypeOf$1(Wrapper, Class);
   };
 
   return _wrapNativeSuper(Class);
@@ -518,7 +534,7 @@ var NativeArrayIterator = /*#__PURE__*/function () {
 
 
 var SetContainer = /*#__PURE__*/function (_Container) {
-  _inheritsLoose(SetContainer, _Container);
+  _inheritsLoose$1(SetContainer, _Container);
   /* ---------------------------------------------------------
       CONSTURCTORS
   --------------------------------------------------------- */
@@ -669,7 +685,7 @@ var SetContainer = /*#__PURE__*/function (_Container) {
 
 
 var Exception = /*#__PURE__*/function (_Error) {
-  _inheritsLoose(Exception, _Error);
+  _inheritsLoose$1(Exception, _Error);
   /* ---------------------------------------------------------
       CONSTRUCTOR
   --------------------------------------------------------- */
@@ -743,7 +759,7 @@ var Exception = /*#__PURE__*/function (_Error) {
 
 
 var LogicError = /*#__PURE__*/function (_Exception) {
-  _inheritsLoose(LogicError, _Exception);
+  _inheritsLoose$1(LogicError, _Exception);
   /**
    * Initializer Constructor.
    *
@@ -765,7 +781,7 @@ var LogicError = /*#__PURE__*/function (_Exception) {
 
 
 var InvalidArgument = /*#__PURE__*/function (_LogicError) {
-  _inheritsLoose(InvalidArgument, _LogicError);
+  _inheritsLoose$1(InvalidArgument, _LogicError);
   /**
    * Initializer Constructor.
    *
@@ -787,7 +803,7 @@ var InvalidArgument = /*#__PURE__*/function (_LogicError) {
 
 
 var OutOfRange = /*#__PURE__*/function (_LogicError) {
-  _inheritsLoose(OutOfRange, _LogicError);
+  _inheritsLoose$1(OutOfRange, _LogicError);
   /**
    * Initializer Constructor.
    *
@@ -887,7 +903,7 @@ var ErrorGenerator;
 
 
 var UniqueSet = /*#__PURE__*/function (_SetContainer) {
-  _inheritsLoose(UniqueSet, _SetContainer);
+  _inheritsLoose$1(UniqueSet, _SetContainer);
 
   function UniqueSet() {
     return _SetContainer.apply(this, arguments) || this;
@@ -1318,7 +1334,7 @@ var Pair = /*#__PURE__*/function () {
 
 
 var UniqueTreeSet = /*#__PURE__*/function (_UniqueSet) {
-  _inheritsLoose(UniqueTreeSet, _UniqueSet);
+  _inheritsLoose$1(UniqueTreeSet, _UniqueSet);
 
   function UniqueTreeSet() {
     return _UniqueSet.apply(this, arguments) || this;
@@ -1544,7 +1560,7 @@ function advance(it, n) {
 
 
 var ListContainer = /*#__PURE__*/function (_Container) {
-  _inheritsLoose(ListContainer, _Container);
+  _inheritsLoose$1(ListContainer, _Container);
   /* ---------------------------------------------------------
       CONSTRUCTORS
   --------------------------------------------------------- */
@@ -1888,7 +1904,7 @@ var ReverseIterator = /*#__PURE__*/function () {
 
 
 var SetElementList = /*#__PURE__*/function (_ListContainer) {
-  _inheritsLoose(SetElementList, _ListContainer);
+  _inheritsLoose$1(SetElementList, _ListContainer);
   /* ---------------------------------------------------------
       CONSTRUCTORS
   --------------------------------------------------------- */
@@ -1944,7 +1960,7 @@ var SetElementList = /*#__PURE__*/function (_ListContainer) {
    * @author Jeongho Nam - https://github.com/samchon
    */
   var Iterator = /*#__PURE__*/function (_ListIterator) {
-    _inheritsLoose(Iterator, _ListIterator);
+    _inheritsLoose$1(Iterator, _ListIterator);
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
@@ -2003,7 +2019,7 @@ var SetElementList = /*#__PURE__*/function (_ListContainer) {
    */
 
   var ReverseIterator$1 = /*#__PURE__*/function (_ReverseIterator2) {
-    _inheritsLoose(ReverseIterator, _ReverseIterator2);
+    _inheritsLoose$1(ReverseIterator, _ReverseIterator2);
 
     function ReverseIterator() {
       return _ReverseIterator2.apply(this, arguments) || this;
@@ -2405,7 +2421,7 @@ var XTree = /*#__PURE__*/function () {
 }();
 
 var SetTree = /*#__PURE__*/function (_XTree) {
-  _inheritsLoose(SetTree, _XTree);
+  _inheritsLoose$1(SetTree, _XTree);
   /* ---------------------------------------------------------
       CONSTRUCTOR
   --------------------------------------------------------- */
@@ -2480,7 +2496,7 @@ var SetTree = /*#__PURE__*/function (_XTree) {
 }(XTree);
 
 var UniqueSetTree = /*#__PURE__*/function (_SetTree) {
-  _inheritsLoose(UniqueSetTree, _SetTree);
+  _inheritsLoose$1(UniqueSetTree, _SetTree);
   /* ---------------------------------------------------------
       CONSTRUCTOR
   --------------------------------------------------------- */
@@ -2544,7 +2560,7 @@ var UniqueSetTree = /*#__PURE__*/function (_SetTree) {
 
 
 const TreeSet = /*#__PURE__*/function (_UniqueTreeSet) {
-  _inheritsLoose(TreeSet, _UniqueTreeSet);
+  _inheritsLoose$1(TreeSet, _UniqueTreeSet);
 
   function TreeSet() {
     var _this;
@@ -5003,3 +5019,94 @@ var binom = function binom(n, k) {
 var fact = function fact(x) {
   return global.factorial[x];
 };
+
+var Tree = /*#__PURE__*/function (_Graph) {
+  _inheritsLoose(Tree, _Graph);
+
+  function Tree(vertices, root) {
+    var _this;
+
+    _this = _Graph.call(this, vertices) || this;
+    _this.root = 1;
+    _this.root = root;
+    _this.childCount = Array(vertices + 1).fill(1);
+    _this.distRoot = Array(vertices + 1).fill(0);
+    _this.distance = Array(vertices + 1).fill(0);
+    return _this;
+  }
+
+  var _proto = Tree.prototype;
+
+  _proto.setupDist = function setupDist() {
+    var _this2 = this;
+
+    dfs(this, this.root, function (u, g) {
+      for (var _iterator = _createForOfIteratorHelperLoose(g.g[u]), _step; !(_step = _iterator()).done;) {
+        var next = _step.value;
+
+        if (next.to != g.par[u]) {
+          if (next.prop) {
+            _this2.distance[next.to] = _this2.distance[u] + next.prop.weight;
+          }
+
+          _this2.distRoot[next.to] = _this2.distRoot[u] + 1;
+        }
+      }
+    }, function (u, g) {
+      for (var _iterator2 = _createForOfIteratorHelperLoose(g.g[u]), _step2; !(_step2 = _iterator2()).done;) {
+        var next = _step2.value;
+
+        if (next.to != g.par[u]) {
+          _this2.childCount[u] += _this2.childCount[next.to];
+        }
+      }
+    });
+  };
+
+  _proto.setupLCA = function setupLCA() {
+    this.setupDist();
+    var logFactor = 31 - Math.clz32(this.g.length);
+    this.log = logFactor;
+    this.parentLift = Array(logFactor + 1);
+    this.parentLift[0] = this.par;
+
+    for (var level = 1; level <= logFactor; level++) {
+      this.parentLift[level] = Array(this.g.length).fill(-1);
+
+      for (var i = 0; i < this.g.length; i++) {
+        if (this.parentLift[level - 1][i] != -1) {
+          this.parentLift[level][i] = this.parentLift[level - 1][this.parentLift[level - 1][i]];
+        }
+      }
+    }
+
+    this.distRoot = this.distRoot;
+  };
+
+  _proto.getLCA = function getLCA(u, v) {
+    if (this.distRoot[u] < this.distRoot[v]) {
+      var _ref = [v, u];
+      u = _ref[0];
+      v = _ref[1];
+    }
+
+    for (var i = this.log; i >= 0; i--) {
+      if (this.distRoot[u] - (1 << i) >= this.distRoot[v]) {
+        u = this.parentLift[i][u];
+      }
+    }
+
+    if (u === v) return u;
+
+    for (var _i = this.log; _i >= 0; _i--) {
+      if (this.parentLift[_i][u] != this.parentLift[_i][v]) {
+        u = this.parentLift[_i][u];
+        v = this.parentLift[_i][v];
+      }
+    }
+
+    return this.parentLift[0][u];
+  };
+
+  return Tree;
+}(Graph);

@@ -19,3 +19,4 @@ export * from './graph/spfa';
 export * from './graph/dijkstra';
 export * from './mint/combinatorics';
 export * from './mint/modularOperator';
+export * from './tree/tree';
