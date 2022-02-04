@@ -4211,6 +4211,16 @@ var SegmentTree = /*#__PURE__*/function () {
 }();
 
 var LazySegmentTree = /*#__PURE__*/function () {
+  /**
+   *
+   * @param elemCount
+   * @param identityValue The identity value of node
+   * @param merger Merge function of 2 nodes values
+   * @param identityLazy The identity value of lazy
+   * @param pusher Function that apply the lazy value from parent to its child
+   * @param modifier Function that takes in the node value and lazy value, returns the new node value
+   * @param initValue An array of value for initialization
+   */
   function LazySegmentTree(elemCount, identityValue, merger, identityLazy, pusher, modifier, initValue) {
     if (initValue === void 0) {
       initValue = null;
@@ -4244,6 +4254,7 @@ var LazySegmentTree = /*#__PURE__*/function () {
   };
 
   _proto.internalModify = function internalModify(index, delta) {
+    if (delta === this.identityLazy) return;
     this.cont[index] = this.modifier(this.cont[index], delta);
     if (index < this.size) this.lazyCont[index] = this.pusher(this.lazyCont[index], delta);
   };
@@ -4253,7 +4264,13 @@ var LazySegmentTree = /*#__PURE__*/function () {
     this.internalModify(index << 1, this.lazyCont[index]);
     this.internalModify(index << 1 | 1, this.lazyCont[index]);
     this.lazyCont[index] = this.identityLazy;
-  };
+  }
+  /**
+   * Set value at index to new value
+   * @param index
+   * @param value
+   */
+  ;
 
   _proto.set = function set(index, value) {
     index += this.size;
@@ -4267,7 +4284,13 @@ var LazySegmentTree = /*#__PURE__*/function () {
     for (var _i2 = 1; _i2 <= this.log; _i2++) {
       this.internalUpdate(index >> _i2);
     }
-  };
+  }
+  /**
+   *
+   * @param index
+   * @returns Value at index
+   */
+  ;
 
   _proto.get = function get(index) {
     index += this.size;
@@ -4277,7 +4300,14 @@ var LazySegmentTree = /*#__PURE__*/function () {
     }
 
     return this.cont[index];
-  };
+  }
+  /**
+   *
+   * @param left
+   * @param right
+   * @returns Return the range query in [left, right] range
+   */
+  ;
 
   _proto.query = function query(left, right) {
     right++;
@@ -4300,11 +4330,23 @@ var LazySegmentTree = /*#__PURE__*/function () {
     }
 
     return this.merger(sumLeft, sumRight);
-  };
+  }
+  /**
+   *
+   * @returns The query on [0, elemCount - 1]
+   */
+  ;
 
   _proto.all = function all() {
     return this.cont[1];
-  };
+  }
+  /**
+   * Update the range query on [left, right] with delta to modify
+   * @param left
+   * @param right
+   * @param delta
+   */
+  ;
 
   _proto.update = function update(left, right, delta) {
     right++;
