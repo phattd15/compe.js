@@ -36,7 +36,7 @@ class SegmentTree {
    * @param index 
    * @param value 
    */
-  public update(index: number, value: any) {
+  public set(index: number, value: any) {
     index += this.size;
     this.cont[index] = value;
     for (let i = 1; i <= this.log; i ++)

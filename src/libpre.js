@@ -4147,7 +4147,7 @@ var SegmentTree = /*#__PURE__*/function () {
    */
   ;
 
-  _proto.update = function update(index, value) {
+  _proto.set = function set(index, value) {
     index += this.size;
     this.cont[index] = value;
 
@@ -4208,6 +4208,134 @@ var SegmentTree = /*#__PURE__*/function () {
   };
 
   return SegmentTree;
+}();
+
+var LazySegmentTree = /*#__PURE__*/function () {
+  function LazySegmentTree(elemCount, identityValue, merger, identityLazy, pusher, modifier, initValue) {
+    if (initValue === void 0) {
+      initValue = null;
+    }
+
+    this.identityValue = identityValue;
+    this.merger = merger;
+    this.identityLazy = identityLazy;
+    this.pusher = pusher;
+    this.modifier = modifier;
+    this.log = Math.ceil(Math.log2(elemCount));
+    this.size = 1 << this.log;
+    this.cont = Array(this.size << 1).fill(this.identityValue);
+    this.lazyCont = Array(this.size).fill(identityLazy);
+
+    if (initValue) {
+      for (var i = 0; i < elemCount; i++) {
+        this.cont[this.size + i] = initValue[i];
+      }
+
+      for (var _i = this.size - 1; _i >= 1; _i--) {
+        this.internalUpdate(_i);
+      }
+    }
+  }
+
+  var _proto = LazySegmentTree.prototype;
+
+  _proto.internalUpdate = function internalUpdate(index) {
+    this.cont[index] = this.merger(this.cont[index << 1], this.cont[index << 1 | 1]);
+  };
+
+  _proto.internalModify = function internalModify(index, delta) {
+    this.cont[index] = this.modifier(this.cont[index], delta);
+    if (index < this.size) this.lazyCont[index] = this.pusher(this.lazyCont[index], delta);
+  };
+
+  _proto.internalPush = function internalPush(index) {
+    if (this.lazyCont[index] === this.identityLazy) return;
+    this.internalModify(index << 1, this.lazyCont[index]);
+    this.internalModify(index << 1 | 1, this.lazyCont[index]);
+    this.lazyCont[index] = this.identityLazy;
+  };
+
+  _proto.set = function set(index, value) {
+    index += this.size;
+
+    for (var i = this.log; i >= 1; i--) {
+      this.internalPush(index >> i);
+    }
+
+    this.cont[index] = value;
+
+    for (var _i2 = 1; _i2 <= this.log; _i2++) {
+      this.internalUpdate(index >> _i2);
+    }
+  };
+
+  _proto.get = function get(index) {
+    index += this.size;
+
+    for (var i = this.log; i >= 1; i--) {
+      this.internalPush(index >> i);
+    }
+
+    return this.cont[index];
+  };
+
+  _proto.query = function query(left, right) {
+    right++;
+    left += this.size;
+    right += this.size;
+
+    for (var i = this.log; i >= 1; i--) {
+      if (left >> i << i != left) this.internalPush(left >> i);
+      if (right >> i << i != right) this.internalPush(right - 1 >> i);
+    }
+
+    var sumLeft = this.identityValue;
+    var sumRight = this.identityValue;
+
+    while (left < right) {
+      if (left & 1) sumLeft = this.merger(sumLeft, this.cont[left++]);
+      if (right & 1) sumRight = this.merger(this.cont[--right], sumRight);
+      left >>= 1;
+      right >>= 1;
+    }
+
+    return this.merger(sumLeft, sumRight);
+  };
+
+  _proto.all = function all() {
+    return this.cont[1];
+  };
+
+  _proto.update = function update(left, right, delta) {
+    right++;
+    left += this.size;
+    right += this.size;
+
+    for (var i = this.log; i >= 1; i--) {
+      if (left >> i << i != left) this.internalPush(left >> i);
+      if (right >> i << i != right) this.internalPush(right - 1 >> i);
+    }
+
+    var tempLeft = left,
+        tempRight = right;
+
+    while (left < right) {
+      if (left & 1) this.internalModify(left++, delta);
+      if (right & 1) this.internalModify(--right, delta);
+      left >>= 1;
+      right >>= 1;
+    }
+
+    left = tempLeft;
+    right = tempRight;
+
+    for (var _i3 = 1; _i3 <= this.log; _i3++) {
+      if (left >> _i3 << _i3 != left) this.internalUpdate(left >> _i3);
+      if (right >> _i3 << _i3 != right) this.internalUpdate(right - 1 >> _i3);
+    }
+  };
+
+  return LazySegmentTree;
 }();
 
 var defaultComparator = function defaultComparator(a, b) {
