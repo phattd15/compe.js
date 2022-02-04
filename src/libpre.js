@@ -4022,7 +4022,6 @@ var SparseTable = /*#__PURE__*/function () {
     this.maxGap = 0;
     var elemCount = initValue.length;
     this.logFactor = this.floorLog2(elemCount);
-    this.elemCount = elemCount;
     this.merger = merger;
     this.cont = Array(elemCount).fill(0).map(function () {
       return Array(_this.logFactor + 1);
@@ -4043,7 +4042,14 @@ var SparseTable = /*#__PURE__*/function () {
 
   _proto.floorLog2 = function floorLog2(x) {
     return 31 - Math.clz32(x);
-  };
+  }
+  /**
+   *
+   * @param leftBound
+   * @param rightBound
+   * @returns Return the query on [leftBound, rightBound]
+   */
+  ;
 
   _proto.query = function query(leftBound, rightBound) {
     this.maxGap = this.floorLog2(rightBound - leftBound + 1);
@@ -4096,6 +4102,112 @@ var FenwickTree = /*#__PURE__*/function () {
   };
 
   return FenwickTree;
+}();
+
+var SegmentTree = /*#__PURE__*/function () {
+  /**
+   *
+   * @param elemCount Number of elements
+   * @param identityValue The identity value of merge operation
+   * @param merger Merging operation
+   * @param initValue The initial value of the tree, can be left blank to initialize as all identity value
+   */
+  function SegmentTree(elemCount, identityValue, merger, initValue) {
+    if (initValue === void 0) {
+      initValue = null;
+    }
+
+    this.identityValue = identityValue;
+    this.merger = merger;
+    this.elemCount = elemCount;
+    this.log = Math.ceil(Math.log2(elemCount));
+    this.size = 1 << this.log;
+    this.cont = Array(elemCount << 1).fill(this.identityValue);
+
+    if (initValue) {
+      for (var i = 0; i < elemCount; i++) {
+        this.cont[this.size + i] = initValue[i];
+      }
+
+      for (var _i = this.size - 1; _i >= 1; _i--) {
+        this.internalUpdate(_i);
+      }
+    }
+  }
+
+  var _proto = SegmentTree.prototype;
+
+  _proto.internalUpdate = function internalUpdate(index) {
+    this.cont[index] = this.merger(this.cont[index << 1], this.cont[index << 1 | 1]);
+  }
+  /**
+   * Set element at position index with value (not updating with that value through merger)
+   * @param index
+   * @param value
+   */
+  ;
+
+  _proto.update = function update(index, value) {
+    index += this.size;
+    this.cont[index] = value;
+
+    for (var i = 1; i <= this.log; i++) {
+      this.internalUpdate(index >> i);
+    }
+  }
+  /**
+   *
+   * @param index
+   * @returns Return element at index if a number is the argument, else if blank will return the whole array
+   */
+  ;
+
+  _proto.get = function get(index) {
+    if (index) return this.cont[index + this.size];else return this.cont.slice(this.size, this.size + this.elemCount);
+  }
+  /**
+   *
+   * @param left
+   * @param right
+   * @returns The operation on the range [left, right]
+   */
+  ;
+
+  _proto.query = function query(left, right) {
+    if (left === void 0) {
+      left = 0;
+    }
+
+    if (right === void 0) {
+      right = this.elemCount - 1;
+    }
+
+    right++;
+    var sumLeft = this.identityValue,
+        sumRight = this.identityValue;
+    left += this.size;
+    right += this.size;
+
+    while (left < right) {
+      if (left & 1) sumLeft = this.merger(sumLeft, this.cont[left++]);
+      if (right & 1) sumRight = this.merger(this.cont[--right], sumRight);
+      left >>= 1;
+      right >>= 1;
+    }
+
+    return this.merger(sumLeft, sumRight);
+  }
+  /**
+   *
+   * @returns The operation applied on the whole array
+   */
+  ;
+
+  _proto.all = function all() {
+    return this.cont[1];
+  };
+
+  return SegmentTree;
 }();
 
 var defaultComparator = function defaultComparator(a, b) {
@@ -4672,11 +4784,6 @@ var pow = function pow(base, exponent) {
 
 
 var inv = function inv(x) {
-  for (var a = 1, b = 0, y = global.MOD_, q; y; _ref = [a, b - q * a], b = _ref[0], a = _ref[1], _ref) {
-    var _ref, _ref2;
-
-    q = y / x | 0, (_ref2 = [x, y - q * x], y = _ref2[0], x = _ref2[1], _ref2);
-  }
 
   return a < 0 ? a + global.MOD_ : a;
 };
@@ -4698,7 +4805,7 @@ var factSetup = function factSetup(maxRange) {
     global.factorial[i] = mul(global.factorial[i - 1], i);
   }
 
-  global.invFactorial[maxRange] = inv(global.factorial[maxRange]);
+  global.invFactorial[maxRange] = inv();
 
   for (var _i = maxRange - 1; _i >= 1; _i--) {
     global.invFactorial[_i] = mul(global.invFactorial[_i + 1], _i + 1);
