@@ -9,23 +9,26 @@ class LazySegmentTree {
   private pusher: any;
   private modifier: any;
   private internalUpdate(index: number) {
-    this.cont[index] = this.merger(this.cont[index << 1], this.cont[index << 1 | 1]);
+    this.cont[index] = this.merger(
+      this.cont[index << 1],
+      this.cont[(index << 1) | 1]
+    );
   }
   private internalModify(index: number, delta: any) {
     if (delta === this.identityLazy) return;
     this.cont[index] = this.modifier(this.cont[index], delta);
-    if (index < this.size) this.lazyCont[index] = this.pusher(this.lazyCont[index], delta);
+    if (index < this.size)
+      this.lazyCont[index] = this.pusher(this.lazyCont[index], delta);
   }
   private internalPush(index: number) {
-    if (this.lazyCont[index] === this.identityLazy)
-      return;
+    if (this.lazyCont[index] === this.identityLazy) return;
     this.internalModify(index << 1, this.lazyCont[index]);
-    this.internalModify(index << 1 | 1, this.lazyCont[index]);
+    this.internalModify((index << 1) | 1, this.lazyCont[index]);
     this.lazyCont[index] = this.identityLazy;
   }
   /**
-   * 
-   * @param elemCount 
+   *
+   * @param elemCount
    * @param identityValue The identity value of node
    * @param merger Merge function of 2 nodes values
    * @param identityLazy The identity value of lazy
@@ -33,7 +36,15 @@ class LazySegmentTree {
    * @param modifier Function that takes in the node value and lazy value, returns the new node value
    * @param initValue An array of value for initialization
    */
-  public constructor(elemCount: number, identityValue: any, merger: any, identityLazy: any, pusher: any, modifier: any, initValue: any = null) {
+  public constructor(
+    elemCount: number,
+    identityValue: any,
+    merger: any,
+    identityLazy: any,
+    pusher: any,
+    modifier: any,
+    initValue: any = null
+  ) {
     this.identityValue = identityValue;
     this.merger = merger;
     this.identityLazy = identityLazy;
@@ -54,8 +65,8 @@ class LazySegmentTree {
   }
   /**
    * Set value at index to new value
-   * @param index 
-   * @param value 
+   * @param index
+   * @param value
    */
   public set(index: number, value: any) {
     index += this.size;
@@ -68,21 +79,21 @@ class LazySegmentTree {
     }
   }
   /**
-   * 
-   * @param index 
+   *
+   * @param index
    * @returns Value at index
    */
   public get(index: number) {
     index += this.size;
     for (let i = this.log; i >= 1; i--) {
-      this.internalPush(index >> i)
+      this.internalPush(index >> i);
     }
     return this.cont[index];
   }
   /**
-   * 
-   * @param left 
-   * @param right 
+   *
+   * @param left
+   * @param right
    * @returns Return the range query in [left, right] range
    */
   public query(left: number, right: number) {
@@ -90,8 +101,8 @@ class LazySegmentTree {
     left += this.size;
     right += this.size;
     for (let i = this.log; i >= 1; i--) {
-      if (((left >> i) << i) != left) this.internalPush(left >> i);
-      if (((right >> i) << i) != right) this.internalPush((right - 1) >> i);
+      if ((left >> i) << i != left) this.internalPush(left >> i);
+      if ((right >> i) << i != right) this.internalPush((right - 1) >> i);
     }
     let sumLeft = this.identityValue;
     let sumRight = this.identityValue;
@@ -105,7 +116,7 @@ class LazySegmentTree {
     return this.merger(sumLeft, sumRight);
   }
   /**
-   * 
+   *
    * @returns The query on [0, elemCount - 1]
    */
   public all() {
@@ -113,19 +124,20 @@ class LazySegmentTree {
   }
   /**
    * Update the range query on [left, right] with delta to modify
-   * @param left 
-   * @param right 
-   * @param delta 
+   * @param left
+   * @param right
+   * @param delta
    */
   public update(left: number, right: number, delta: any) {
     right++;
     left += this.size;
     right += this.size;
     for (let i = this.log; i >= 1; i--) {
-      if (((left >> i) << i) != left) this.internalPush(left >> i);
-      if (((right >> i) << i) != right) this.internalPush((right - 1) >> i);
+      if ((left >> i) << i != left) this.internalPush(left >> i);
+      if ((right >> i) << i != right) this.internalPush((right - 1) >> i);
     }
-    let tempLeft = left, tempRight = right;
+    let tempLeft = left,
+      tempRight = right;
     while (left < right) {
       if (left & 1) this.internalModify(left++, delta);
       if (right & 1) this.internalModify(--right, delta);
@@ -135,11 +147,10 @@ class LazySegmentTree {
     left = tempLeft;
     right = tempRight;
     for (let i = 1; i <= this.log; i++) {
-      if (((left >> i) << i) != left) this.internalUpdate(left >> i);
-      if (((right >> i) << i) != right) this.internalUpdate((right - 1) >> i);
+      if ((left >> i) << i != left) this.internalUpdate(left >> i);
+      if ((right >> i) << i != right) this.internalUpdate((right - 1) >> i);
     }
   }
-
 }
 
 export { LazySegmentTree };

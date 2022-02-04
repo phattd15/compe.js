@@ -4,12 +4,16 @@ class FenwickTree {
   updateMethod: any;
   elemCount: number;
   /**
-   * 
+   *
    * @param elemCount The number of elements that the tree supports
    * @param identityValue The null value regarding the operation
    * @param updateMethod The combination function of node
    */
-  constructor(elemCount: number, identityValue: any = 0, updateMethod: any = (a: any, b: any) => a + b) {
+  constructor(
+    elemCount: number,
+    identityValue: any = 0,
+    updateMethod: any = (a: any, b: any) => a + b
+  ) {
     this.identityValue = identityValue;
     this.updateMethod = updateMethod;
     this.elemCount = elemCount;
@@ -22,9 +26,9 @@ class FenwickTree {
     return res;
   }
   update(index: number, delta: any) {
-    for (; index <= this.elemCount; index |= (index + 1)) 
+    for (; index <= this.elemCount; index |= index + 1)
       this.cont[index] = this.updateMethod(this.cont[index], delta);
   }
 }
 
-export {FenwickTree};
+export { FenwickTree };

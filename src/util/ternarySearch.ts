@@ -1,16 +1,22 @@
 /**
  * Performs ternary search on maxima / minima on a convex function
- * @param leftBound 
- * @param rightBound 
- * @param fn 
+ * @param leftBound
+ * @param rightBound
+ * @param fn
  * @param maxima True if search for maxima, false for minima
  * @param iter The number of iterations of division
  * @returns The maximum / minimum value
  */
-const ternarySearch = (leftBound: number, rightBound: number, fn: any, maxima = false, iter = 200) => {
+const ternarySearch = (
+  leftBound: number,
+  rightBound: number,
+  fn: any,
+  maxima = false,
+  iter = 200
+) => {
   let ll, rr;
   if (maxima) {
-    while (iter --) {
+    while (iter--) {
       ll = leftBound + (rightBound - leftBound) / 3;
       rr = rightBound - (rightBound - leftBound) / 3;
       if (fn(ll) < fn(rr)) {
@@ -20,7 +26,7 @@ const ternarySearch = (leftBound: number, rightBound: number, fn: any, maxima = 
       }
     }
   } else {
-    while (iter --) {
+    while (iter--) {
       ll = leftBound + (rightBound - leftBound) / 3;
       rr = rightBound - (rightBound - leftBound) / 3;
       if (fn(rr) < fn(ll)) {
@@ -31,20 +37,25 @@ const ternarySearch = (leftBound: number, rightBound: number, fn: any, maxima = 
     }
   }
   return fn(ll);
-}
+};
 
 /**
  * Find integral extremum of a function
- * @param leftBound 
- * @param rightBound 
- * @param fn 
+ * @param leftBound
+ * @param rightBound
+ * @param fn
  * @param maxima True if search for maxima, false for minima
  * @returns The maximum / minimum value
  */
-const integralExtremumSearch = (leftBound: number, rightBound: number, fn: any, maxima = false) => {
+const integralExtremumSearch = (
+  leftBound: number,
+  rightBound: number,
+  fn: any,
+  maxima = false
+) => {
   if (maxima) {
     let answer = fn(leftBound);
-    leftBound ++;
+    leftBound++;
     let mid, fnmid;
     while (leftBound <= rightBound) {
       mid = (leftBound + rightBound) >> 1;
@@ -59,7 +70,7 @@ const integralExtremumSearch = (leftBound: number, rightBound: number, fn: any, 
     return answer;
   } else {
     let answer = fn(leftBound);
-    leftBound ++;
+    leftBound++;
     let mid, fnmid;
     while (leftBound <= rightBound) {
       mid = (leftBound + rightBound) >> 1;
@@ -73,6 +84,6 @@ const integralExtremumSearch = (leftBound: number, rightBound: number, fn: any, 
     }
     return answer;
   }
-}
+};
 
-export {ternarySearch, integralExtremumSearch};
+export { ternarySearch, integralExtremumSearch };
