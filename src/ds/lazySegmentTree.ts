@@ -12,6 +12,7 @@ class LazySegmentTree {
     this.cont[index] = this.merger(this.cont[index << 1], this.cont[index << 1 | 1]);
   }
   private internalModify(index: number, delta: any) {
+    if (delta === this.identityLazy) return;
     this.cont[index] = this.modifier(this.cont[index], delta);
     if (index < this.size) this.lazyCont[index] = this.pusher(this.lazyCont[index], delta);
   }
