@@ -1,5 +1,5 @@
 import { mul, inv, add } from './modularOperator';
-import { multiArray } from '../util/array';
+import { multi } from '../util/array';
 /**
  * Setup the necessary tools for binomial computing
  * @param maxRange
@@ -19,7 +19,7 @@ const binomSetup = (maxRange = 200000, enableFastBinom = false) => {
       throw new Error("Fast Binomial is only available for under 2000 range");
     }
     global.fastBinomEnabled = true;
-    global.fastBinom = multiArray(0, maxRange + 1, maxRange + 1);
+    global.fastBinom = multi(0, maxRange + 1, maxRange + 1);
     for (let i = 0; i <= maxRange; i ++) {
       global.fastBinom[i][0] = 1;
       for (let j = 1; j <= i; j ++) {

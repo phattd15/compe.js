@@ -1,5 +1,5 @@
 import { Graph } from './graph';
-import { multiArray } from '../util/array';
+import { multi } from '../util/array';
 import { Deque } from '../ds/deque';
 
 /**
@@ -11,8 +11,8 @@ import { Deque } from '../ds/deque';
 const spfa = (graph: Graph, source: any) => {
   graph.reset();
   const INF = Number.MAX_SAFE_INTEGER;
-  let d = multiArray(INF, graph.g.length);
-  let inq = multiArray(false, graph.g.length);
+  let d = multi(INF, graph.g.length);
+  let inq = multi(false, graph.g.length);
   let q = new Deque();
   if (Array.isArray(source)) {
     for (let node of source) {

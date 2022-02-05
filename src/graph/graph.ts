@@ -1,4 +1,4 @@
-import { multiArray, vectorArray } from '../util/array';
+import { multi } from '../util/array';
 
 /**
  * Graph class, with:
@@ -11,9 +11,9 @@ class Graph {
   vis: boolean[];
   par: number[];
   constructor(vertices: number) {
-    this.g = vectorArray(vertices + 1);
-    this.vis = multiArray(false, vertices + 1);
-    this.par = multiArray(-1, vertices + 1);
+    this.g = multi([], vertices + 1);
+    this.vis = multi(false, vertices + 1);
+    this.par = multi(-1, vertices + 1);
   }
   /**
    * Add one way edge
@@ -38,8 +38,8 @@ class Graph {
    * Reset visit state and parent state of the graph
    */
   reset(): void {
-    this.vis = multiArray(false, this.g.length);
-    this.par = multiArray(-1, this.g.length);
+    this.vis = multi(false, this.g.length);
+    this.par = multi(-1, this.g.length);
   }
 }
 
