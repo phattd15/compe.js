@@ -4970,18 +4970,29 @@ var pow = function pow(base, exponent) {
 
 
 var inv = function inv(x) {
+  var a = 1;
+
+  for (var b = 0, y = global.MOD_, q; y; _ref = [a, b - q * a], b = _ref[0], a = _ref[1], _ref) {
+    var _ref, _ref2;
+
+    q = y / x | 0, (_ref2 = [x, y - q * x], y = _ref2[0], x = _ref2[1], _ref2);
+  }
 
   return a < 0 ? a + global.MOD_ : a;
 };
 
 /**
- * Setup the factorial, stored at global.factorial and global.invFactorial.
+ * Setup the necessary tools for binomial computing
  * @param maxRange
  */
 
-var factSetup = function factSetup(maxRange) {
+var binomSetup = function binomSetup(maxRange, enableFastBinom) {
   if (maxRange === void 0) {
     maxRange = 200000;
+  }
+
+  if (enableFastBinom === void 0) {
+    enableFastBinom = false;
   }
 
   global.factorial = Array(maxRange + 1).fill(1);
@@ -4991,10 +5002,27 @@ var factSetup = function factSetup(maxRange) {
     global.factorial[i] = mul(global.factorial[i - 1], i);
   }
 
-  global.invFactorial[maxRange] = inv();
+  global.invFactorial[maxRange] = inv(global.factorial[maxRange]);
 
   for (var _i = maxRange - 1; _i >= 1; _i--) {
     global.invFactorial[_i] = mul(global.invFactorial[_i + 1], _i + 1);
+  }
+
+  if (enableFastBinom) {
+    if (maxRange > 2000) {
+      throw new Error("Fast Binomial is only available for under 2000 range");
+    }
+
+    global.fastBinomEnabled = true;
+    global.fastBinom = multiArray(0, maxRange + 1, maxRange + 1);
+
+    for (var _i2 = 0; _i2 <= maxRange; _i2++) {
+      global.fastBinom[_i2][0] = 1;
+
+      for (var j = 1; j <= _i2; j++) {
+        global.fastBinom[_i2][j] = add(global.fastBinom[_i2 - 1][j - 1], global.fastBinom[_i2 - 1][j]);
+      }
+    }
   }
 };
 /**
@@ -5006,8 +5034,14 @@ var factSetup = function factSetup(maxRange) {
 
 
 var binom = function binom(n, k) {
-  if (k > n) return 0;
-  return mul(global.factorial[n], global.invFactorial[k], global.invFactorial[n - k]);
+  return k > n ? 0 : global.fastBinomEnabled ? global.fastBinom[n][k] : mul(global.factorial[n], global.invFactorial[k], global.invFactorial[n - k]); // if (k > n) return 0;
+  // if (global.fastBinomEnabled)
+  //   return global.fastBinom[n][k];
+  // return mul(
+  //   global.factorial[n],
+  //   global.invFactorial[k],
+  //   global.invFactorial[n - k]
+  // );
 };
 /**
  *

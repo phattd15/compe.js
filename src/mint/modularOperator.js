@@ -68,7 +68,8 @@ const pow = (base, exponent) => {
  * @returns The inverse modular of x
  */
 const inv = x => {
-  for (let a = 1, b = 0, y = global.MOD_, q; y; [b, a] = [a, b - q * a]) {
+  let a = 1;
+  for (let b = 0, y = global.MOD_, q; y; [b, a] = [a, b - q * a]) {
     (q = (y / x) | 0), ([y, x] = [x, y - q * x]);
   }
   return a < 0 ? a + global.MOD_ : a;
