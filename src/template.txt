@@ -1,14 +1,12 @@
 const {
-  proc,                                                       // IO & Processor
-  multiArray, vectorArray,                                    // Fast array generators
+  proc, multi,                                                // IO, Processor & array gen                                  
   Deque, DSU, PriorityQueue,                                  // Common data structures
   SparseTable, FenwickTree, SegmentTree, LazySegmentTree,     // Range query data structures
-  Graph, dfs, bfs, mst, dijkstra, spfa,                       // Graph Algorithms
+  Graph, dfs, bfs, mst, dijkstra, spfa, Tree,                 // Graph Algorithms
   setMod, add, sub, pow, inv, mul,                            // Modular integer operations
   binomSetup, fact, binom,                                    // Modular combinatorics
   lowerBound, upperBound, binarySearch,                       // Binary search 
   ternarySearch, integralExtremumSearch,                      // Function extremum search
-  Tree                                                        // Tree
 } = require('compe');
 // DO NOT EDIT THIS LINE //
 function main() {
