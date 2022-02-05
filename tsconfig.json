@@ -3,8 +3,8 @@
   "include": ["src", "types"],
   "compilerOptions": {
     "module": "esnext",
-    "lib": ["dom", "es2015"],
-    "target": "es2015",
+    "lib": ["dom", "ES6"],
+    "target": "ES6",
     "importHelpers": true,
     // output .d.ts declaration files for consumers
     "declaration": true,

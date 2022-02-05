@@ -1,9 +1,9 @@
-import { multiArray } from '../util/array';
+import { multi } from '../util/array';
 
 class DSU {
   p: number[];
   constructor(size: number) {
-    this.p = multiArray(-1, size + 1);
+    this.p = multi(-1, size + 1);
   }
   /**
    *

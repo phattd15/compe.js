@@ -28,15 +28,14 @@ There are global functions that responsible for reading and writing where we wil
 Sample code for printing sum of an array at `demo.js` after init:
 ```
 const {
-  proc,                                                       // IO & Processor
-  multiArray, vectorArray,                                    // Fast array generators
+  proc, multi,                                                // IO, Processor & array gen                                  
   Deque, DSU, PriorityQueue,                                  // Common data structures
   SparseTable, FenwickTree, SegmentTree, LazySegmentTree,     // Range query data structures
-  Graph, dfs, bfs, mst, dijkstra, spfa,                       // Graph Algorithms
+  Graph, dfs, bfs, mst, dijkstra, spfa, Tree,                 // Graph Algorithms
   setMod, add, sub, pow, inv, mul,                            // Modular integer operations
-  factSetup, fact, binom,                                     // Modular combinatorics
+  binomSetup, fact, binom,                                    // Modular combinatorics
   lowerBound, upperBound, binarySearch,                       // Binary search 
-  ternarySearch, integralExtremumSearch                       // Function extremum search
+  ternarySearch, integralExtremumSearch,                      // Function extremum search
 } = require('compe');
 // DO NOT EDIT THIS LINE //
 function main() {

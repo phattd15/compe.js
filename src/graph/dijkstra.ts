@@ -1,5 +1,5 @@
 import { Graph } from './graph';
-import { multiArray } from '../util/array';
+import { multi } from '../util/array';
 import { PriorityQueue } from '../ds/priorityqueue';
 
 /**
@@ -12,7 +12,7 @@ const dijkstra = (graph: Graph, source: any) => {
   graph.reset();
   let pq = new PriorityQueue((a, b) => a.dist > b.dist);
   const INF = Number.MAX_SAFE_INTEGER;
-  let d = multiArray(INF, graph.g.length);
+  let d = multi(INF, graph.g.length);
   if (Array.isArray(source)) {
     for (let node of source) {
       pq.push({

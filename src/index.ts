@@ -1,6 +1,4 @@
-// export * from './io/io';
 export * from './io/templator.js';
-export * from './ds/treeset';
 export * from './ds/deque';
 export * from './ds/dsu';
 export * from './ds/priorityqueue';
@@ -19,3 +17,4 @@ export * from './graph/spfa';
 export * from './graph/dijkstra';
 export * from './mint/combinatorics';
 export * from './mint/modularOperator';
+export * from './tree/tree';
