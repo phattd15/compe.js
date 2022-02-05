@@ -5,9 +5,10 @@ const {
   SparseTable, FenwickTree, SegmentTree, LazySegmentTree,     // Range query data structures
   Graph, dfs, bfs, mst, dijkstra, spfa,                       // Graph Algorithms
   setMod, add, sub, pow, inv, mul,                            // Modular integer operations
-  factSetup, fact, binom,                                     // Modular combinatorics
+  binomSetup, fact, binom,                                    // Modular combinatorics
   lowerBound, upperBound, binarySearch,                       // Binary search 
-  ternarySearch, integralExtremumSearch                       // Function extremum search
+  ternarySearch, integralExtremumSearch,                      // Function extremum search
+  Tree                                                        // Tree
 } = require('compe');
 // DO NOT EDIT THIS LINE //
 function main() {
