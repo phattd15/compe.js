@@ -1,3 +1,10 @@
+/**
+ *
+ * @param value Cell value
+ * @param args Dimensions of the array
+ * @returns The multidimensional array
+ */
+
 const multi = (value: any, ...args: number[]): any => {
   if (args.length === 0) {
     throw new Error('Please insert integer dimensional values');

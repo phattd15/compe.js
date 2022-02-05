@@ -1295,6 +1295,12 @@ var Deque = /*#__PURE__*/function (_Symbol$iterator) {
   return Deque;
 }(Symbol.iterator);
 
+/**
+ *
+ * @param value Cell value
+ * @param args Dimensions of the array
+ * @returns The multidimensional array
+ */
 var multi = function multi(value) {
   for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     args[_key - 1] = arguments[_key];
