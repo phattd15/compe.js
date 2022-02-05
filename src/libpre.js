@@ -1301,7 +1301,7 @@ var multi = function multi(value) {
   }
 
   if (args.length === 0) {
-    throw new Error("Please insert integer dimensional values");
+    throw new Error('Please insert integer dimensional values');
   }
 
   var recursionNonObject = function recursionNonObject(depth) {
@@ -2490,7 +2490,7 @@ var binomSetup = function binomSetup(maxRange, enableFastBinom) {
 
   if (enableFastBinom) {
     if (maxRange > 2000) {
-      throw new Error("Fast Binomial is only available for under 2000 range");
+      throw new Error('Fast Binomial is only available for under 2000 range');
     }
 
     global.fastBinomEnabled = true;

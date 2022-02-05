@@ -16,14 +16,17 @@ const binomSetup = (maxRange = 200000, enableFastBinom = false) => {
   }
   if (enableFastBinom) {
     if (maxRange > 2000) {
-      throw new Error("Fast Binomial is only available for under 2000 range");
+      throw new Error('Fast Binomial is only available for under 2000 range');
     }
     global.fastBinomEnabled = true;
     global.fastBinom = multi(0, maxRange + 1, maxRange + 1);
-    for (let i = 0; i <= maxRange; i ++) {
+    for (let i = 0; i <= maxRange; i++) {
       global.fastBinom[i][0] = 1;
-      for (let j = 1; j <= i; j ++) {
-        global.fastBinom[i][j] = add(global.fastBinom[i - 1][j - 1], global.fastBinom[i - 1][j]);
+      for (let j = 1; j <= i; j++) {
+        global.fastBinom[i][j] = add(
+          global.fastBinom[i - 1][j - 1],
+          global.fastBinom[i - 1][j]
+        );
       }
     }
   }
@@ -36,11 +39,15 @@ const binomSetup = (maxRange = 200000, enableFastBinom = false) => {
  * @returns nCk % mod
  */
 const binom = (n, k) => {
-  return k > n ? 0 : global.fastBinomEnabled ? global.fastBinom[n][k] : mul(
-    global.factorial[n],
-    global.invFactorial[k],
-    global.invFactorial[n - k]
-  );
+  return k > n
+    ? 0
+    : global.fastBinomEnabled
+    ? global.fastBinom[n][k]
+    : mul(
+        global.factorial[n],
+        global.invFactorial[k],
+        global.invFactorial[n - k]
+      );
   // if (k > n) return 0;
   // if (global.fastBinomEnabled)
   //   return global.fastBinom[n][k];
