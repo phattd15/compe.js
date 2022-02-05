@@ -5,11 +5,13 @@
  */
 const fs = require('fs');
 const configPath = './compe.config.json';
+import {setGlobalBuiltin} from "./builtin";
 
 export function proc(main, inputDir) {
   global.MOD_ = 998244353;
   global.MOD_CUT = 444595123;
   if (fs.existsSync(configPath)) {
+    setGlobalBuiltin();
     if (!fs.existsSync(inputDir)) {
       console.log('Input directory does not exist');
       return;

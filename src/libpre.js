@@ -71,6 +71,60 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) {
   throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
+var min = function min(a, b) {
+  return a < b ? a : b;
+};
+
+var max = function max(a, b) {
+  return a > b ? a : b;
+};
+
+var gcd = function gcd(a, b) {
+  return b === 0 ? a : gcd(b, a % b);
+};
+
+var maxElement = function maxElement(elem) {
+  var res = elem[0],
+      pos = 0;
+
+  for (var i = 0; i < elem.length; i++) {
+    if (elem[i] > res) {
+      res = elem[i];
+      pos = i;
+    }
+  }
+
+  return {
+    res: res,
+    pos: pos
+  };
+};
+
+var minElement = function minElement(elem) {
+  var res = elem[0],
+      pos = 0;
+
+  for (var i = 0; i < elem.length; i++) {
+    if (elem[i] < res) {
+      res = elem[i];
+      pos = i;
+    }
+  }
+
+  return {
+    res: res,
+    pos: pos
+  };
+};
+
+var setGlobalBuiltin = function setGlobalBuiltin() {
+  global.min = min;
+  global.max = max;
+  global.gcd = gcd;
+  global.minElement = minElement;
+  global.maxElement = maxElement;
+};
+
 /**
  * This will process your file into OJ's format
  * @param {any} main - The main function
@@ -84,6 +138,8 @@ function proc(main, inputDir) {
   global.MOD_CUT = 444595123;
 
   if (fs.existsSync(configPath)) {
+    setGlobalBuiltin();
+
     if (!fs.existsSync(inputDir)) {
       console.log('Input directory does not exist');
       return;
