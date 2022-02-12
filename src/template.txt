@@ -1,16 +1,7 @@
-const {
-  proc, multi,                                                // IO, Processor & array gen                                  
-  Deque, DSU, PriorityQueue,                                  // Common data structures
-  SparseTable, FenwickTree, SegmentTree, LazySegmentTree,     // Range query data structures
-  Graph, dfs, bfs, mst, dijkstra, spfa, Tree,                 // Graph Algorithms
-  setMod, add, sub, pow, inv, mul,                            // Modular integer operations
-  binomSetup, fact, binom,                                    // Modular combinatorics
-  lowerBound, upperBound, binarySearch,                       // Binary search 
-  ternarySearch, integralExtremumSearch,                      // Function extremum search
-} = require('compe');
-// DO NOT EDIT THIS LINE //
+const { proc } = require('compe');
+// DO NOT EDIT ABOVE THIS LINE //
 function main() {
-  // write your code from here
-  
+  // Write your code here
+    
 }
 proc(main, 'input.txt');

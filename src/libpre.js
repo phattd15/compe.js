@@ -71,6 +71,97 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) {
   throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
+/**
+ * Set the mod for system to work
+ * @param mod
+ */
+var setMod = function setMod(mod) {
+  global.MOD_ = mod;
+  global.MOD_CUT = 1099511627776 % mod;
+};
+/**
+ * @param args
+ * @returns The sum of arguments after taking mod division
+ */
+
+
+var add = function add() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  for (var i = args.length - 1; i >= 1; i--) {
+    args[0] += args[i];
+    args[0] = args[0] >= global.MOD_ ? args[0] - global.MOD_ : args[0];
+  }
+
+  return args[0];
+};
+/**
+ * @param a
+ * @param b
+ * @returns (a - b) % mod
+ */
+
+
+var sub = function sub(a, b) {
+  a += global.MOD_ - b;
+  return a >= global.MOD_ ? a - global.MOD_ : a;
+};
+/**
+ * Source: https://atcoder.jp/users/catoon
+ * @param args
+ * @returns Mod product of the arguments
+ */
+
+
+var mul = function mul() {
+  var res = arguments.length <= 0 ? undefined : arguments[0];
+
+  for (var i = 1; i < arguments.length; i++) {
+    res = ((res >> 20) * ((i < 0 || arguments.length <= i ? undefined : arguments[i]) >> 20) * global.MOD_CUT + (res & 4293918720) * ((i < 0 || arguments.length <= i ? undefined : arguments[i]) & 1048575) + (res & 1048575) * (i < 0 || arguments.length <= i ? undefined : arguments[i])) % global.MOD_;
+  }
+
+  return res;
+};
+/**
+ *
+ * @param base
+ * @param exponent
+ * @returns Power in mod division
+ */
+
+
+var pow = function pow(base, exponent) {
+  var res = 1;
+
+  while (exponent) {
+    if (exponent & 1) res = mul(res, base);
+    base = mul(base, base);
+    exponent >>>= 1;
+  }
+
+  return res;
+};
+/**
+ *
+ * @param x
+ * @returns The inverse modular of x
+ */
+
+
+var inv = function inv(x) {
+  var a = 1;
+
+  for (var b = 0, y = global.MOD_, q; y; _ref = [a, b - q * a], b = _ref[0], a = _ref[1], _ref) {
+    var _ref, _ref2;
+
+    q = y / x | 0, (_ref2 = [x, y - q * x], y = _ref2[0], x = _ref2[1], _ref2);
+  }
+
+  return a < 0 ? a + global.MOD_ : a;
+};
+
 var min = function min(a, b) {
   return a < b ? a : b;
 };
@@ -117,12 +208,72 @@ var minElement = function minElement(elem) {
   };
 };
 
+var sort = function sort(array, comparator) {
+  if (comparator === void 0) {
+    comparator = function comparator(a, b) {
+      return a < b;
+    };
+  }
+
+  array.sort(function (x, y) {
+    return comparator(x, y) ? -1 : 1;
+  });
+};
+
+var copy = function copy(from) {
+  if (from == null || typeof from != 'object') return from;
+  if (from.constructor != Object && from.constructor != Array) return from;
+  if (from.constructor == Date || from.constructor == RegExp || from.constructor == Function || from.constructor == String || from.constructor == Number || from.constructor == Boolean) return new from.constructor(from);
+  var to = new from.constructor();
+
+  for (var name in from) {
+    to[name] = typeof to[name] == 'undefined' ? copy(from[name]) : to[name];
+  }
+
+  return to;
+};
+
+var array = function array(value) {
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
+  if (args.length === 0) {
+    throw new Error('Please insert integer dimensional values');
+  }
+
+  var recursionNonObject = function recursionNonObject(depth) {
+    return depth === args.length - 1 ? Array(args[depth]).fill(value) : Array(args[depth]).fill(0).map(function () {
+      return recursionNonObject(depth + 1);
+    });
+  };
+
+  var recursionObject = function recursionObject(depth) {
+    return depth === args.length ? copy(value) : Array(args[depth]).fill(0).map(function () {
+      return recursionObject(depth + 1);
+    });
+  };
+
+  return typeof value != 'object' ? recursionNonObject(0) : recursionObject(0);
+};
+
 var setGlobalBuiltin = function setGlobalBuiltin() {
   global.min = min;
   global.max = max;
   global.gcd = gcd;
   global.minElement = minElement;
   global.maxElement = maxElement;
+  global.sort = sort;
+  global.copy = copy; // Modint
+
+  global.setMod = setMod;
+  global.add = add;
+  global.sub = sub;
+  global.mul = mul;
+  global.pow = pow;
+  global.inv = inv; // Extra utils
+
+  global.array = array;
 };
 
 /**
@@ -234,6 +385,119 @@ function proc(main, inputDir) {
     });
   }
 }
+
+var PriorityQueue = /*#__PURE__*/function () {
+  /**
+   *
+   * @param comparator The comparator between 2 elements that return true if the left one will be smaller than the right one. By default it is A < B, resulting in a PQ returning biggest element.
+   */
+  function PriorityQueue(comparator) {
+    if (comparator) {
+      this.comparator = comparator;
+    } else {
+      this.comparator = function (a, b) {
+        return a < b;
+      };
+    }
+
+    this.elem = [];
+  }
+  /**
+   * @returns Size of the PriorityQueue.
+   */
+
+
+  var _proto = PriorityQueue.prototype;
+
+  _proto.swap = function swap(indexLeft, indexRight) {
+    var _ref = [this.elem[indexRight], this.elem[indexLeft]];
+    this.elem[indexLeft] = _ref[0];
+    this.elem[indexRight] = _ref[1];
+  }
+  /**
+   *
+   * @param newElem
+   * @returns Push the new element to the PriorityQueue
+   */
+  ;
+
+  _proto.push = function push(newElem) {
+    var current = this.elem.push(newElem) - 1;
+    var parent = 0;
+
+    while (current > 0) {
+      parent = current >> 1;
+
+      if (this.comparator(this.elem[current], this.elem[parent])) {
+        break;
+      }
+
+      this.swap(current, parent);
+      current = parent;
+    }
+
+    return;
+  }
+  /**
+   * Remove the highest element from the data structure.
+   * @returns The highest element
+   */
+  ;
+
+  _proto.pop = function pop() {
+    var first = this.top;
+    var last = this.elem.pop();
+    var size = this.size;
+    if (size == 0) return first;
+    this.elem[0] = last;
+    var current = 0;
+    var largest = 0,
+        left = 0,
+        right = 0;
+
+    while (current < size) {
+      largest = current;
+      left = (current << 1) + 1;
+      right = (current << 1) + 2;
+
+      if (left < size && !this.comparator(this.elem[left], this.elem[largest])) {
+        largest = left;
+      }
+
+      if (right < size && !this.comparator(this.elem[right], this.elem[largest])) {
+        largest = right;
+      }
+
+      if (largest == current) break;
+      this.swap(largest, current);
+      current = largest;
+    }
+
+    return first;
+  };
+
+  _createClass(PriorityQueue, [{
+    key: "size",
+    get: function get() {
+      return this.elem.length;
+    }
+    /**
+     * Return the biggest element.
+     */
+
+  }, {
+    key: "top",
+    get: function get() {
+      if (this.elem.length == 0) {
+        throw new Error('PriorityQueue is empty');
+      } else {
+        return this.elem[0];
+      }
+    }
+  }]);
+
+  return PriorityQueue;
+}();
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -1449,117 +1713,49 @@ var DSU = /*#__PURE__*/function () {
   return DSU;
 }();
 
-var PriorityQueue = /*#__PURE__*/function () {
+var FenwickTree = /*#__PURE__*/function () {
   /**
    *
-   * @param comparator The comparator between 2 elements that return true if the left one will be smaller than the right one. By default it is A < B, resulting in a PQ returning biggest element.
+   * @param elemCount The number of elements that the tree supports
+   * @param identityValue The null value regarding the operation
+   * @param updateMethod The combination function of node
    */
-  function PriorityQueue(comparator) {
-    if (comparator) {
-      this.comparator = comparator;
-    } else {
-      this.comparator = function (a, b) {
-        return a < b;
+  function FenwickTree(elemCount, identityValue, updateMethod) {
+    if (identityValue === void 0) {
+      identityValue = 0;
+    }
+
+    if (updateMethod === void 0) {
+      updateMethod = function updateMethod(a, b) {
+        return a + b;
       };
     }
 
-    this.elem = [];
+    this.identityValue = identityValue;
+    this.updateMethod = updateMethod;
+    this.elemCount = elemCount;
+    this.cont = Array(elemCount + 1).fill(identityValue);
   }
-  /**
-   * @returns Size of the PriorityQueue.
-   */
 
+  var _proto = FenwickTree.prototype;
 
-  var _proto = PriorityQueue.prototype;
+  _proto.query = function query(index) {
+    var res = this.identityValue;
 
-  _proto.swap = function swap(indexLeft, indexRight) {
-    var _ref = [this.elem[indexRight], this.elem[indexLeft]];
-    this.elem[indexLeft] = _ref[0];
-    this.elem[indexRight] = _ref[1];
-  }
-  /**
-   *
-   * @param newElem
-   * @returns Push the new element to the PriorityQueue
-   */
-  ;
-
-  _proto.push = function push(newElem) {
-    var current = this.elem.push(newElem) - 1;
-    var parent = 0;
-
-    while (current > 0) {
-      parent = current >> 1;
-
-      if (this.comparator(this.elem[current], this.elem[parent])) {
-        break;
-      }
-
-      this.swap(current, parent);
-      current = parent;
+    for (; index >= 0; index = (index & index + 1) - 1) {
+      res = this.updateMethod(res, this.cont[index]);
     }
 
-    return;
-  }
-  /**
-   * Remove the highest element from the data structure.
-   * @returns The highest element
-   */
-  ;
-
-  _proto.pop = function pop() {
-    var first = this.top;
-    var last = this.elem.pop();
-    var size = this.size;
-    if (size == 0) return first;
-    this.elem[0] = last;
-    var current = 0;
-    var largest = 0,
-        left = 0,
-        right = 0;
-
-    while (current < size) {
-      largest = current;
-      left = (current << 1) + 1;
-      right = (current << 1) + 2;
-
-      if (left < size && !this.comparator(this.elem[left], this.elem[largest])) {
-        largest = left;
-      }
-
-      if (right < size && !this.comparator(this.elem[right], this.elem[largest])) {
-        largest = right;
-      }
-
-      if (largest == current) break;
-      this.swap(largest, current);
-      current = largest;
-    }
-
-    return first;
+    return res;
   };
 
-  _createClass(PriorityQueue, [{
-    key: "size",
-    get: function get() {
-      return this.elem.length;
+  _proto.update = function update(index, delta) {
+    for (; index <= this.elemCount; index |= index + 1) {
+      this.cont[index] = this.updateMethod(this.cont[index], delta);
     }
-    /**
-     * Return the biggest element.
-     */
+  };
 
-  }, {
-    key: "top",
-    get: function get() {
-      if (this.elem.length == 0) {
-        throw new Error('PriorityQueue is empty');
-      } else {
-        return this.elem[0];
-      }
-    }
-  }]);
-
-  return PriorityQueue;
+  return FenwickTree;
 }();
 
 var SparseTable = /*#__PURE__*/function () {
@@ -1615,51 +1811,6 @@ var SparseTable = /*#__PURE__*/function () {
   };
 
   return SparseTable;
-}();
-
-var FenwickTree = /*#__PURE__*/function () {
-  /**
-   *
-   * @param elemCount The number of elements that the tree supports
-   * @param identityValue The null value regarding the operation
-   * @param updateMethod The combination function of node
-   */
-  function FenwickTree(elemCount, identityValue, updateMethod) {
-    if (identityValue === void 0) {
-      identityValue = 0;
-    }
-
-    if (updateMethod === void 0) {
-      updateMethod = function updateMethod(a, b) {
-        return a + b;
-      };
-    }
-
-    this.identityValue = identityValue;
-    this.updateMethod = updateMethod;
-    this.elemCount = elemCount;
-    this.cont = Array(elemCount + 1).fill(identityValue);
-  }
-
-  var _proto = FenwickTree.prototype;
-
-  _proto.query = function query(index) {
-    var res = this.identityValue;
-
-    for (; index >= 0; index = (index & index + 1) - 1) {
-      res = this.updateMethod(res, this.cont[index]);
-    }
-
-    return res;
-  };
-
-  _proto.update = function update(index, delta) {
-    for (; index <= this.elemCount; index |= index + 1) {
-      this.cont[index] = this.updateMethod(this.cont[index], delta);
-    }
-  };
-
-  return FenwickTree;
 }();
 
 var SegmentTree = /*#__PURE__*/function () {
@@ -2433,104 +2584,13 @@ var dijkstra = function dijkstra(graph, source) {
 };
 
 /**
- * Set the mod for system to work
- * @param mod
- */
-var setMod = function setMod(mod) {
-  global.MOD_ = mod;
-  global.MOD_CUT = 1099511627776 % mod;
-};
-/**
- * @param args
- * @returns The sum of arguments after taking mod division
- */
-
-
-var add = function add() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  for (var i = args.length - 1; i >= 1; i--) {
-    args[0] += args[i];
-    args[0] = args[0] >= global.MOD_ ? args[0] - global.MOD_ : args[0];
-  }
-
-  return args[0];
-};
-/**
- * @param a
- * @param b
- * @returns (a - b) % mod
- */
-
-
-var sub = function sub(a, b) {
-  a += global.MOD_ - b;
-  return a >= global.MOD_ ? a - global.MOD_ : a;
-};
-/**
- * Source: https://atcoder.jp/users/catoon
- * @param args
- * @returns Mod product of the arguments
- */
-
-
-var mul = function mul() {
-  var res = arguments.length <= 0 ? undefined : arguments[0];
-
-  for (var i = 1; i < arguments.length; i++) {
-    res = ((res >> 20) * ((i < 0 || arguments.length <= i ? undefined : arguments[i]) >> 20) * global.MOD_CUT + (res & 4293918720) * ((i < 0 || arguments.length <= i ? undefined : arguments[i]) & 1048575) + (res & 1048575) * (i < 0 || arguments.length <= i ? undefined : arguments[i])) % global.MOD_;
-  }
-
-  return res;
-};
-/**
- *
- * @param base
- * @param exponent
- * @returns Power in mod division
- */
-
-
-var pow = function pow(base, exponent) {
-  var res = 1;
-
-  while (exponent) {
-    if (exponent & 1) res = mul(res, base);
-    base = mul(base, base);
-    exponent >>>= 1;
-  }
-
-  return res;
-};
-/**
- *
- * @param x
- * @returns The inverse modular of x
- */
-
-
-var inv = function inv(x) {
-  var a = 1;
-
-  for (var b = 0, y = global.MOD_, q; y; _ref = [a, b - q * a], b = _ref[0], a = _ref[1], _ref) {
-    var _ref, _ref2;
-
-    q = y / x | 0, (_ref2 = [x, y - q * x], y = _ref2[0], x = _ref2[1], _ref2);
-  }
-
-  return a < 0 ? a + global.MOD_ : a;
-};
-
-/**
  * Setup the necessary tools for binomial computing
  * @param maxRange
  */
 
 var binomSetup = function binomSetup(maxRange, enableFastBinom) {
   if (maxRange === void 0) {
-    maxRange = 200000;
+    maxRange = 1000000;
   }
 
   if (enableFastBinom === void 0) {
@@ -2696,7 +2756,6 @@ exports.PriorityQueue = PriorityQueue;
 exports.SegmentTree = SegmentTree;
 exports.SparseTable = SparseTable;
 exports.Tree = Tree;
-exports.add = add;
 exports.bfs = bfs;
 exports.binarySearch = binarySearch;
 exports.binom = binom;
@@ -2705,14 +2764,8 @@ exports.dfs = dfs;
 exports.dijkstra = dijkstra;
 exports.fact = fact;
 exports.integralExtremumSearch = integralExtremumSearch;
-exports.inv = inv;
 exports.lowerBound = lowerBound;
 exports.mst = mst;
-exports.mul = mul;
-exports.multi = multi;
-exports.pow = pow;
 exports.proc = proc;
-exports.setMod = setMod;
 exports.spfa = spfa;
-exports.sub = sub;
 exports.ternarySearch = ternarySearch;

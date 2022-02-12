@@ -5,7 +5,7 @@
  */
 const fs = require('fs');
 const configPath = './compe.config.json';
-import {setGlobalBuiltin} from "./builtin";
+import {setGlobalBuiltin} from "../util/builtin";
 
 export function proc(main, inputDir) {
   global.MOD_ = 998244353;
