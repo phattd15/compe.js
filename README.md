@@ -17,7 +17,7 @@ Enable intellisense to get the best experience.
 # Compe commands
 Add `npx` prefix incase you don't have CLIs installed.
 ```
-$ compe i <source-file.js> <input-file.txt>: Initialize the source file at source-file.js and the input file at input-file.txt (if input-file is empty then the default is 'input.txt')
+$ compe i <source-file.js> <input-file.txt>: Initialize the source file at source-file.js and the input file at input-file.txt (if input-file is empty then the input will be taken from the bottom of your source code in comment)
 $ compe s <source-file.js>: Save the source file directory as default
 $ compe i s <source-file.js> <input-file.txt>: Initialize the file and then save to config
 $ compe r <source-file.js>: If the config has default source file, source-file can be ignored. Run the source file and build it at source-file-build.js and fully compressed to submit on Online Judges at source-file-comp.js
