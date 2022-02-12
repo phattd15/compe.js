@@ -52,14 +52,18 @@ if (args.length == 2) {
         console.log("No source path identified");
       } else {
         const templateData = fs.readFileSync(__dirname + "/../src/template.txt", {encoding:"utf-8"});
-        fs.writeFileSync(sourcePath, templateData.replace(/input.txt/g, inputPath ? inputPath : "input.txt"));
+        let initSource = templateData.replace(/'input.txt'/g, inputPath ? inputPath : "__filename");
+        if (!inputPath) {
+          initSource += "\n/* BELOW THIS LINE IS YOUR INPUT\n\n*/";
+        }
+        fs.writeFileSync(sourcePath, initSource);
         console.log("Source code initialized at " + sourcePath);    
         if (inputPath) {
           fs.writeFileSync(inputPath, "");
           console.log("Input file initialized at " + inputPath);
         } else {
           fs.writeFileSync("input.txt", "");
-          console.log("Input is taken from the default of input.txt");
+          console.log("Input is taken from the bottom comment of your source code.");
         }
         let saveSource = false;
         for (let argsc of args) {
