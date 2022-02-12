@@ -57,7 +57,13 @@ function main() {
   // Print the sum and minimum value, seperated by space
   print(sum, " ", minVal);
 }
-proc(main, 'input.txt');
+proc(main, __filename);
+/* BELOW THIS LINE IS YOUR INPUT
+3 4
+1 2 3 4
+4 -3 1 3
+5 7 0 3
+*/
 ```
 # Documentation
 - This project uses TSTL's TreeSet where their documentation is [here](https://samchon.github.io/tstl/api/classes/std.treeset.html).
