@@ -1,4 +1,4 @@
-import { setMod, add, sub, mul, pow, inv } from "../mint/modularOperator";
+import { setMod, add, sub, mul, pow, inv } from '../mint/modularOperator';
 
 const min = (a, b) => (a < b ? a : b);
 const max = (a, b) => (a > b ? a : b);
@@ -54,23 +54,21 @@ const array = (value, ...args) => {
   if (args.length === 0) {
     throw new Error('Please insert integer dimensional values');
   }
-  let recursionNonObject = (depth) => {
+  let recursionNonObject = depth => {
     return depth === args.length - 1
       ? Array(args[depth]).fill(value)
       : Array(args[depth])
           .fill(0)
           .map(() => recursionNonObject(depth + 1));
   };
-  let recursionObject = (depth) => {
+  let recursionObject = depth => {
     return depth === args.length
       ? copy(value)
       : Array(args[depth])
           .fill(0)
           .map(() => recursionObject(depth + 1));
   };
-  return typeof value != 'object'
-    ? recursionNonObject(0)
-    : recursionObject(0);
+  return typeof value != 'object' ? recursionNonObject(0) : recursionObject(0);
 };
 const setGlobalBuiltin = () => {
   global.min = min;
