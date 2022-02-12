@@ -1,33 +1,31 @@
-const {
-  proc, multi,                                                // IO, Processor & array gen                                  
-  Deque, DSU, PriorityQueue,                                  // Common data structures
-  SparseTable, FenwickTree, SegmentTree, LazySegmentTree,     // Range query data structures
-  Graph, dfs, bfs, mst, dijkstra, spfa, Tree,                 // Graph Algorithms
-  setMod, add, sub, pow, inv, mul,                            // Modular integer operations
-  binomSetup, fact, binom,                                    // Modular combinatorics
-  lowerBound, upperBound, binarySearch,                       // Binary search 
-  ternarySearch, integralExtremumSearch,                      // Function extremum search
-} = require('compe');
-// DO NOT EDIT THIS LINE //
+const { proc } = require('compe');
+// DO NOT EDIT ABOVE THIS LINE //
 function main() {
-  // write your code from here
-  // sample code of finding sum of an array and its maximum element
+  // Read the 2 dimensions of the matrix
+  let [n, m] = rnum(2);
 
-  // read the length of the array
-  let n = rnum();
-  
-  // read the whole array
-  let arr = rnum(n);
+  // Initialize the matrix with cell values of 0
+  let a = array(0, n, m);
 
-  // calculate the sum
-  let sum = 0;
-  let maxElement = -1;
-  for (let x of arr) {
-    sum += x;
-    maxElement = maxElement < x ? x : maxElement;
+  // Initialize the sum and minimum value
+  let sum = 0, minVal = Number.MAX_SAFE_INTEGER;
+
+  // For each row
+  for (let i = 0; i < n; i ++) {
+
+    // Read the m elements of that row
+    a[i] = rnum(m);
+    
+    // Update the sum for every elements
+    for (let value of a[i]) {
+      sum += value;
+    }
+    
+    // Update the minimum value with the minimum of that row
+    minVal = min(minVal, minElement(a[i]).res);
   }
 
-  // print out the 2 values
-  print(sum, " ", maxElement);
+  // Print the sum and minimum value, seperated by space
+  print(sum, " ", minVal);
 }
-proc(main, 'demoinput.txt');
+proc(main, 'input.txt');

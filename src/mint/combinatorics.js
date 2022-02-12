@@ -4,7 +4,7 @@ import { multi } from '../util/array';
  * Setup the necessary tools for binomial computing
  * @param maxRange
  */
-const binomSetup = (maxRange = 200000, enableFastBinom = false) => {
+const binomSetup = (maxRange = 1000000, enableFastBinom = false) => {
   global.factorial = Array(maxRange + 1).fill(1);
   global.invFactorial = Array(maxRange + 1).fill(1);
   for (let i = 1; i <= maxRange; i++) {
