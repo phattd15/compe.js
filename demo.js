@@ -28,4 +28,10 @@ function main() {
   // Print the sum and minimum value, seperated by space
   print(sum, " ", minVal);
 }
-proc(main, 'input.txt');
+proc(main, __filename);
+/* BELOW THIS LINE IS YOUR INPUT
+3 4
+1 2 3 4
+4 -3 1 3
+5 7 0 3
+*/

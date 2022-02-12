@@ -287,68 +287,133 @@ var configPath = './compe.config.json';
 function proc(main, inputDir) {
   global.MOD_ = 998244353;
   global.MOD_CUT = 444595123;
+  setGlobalBuiltin();
 
   if (fs.existsSync(configPath)) {
-    setGlobalBuiltin();
-
-    if (!fs.existsSync(inputDir)) {
-      console.log('Input directory does not exist');
-      return;
-    }
-
-    var data = fs.readFileSync(inputDir, {
-      encoding: 'utf-8'
-    });
-    var dataIndex = 0;
-    data = data.split(/ |\n|\r/g);
-    var processedData = [];
-
-    for (var _iterator = _createForOfIteratorHelperLoose(data), _step; !(_step = _iterator()).done;) {
-      var chunk = _step.value;
-      if (chunk.length > 0) processedData.push(chunk);
-    }
-
-    global.rnum = function (num) {
-      return num ? processedData.slice(dataIndex, dataIndex += num).map(function (a) {
-        return +a;
-      }) : +processedData[dataIndex++];
-    };
-
-    global.rstr = function (num) {
-      return num ? processedData.slice(dataIndex, dataIndex += num) : processedData[dataIndex++];
-    };
-
-    global.rbig = function (num) {
-      return num ? processedData.slice(dataIndex, dataIndex += num).map(function (a) {
-        return BigInt(a);
-      }) : BigInt(processedData[dataIndex++]);
-    };
-
-    global.print = function () {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
+    if (!inputDir.endsWith(".js")) {
+      if (!fs.existsSync(inputDir)) {
+        console.log('Input directory does not exist');
+        return;
       }
 
-      for (var _i = 0, _args = args; _i < _args.length; _i++) {
-        var printData = _args[_i];
-        process.stdout.write(String(printData));
-      }
-    };
-
-    main();
-  } else {
-    var _data = '';
-    process.stdin.on('data', function (c) {
-      _data += c;
-    });
-    process.stdin.on('end', function () {
+      var data = fs.readFileSync(inputDir, {
+        encoding: 'utf-8'
+      });
       var dataIndex = 0;
-      _data = _data.split(/ |\n|\r/g);
+      data = data.split(/ |\n|\r/g);
       var processedData = [];
+
+      for (var _iterator = _createForOfIteratorHelperLoose(data), _step; !(_step = _iterator()).done;) {
+        var chunk = _step.value;
+        if (chunk.length > 0) processedData.push(chunk);
+      }
+
+      global.rnum = function (num) {
+        return num ? processedData.slice(dataIndex, dataIndex += num).map(function (a) {
+          return +a;
+        }) : +processedData[dataIndex++];
+      };
+
+      global.rstr = function (num) {
+        return num ? processedData.slice(dataIndex, dataIndex += num) : processedData[dataIndex++];
+      };
+
+      global.rbig = function (num) {
+        return num ? processedData.slice(dataIndex, dataIndex += num).map(function (a) {
+          return BigInt(a);
+        }) : BigInt(processedData[dataIndex++]);
+      };
+
+      global.print = function () {
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        for (var _i = 0, _args = args; _i < _args.length; _i++) {
+          var printData = _args[_i];
+          process.stdout.write(String(printData));
+        }
+      };
+    } else {
+      var rawData = fs.readFileSync(inputDir, {
+        encoding: "utf-8"
+      }).split('\n');
+      var beginIndex = null,
+          endIndex = null;
+
+      for (var i = rawData.length - 1; i >= 0; i--) {
+        if (rawData[i].startsWith("*/")) {
+          endIndex = i;
+          break;
+        }
+      }
+
+      if (endIndex) {
+        for (var _i2 = endIndex - 1; _i2 >= 0; _i2--) {
+          if (rawData[_i2].startsWith("/*")) {
+            beginIndex = _i2;
+            break;
+          }
+        }
+      }
+
+      if (!beginIndex) {
+        console.log("No input data at the end of file found");
+        return;
+      }
+
+      var _data = rawData.slice(beginIndex + 1, endIndex).join("\n").split(/ |\n|\r/g);
+
+      var _processedData = [];
+      var _dataIndex = 0;
 
       for (var _iterator2 = _createForOfIteratorHelperLoose(_data), _step2; !(_step2 = _iterator2()).done;) {
         var _chunk = _step2.value;
-        if (_chunk.length > 0) processedData.push(_chunk);
+        if (_chunk.length > 0) _processedData.push(_chunk);
+      }
+
+      global.rnum = function (num) {
+        return num ? _processedData.slice(_dataIndex, _dataIndex += num).map(function (a) {
+          return +a;
+        }) : +_processedData[_dataIndex++];
+      };
+
+      global.rstr = function (num) {
+        return num ? _processedData.slice(_dataIndex, _dataIndex += num) : _processedData[_dataIndex++];
+      };
+
+      global.rbig = function (num) {
+        return num ? _processedData.slice(_dataIndex, _dataIndex += num).map(function (a) {
+          return BigInt(a);
+        }) : BigInt(_processedData[_dataIndex++]);
+      };
+
+      global.print = function () {
+        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        for (var _i3 = 0, _args2 = args; _i3 < _args2.length; _i3++) {
+          var printData = _args2[_i3];
+          process.stdout.write(String(printData));
+        }
+      };
+    }
+
+    main();
+  } else {
+    var _data2 = '';
+    process.stdin.on('data', function (c) {
+      _data2 += c;
+    });
+    process.stdin.on('end', function () {
+      var dataIndex = 0;
+      _data2 = _data2.split(/ |\n|\r/g);
+      var processedData = [];
+
+      for (var _iterator3 = _createForOfIteratorHelperLoose(_data2), _step3; !(_step3 = _iterator3()).done;) {
+        var _chunk2 = _step3.value;
+        if (_chunk2.length > 0) processedData.push(_chunk2);
       }
 
       global.rnum = function (num) {
@@ -370,12 +435,12 @@ function proc(main, inputDir) {
       var dataBuffer = '';
 
       global.print = function () {
-        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
+        for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+          args[_key3] = arguments[_key3];
         }
 
-        for (var _i2 = 0, _args2 = args; _i2 < _args2.length; _i2++) {
-          var printData = _args2[_i2];
+        for (var _i4 = 0, _args3 = args; _i4 < _args3.length; _i4++) {
+          var printData = _args3[_i4];
           dataBuffer += String(printData);
         }
       };
