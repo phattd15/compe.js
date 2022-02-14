@@ -85,7 +85,20 @@ const setGlobalBuiltin = () => {
   global.floor = x => Math.floor(x);
   global.log = (x, y) => Math.log(x, y);
   global.abs = x => (x < 0 ? -x : x);
-
+  global.popCount32 = (n) => {
+    n = n - ((n >> 1) & 0x55555555)
+    n = (n & 0x33333333) + ((n >> 2) & 0x33333333)
+    return ((n + (n >> 4) & 0xF0F0F0F) * 0x1010101) >> 24
+  }
+  global.popCount = (n) => {
+    var bits = 0
+    while (n !== 0) {
+      bits += global.popCount32(n | 0)
+      n /= 0x100000000
+    }
+    return bits
+  }
+  
   // Modint
   global.setMod = setMod;
   global.add = add;
