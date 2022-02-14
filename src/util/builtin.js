@@ -80,11 +80,11 @@ const setGlobalBuiltin = () => {
   global.copy = copy;
 
   // Math
-  global.sqrt = (x) => Math.sqrt(x);
-  global.ceil = (x) => Math.ceil(x);
-  global.floor = (x) => Math.floor(x);
+  global.sqrt = x => Math.sqrt(x);
+  global.ceil = x => Math.ceil(x);
+  global.floor = x => Math.floor(x);
   global.log = (x, y) => Math.log(x, y);
-  global.abs = (x) => x < 0 ? -x : x;
+  global.abs = x => (x < 0 ? -x : x);
 
   // Modint
   global.setMod = setMod;

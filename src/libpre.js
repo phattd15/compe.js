@@ -264,7 +264,28 @@ var setGlobalBuiltin = function setGlobalBuiltin() {
   global.minElement = minElement;
   global.maxElement = maxElement;
   global.sort = sort;
-  global.copy = copy; // Modint
+  global.copy = copy; // Math
+
+  global.sqrt = function (x) {
+    return Math.sqrt(x);
+  };
+
+  global.ceil = function (x) {
+    return Math.ceil(x);
+  };
+
+  global.floor = function (x) {
+    return Math.floor(x);
+  };
+
+  global.log = function (x, y) {
+    return Math.log(x, y);
+  };
+
+  global.abs = function (x) {
+    return x < 0 ? -x : x;
+  }; // Modint
+
 
   global.setMod = setMod;
   global.add = add;
@@ -274,6 +295,17 @@ var setGlobalBuiltin = function setGlobalBuiltin() {
   global.inv = inv; // Extra utils
 
   global.array = array;
+
+  global.clog = function () {
+    var _console;
+
+    return (_console = console).log.apply(_console, arguments);
+  }; // CONSTANT
+
+
+  global.INT_MAX = Number.MAX_SAFE_INTEGER;
+  global.INT_MIN = Number.MIN_SAFE_INTEGER;
+  global.PI = Math.PI;
 };
 
 /**
