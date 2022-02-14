@@ -79,6 +79,13 @@ const setGlobalBuiltin = () => {
   global.sort = sort;
   global.copy = copy;
 
+  // Math
+  global.sqrt = (x) => Math.sqrt(x);
+  global.ceil = (x) => Math.ceil(x);
+  global.floor = (x) => Math.floor(x);
+  global.log = (x, y) => Math.log(x, y);
+  global.abs = (x) => x < 0 ? -x : x;
+
   // Modint
   global.setMod = setMod;
   global.add = add;
@@ -89,6 +96,12 @@ const setGlobalBuiltin = () => {
 
   // Extra utils
   global.array = array;
+  global.clog = (...args) => console.log(...args);
+
+  // CONSTANT
+  global.INT_MAX = Number.MAX_SAFE_INTEGER;
+  global.INT_MIN = Number.MIN_SAFE_INTEGER;
+  global.PI = Math.PI;
 };
 
 export { setGlobalBuiltin };
