@@ -115,6 +115,12 @@ const setGlobalBuiltin = () => {
   global.INT_MAX = Number.MAX_SAFE_INTEGER;
   global.INT_MIN = Number.MIN_SAFE_INTEGER;
   global.PI = Math.PI;
+
+  // Override
+  var originalSort = Array.prototype.sort;
+  Array.prototype.sort = function(comp = (x, y) => (+x) < (+y)) {
+    originalSort.call(this, (x, y) => comp(x, y) ? -1 : 1);
+  }; 
 };
 
 export { setGlobalBuiltin };
