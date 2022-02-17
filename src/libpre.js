@@ -284,6 +284,23 @@ var setGlobalBuiltin = function setGlobalBuiltin() {
 
   global.abs = function (x) {
     return x < 0 ? -x : x;
+  };
+
+  global.popCount32 = function (n) {
+    n = n - (n >> 1 & 0x55555555);
+    n = (n & 0x33333333) + (n >> 2 & 0x33333333);
+    return (n + (n >> 4) & 0xF0F0F0F) * 0x1010101 >> 24;
+  };
+
+  global.popCount = function (n) {
+    var bits = 0;
+
+    while (n !== 0) {
+      bits += global.popCount32(n | 0);
+      n /= 0x100000000;
+    }
+
+    return bits;
   }; // Modint
 
 
@@ -305,7 +322,21 @@ var setGlobalBuiltin = function setGlobalBuiltin() {
 
   global.INT_MAX = Number.MAX_SAFE_INTEGER;
   global.INT_MIN = Number.MIN_SAFE_INTEGER;
-  global.PI = Math.PI;
+  global.PI = Math.PI; // Override
+
+  var originalSort = Array.prototype.sort;
+
+  Array.prototype.sort = function (comp) {
+    if (comp === void 0) {
+      comp = function comp(x, y) {
+        return +x < +y;
+      };
+    }
+
+    originalSort.call(this, function (x, y) {
+      return comp(x, y) ? -1 : 1;
+    });
+  };
 };
 
 /**
