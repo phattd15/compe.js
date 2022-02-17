@@ -83,18 +83,25 @@ const setGlobalBuiltin = () => {
   global.sqrt = x => Math.sqrt(x);
   global.ceil = x => Math.ceil(x);
   global.floor = x => Math.floor(x);
-  global.log = (x, y) => Math.log(x, y);
+  global.round = x => Math.round(x);
+  global.log = (x, y) => {
+    if (y === undefined) {
+      return Math.log(x);
+    } else {
+      return Math.log(y) / Math.log(x);
+    }
+  };
   global.abs = x => (x < 0 ? -x : x);
   global.popCount32 = (n) => {
-    n = n - ((n >> 1) & 0x55555555)
-    n = (n & 0x33333333) + ((n >> 2) & 0x33333333)
-    return ((n + (n >> 4) & 0xF0F0F0F) * 0x1010101) >> 24
+    n = n - ((n >> 1) & 0x55555555);
+    n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
+    return ((n + (n >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
   }
   global.popCount = (n) => {
-    var bits = 0
+    let bits = 0;
     while (n !== 0) {
-      bits += global.popCount32(n | 0)
-      n /= 0x100000000
+      bits += global.popCount32(n | 0);
+      n /= 0x100000000;
     }
     return bits
   }
