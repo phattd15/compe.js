@@ -65,16 +65,11 @@ proc(main, __filename);
 5 7 0 3
 */
 ```
-# Documentation
-- This project uses TSTL's TreeSet where their documentation is [here](https://samchon.github.io/tstl/api/classes/std.treeset.html).
-- To Be Updated...
+# [Documentation](https://github.com/polarity-cf/compe.js/wiki#)
 # Platforms supported
 - Leetcode
 - Codeforces
-- TBA: Atcoder, Hackerrank, ...
-# Built with
-- [TSTL library](https://github.com/samchon/tstl)
-- TSDX
+- Atcoder, Hackerrank, ...
 # Resources
 - [cp-algorithms](https://cp-algorithms.com/)
 - [codeforces archive](https://codeforces.com/catalog)
