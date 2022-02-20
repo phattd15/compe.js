@@ -71,6 +71,9 @@ const array = (value, ...args) => {
   return typeof value != 'object' ? recursionNonObject(0) : recursionObject(0);
 };
 const setGlobalBuiltin = () => {
+  global.MOD_ = 998244353;
+  global.MOD_CUT = 444595123;
+  
   global.min = min;
   global.max = max;
   global.gcd = gcd;

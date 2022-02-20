@@ -11,9 +11,9 @@ class Graph {
   vis: boolean[];
   par: number[];
   constructor(vertices: number) {
-    this.g = multi([], vertices + 1);
-    this.vis = multi(false, vertices + 1);
-    this.par = multi(-1, vertices + 1);
+    this.g = multi([], vertices);
+    this.vis = multi(false, vertices);
+    this.par = multi(-1, vertices);
   }
   /**
    * Add one way edge

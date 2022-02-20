@@ -278,8 +278,16 @@ var setGlobalBuiltin = function setGlobalBuiltin() {
     return Math.floor(x);
   };
 
+  global.round = function (x) {
+    return Math.round(x);
+  };
+
   global.log = function (x, y) {
-    return Math.log(x, y);
+    if (y === undefined) {
+      return Math.log(x);
+    } else {
+      return Math.log(y) / Math.log(x);
+    }
   };
 
   global.abs = function (x) {
@@ -1846,21 +1854,21 @@ var FenwickTree = /*#__PURE__*/function () {
    *
    * @param elemCount The number of elements that the tree supports
    * @param identityValue The null value regarding the operation
-   * @param updateMethod The combination function of node
+   * @param merger The combination function of node
    */
-  function FenwickTree(elemCount, identityValue, updateMethod) {
+  function FenwickTree(elemCount, identityValue, merger) {
     if (identityValue === void 0) {
       identityValue = 0;
     }
 
-    if (updateMethod === void 0) {
-      updateMethod = function updateMethod(a, b) {
+    if (merger === void 0) {
+      merger = function merger(a, b) {
         return a + b;
       };
     }
 
     this.identityValue = identityValue;
-    this.updateMethod = updateMethod;
+    this.merger = merger;
     this.elemCount = elemCount;
     this.cont = Array(elemCount + 1).fill(identityValue);
   }
@@ -1871,7 +1879,7 @@ var FenwickTree = /*#__PURE__*/function () {
     var res = this.identityValue;
 
     for (; index >= 0; index = (index & index + 1) - 1) {
-      res = this.updateMethod(res, this.cont[index]);
+      res = this.merger(res, this.cont[index]);
     }
 
     return res;
@@ -1879,7 +1887,7 @@ var FenwickTree = /*#__PURE__*/function () {
 
   _proto.update = function update(index, delta) {
     for (; index <= this.elemCount; index |= index + 1) {
-      this.cont[index] = this.updateMethod(this.cont[index], delta);
+      this.cont[index] = this.merger(this.cont[index], delta);
     }
   };
 
@@ -2442,9 +2450,9 @@ var integralExtremumSearch = function integralExtremumSearch(leftBound, rightBou
 
 var Graph = /*#__PURE__*/function () {
   function Graph(vertices) {
-    this.g = multi([], vertices + 1);
-    this.vis = multi(false, vertices + 1);
-    this.par = multi(-1, vertices + 1);
+    this.g = multi([], vertices);
+    this.vis = multi(false, vertices);
+    this.par = multi(-1, vertices);
   }
   /**
    * Add one way edge
@@ -2660,6 +2668,10 @@ var spfa = function spfa(graph, source) {
  */
 
 var dijkstra = function dijkstra(graph, source) {
+  if (source === void 0) {
+    source = 0;
+  }
+
   graph.reset();
   var pq = new PriorityQueue(function (a, b) {
     return a.dist > b.dist;
@@ -2793,9 +2805,9 @@ var Tree = /*#__PURE__*/function (_Graph) {
     _this = _Graph.call(this, vertices) || this;
     _this.root = 1;
     _this.root = root;
-    _this.childCount = Array(vertices + 1).fill(1);
-    _this.distRoot = Array(vertices + 1).fill(0);
-    _this.distance = Array(vertices + 1).fill(0);
+    _this.childCount = Array(vertices).fill(1);
+    _this.distRoot = Array(vertices).fill(0);
+    _this.distance = Array(vertices).fill(0);
     return _this;
   }
 

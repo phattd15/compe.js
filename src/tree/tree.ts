@@ -9,9 +9,9 @@ class Tree extends Graph {
   constructor(vertices: number, root: number) {
     super(vertices);
     this.root = root;
-    this.childCount = Array(vertices + 1).fill(1);
-    this.distRoot = Array(vertices + 1).fill(0);
-    this.distance = Array(vertices + 1).fill(0);
+    this.childCount = Array(vertices).fill(1);
+    this.distRoot = Array(vertices).fill(0);
+    this.distance = Array(vertices).fill(0);
   }
   public setupDist() {
     dfs(

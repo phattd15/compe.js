@@ -8,7 +8,7 @@ import { PriorityQueue } from '../ds/priorityqueue';
  * @param source The source node / the array of source nodes
  * @returns The parent array & the shortest path array
  */
-const dijkstra = (graph: Graph, source: any) => {
+const dijkstra = (graph: Graph, source: any = 0) => {
   graph.reset();
   let pq = new PriorityQueue((a, b) => a.dist > b.dist);
   const INF = Number.MAX_SAFE_INTEGER;
