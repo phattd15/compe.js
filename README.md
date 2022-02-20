@@ -13,18 +13,27 @@ For the cli, you can:
 npm i -g compe minify
 ```
 You can add the prefix `npx` after every command as an alternative where you want to avoid installing global package.
-Enable intellisense to get the best experience.
-# Compe commands
-Add `npx` prefix incase you don't have CLIs installed.
-```
-$ compe i <source-file.js> <input-file.txt>: Initialize the source file at source-file.js and the input file at input-file.txt (if input-file is empty then the input will be taken from the bottom of your source code in comment)
-$ compe s <source-file.js>: Save the source file directory as default
-$ compe i s <source-file.js> <input-file.txt>: Initialize the file and then save to config
-$ compe r <source-file.js>: If the config has default source file, source-file can be ignored. Run the source file and build it at source-file-build.js and fully compressed to submit on Online Judges at source-file-comp.js
-```
+Enable intellisense to get the best experience. We will continue as you haven't installed it globally.
 # Getting your first AC
-Make a txt (by default from template, it is "input.txt") file in the same directory with the one you want to run for stdin.
-There are global functions that responsible for reading and writing where we will show in the following example.
+Go to the folder where you want to do the coding. Then type:
+```
+npx compe i s main.js
+```
+This will initialize all the config, and you will do all the coing in `main.js` file.
+Your `main.js` file now should look like this:
+```
+const { proc } = require('compe');
+// DO NOT EDIT ABOVE THIS LINE //
+function main() {
+  // Write your code here
+    
+}
+proc(main, __filename);
+```
+Here, you will do all the coding below the `// DO NOT EDIT ABOVE THIS LINE //` and above the `proc(main, __filename);`. Except for the parts being called from the library, which should stay in the same bracket with `proc`, you should not write anything else above the warning line since they will be replaced with the actual library for submission later. The part below `proc` will be the input. 
+
+There are some global functions that responsible for reading and writing where we will show in the following example.
+
 Sample code for printing sum and minimum value of a `n x m` matrix after init:
 ```
 const { proc } = require('compe');
@@ -65,6 +74,7 @@ proc(main, __filename);
 5 7 0 3
 */
 ```
+If you are trying to solve in a leetcode format, you will definitely need to import and use `setGlobalBuiltin()` in your solution function to make the builtin functions work.
 # [Documentation](https://github.com/polarity-cf/compe.js/wiki#)
 # Platforms supported
 - Leetcode
