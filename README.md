@@ -25,7 +25,7 @@ $ compe r <source-file.js>: If the config has default source file, source-file c
 # Getting your first AC
 Make a txt (by default from template, it is "input.txt") file in the same directory with the one you want to run for stdin.
 There are global functions that responsible for reading and writing where we will show in the following example.
-Sample code for printing sum of an array at `demo.js` after init:
+Sample code for printing sum and minimum value of a `n x m` matrix after init:
 ```
 const { proc } = require('compe');
 // DO NOT EDIT ABOVE THIS LINE //
